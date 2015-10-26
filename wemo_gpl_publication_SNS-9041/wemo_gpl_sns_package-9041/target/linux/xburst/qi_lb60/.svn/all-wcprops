@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/qi_lb60
+END
+config-2.6.32
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/qi_lb60/config-2.6.32
+END
+target.mk
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/qi_lb60/target.mk
+END

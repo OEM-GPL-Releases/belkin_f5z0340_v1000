@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/defconfig/tl-wr841n-v1
+END
+network
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/defconfig/tl-wr841n-v1/network
+END

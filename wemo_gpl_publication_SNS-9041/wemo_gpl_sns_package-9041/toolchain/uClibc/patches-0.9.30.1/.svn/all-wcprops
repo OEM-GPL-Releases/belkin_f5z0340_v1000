@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1
+END
+500-avr32_add_varargs_handling_of_prctl_syscall.patch
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/500-avr32_add_varargs_handling_of_prctl_syscall.patch
+END
+140-math_decl.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/140-math_decl.patch
+END
+300-fix-ppoll.diff
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/300-fix-ppoll.diff
+END
+900-backport_fix_possible_null_ptr_dereference_in_getaddrinfo.patch
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/900-backport_fix_possible_null_ptr_dereference_in_getaddrinfo.patch
+END
+901-hi_lo_system_calls.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/901-hi_lo_system_calls.patch
+END
+600-ubicom32-uClibc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/600-ubicom32-uClibc.patch
+END
+110-compat_macros.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/110-compat_macros.patch
+END
+410-llvm_workaround.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/410-llvm_workaround.patch
+END
+130-pthread_weak_binding.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/130-pthread_weak_binding.patch
+END
+180-dl_sysdep_inline.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/180-dl_sysdep_inline.patch
+END
+160-unifdef_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/160-unifdef_fix.patch
+END
+170-math_finite.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/170-math_finite.patch
+END
+902-Fix-use-after-free-bug-in-__dns_lookup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/902-Fix-use-after-free-bug-in-__dns_lookup.patch
+END
+400-gcc4.4-fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/400-gcc4.4-fixes.patch
+END
+120-adjtimex.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/120-adjtimex.patch
+END
+440-backport_mips_nonpic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/440-backport_mips_nonpic.patch
+END
+430-i386_copysign.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/430-i386_copysign.patch
+END
+420-i386_strrchr_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/420-i386_strrchr_fix.patch
+END
+450-powerpc_copysignl.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/450-powerpc_copysignl.patch
+END
+150-c99_ldbl_math.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.1/150-c99_ldbl_math.patch
+END

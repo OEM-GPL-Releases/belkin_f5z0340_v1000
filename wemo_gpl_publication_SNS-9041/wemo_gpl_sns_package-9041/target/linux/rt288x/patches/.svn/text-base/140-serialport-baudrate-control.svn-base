@@ -1,0 +1,38 @@
+Index: linux-2.6.21/drivers/serial/serial_core.c
+===================================================================
+--- linux-2.6.21.orig/drivers/serial/serial_core.c	2012-10-12 08:40:05.470164329 -0700
++++ linux-2.6.21/drivers/serial/serial_core.c	2012-10-12 09:11:02.421914819 -0700
+@@ -407,6 +407,19 @@
+ {
+ 	unsigned int quot;
+ 
++//	quot = port->custom_divisor;
++#if defined (CONFIG_RALINK_RT3883) || \
++	defined (CONFIG_RALINK_RT3352) || \
++	defined (CONFIG_RALINK_RT5350)
++	quot = (40000000 / 16 / baud);
++
++#elif defined (CONFIG_RALINK_RT2880) || \
++	defined (CONFIG_RALINK_RT2883) || \
++	defined (CONFIG_RALINK_RT3052)
++
++	extern unsigned long surfboard_sysclk;
++	quot = (surfboard_sysclk / 16 / baud);
++#else
+ 	/*
+ 	 * Old custom speed handling.
+ 	 */
+@@ -414,13 +427,6 @@
+ 		quot = port->custom_divisor;
+ 	else
+ 		quot = (port->uartclk + (8 * baud)) / (16 * baud);
+-#if defined (CONFIG_RALINK_RT2880) || \
+-	defined (CONFIG_RALINK_RT2883) || \
+-	defined (CONFIG_RALINK_RT3883) || \
+-	defined (CONFIG_RALINK_RT3352) || \
+-	defined (CONFIG_RALINK_RT5350) || \
+-	defined (CONFIG_RALINK_RT3052)
+-	quot = port->custom_divisor;
+ #endif
+ 
+ 	return quot;

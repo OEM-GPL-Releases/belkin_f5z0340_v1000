@@ -1,0 +1,12 @@
+K 13
+svn:mergeinfo
+V 481
+/branches/backfire_sdk/package/c-ares:3817-3992
+/branches/backfire_smart/package/c-ares:4406-4552,6574-6601
+/branches/backfire_smart_memtrack/package/c-ares:6229-6599
+/branches/backfire_smart_netcam/package/c-ares:7056-7552
+/branches/wemo_dev_pro_RC_1_10/package/c-ares:7258-7549
+/branches/wemo_dev_pro_RC_1_10_WEMO-31028/package/c-ares:7400-7511
+/trunk/embedded-WeMo_2_0_Jarden_Merge/openwrt/package/c-ares:3840-4058
+/trunk/embedded-WeMo_2_0_Smart/openwrt/package/c-ares:3862-4360
+END

@@ -1,0 +1,413 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches
+END
+630-netfilter_comment.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/630-netfilter_comment.patch
+END
+610-netfilter_connbytes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/610-netfilter_connbytes.patch
+END
+213-htb_disable_hysteresis.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/213-htb_disable_hysteresis.patch
+END
+005-mtd_flashtypes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/005-mtd_flashtypes.patch
+END
+113-even_more_gcc4_stuff.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/113-even_more_gcc4_stuff.patch
+END
+107-cifs.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/107-cifs.patch
+END
+003-jffs2_compression.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/003-jffs2_compression.patch
+END
+621-netfilter_random.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/621-netfilter_random.patch
+END
+212-htb_time_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/212-htb_time_fix.patch
+END
+613-netfilter_nat_h323.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/613-netfilter_nat_h323.patch
+END
+802-usb_serial_3g_cards.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/802-usb_serial_3g_cards.patch
+END
+100-wireless-extension.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/100-wireless-extension.patch
+END
+010-disable_old_squashfs_compatibility.patch
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/010-disable_old_squashfs_compatibility.patch
+END
+620-netfilter_iprange.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/620-netfilter_iprange.patch
+END
+611-netfilter_condition.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/611-netfilter_condition.patch
+END
+008-intel_flashchip_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/008-intel_flashchip_fix.patch
+END
+004-exec_pagesize.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/004-exec_pagesize.patch
+END
+050-build_flags.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/050-build_flags.patch
+END
+114-sched_use_tsc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/114-sched_use_tsc.patch
+END
+626-netfilter_conntrack_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/626-netfilter_conntrack_fix.patch
+END
+628-netfilter_raw.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/628-netfilter_raw.patch
+END
+228-more_usb_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/228-more_usb_fixes.patch
+END
+206-gcc_3.4_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/206-gcc_3.4_fixes.patch
+END
+106-mppe_mppc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/106-mppe_mppc.patch
+END
+200-i4l.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/200-i4l.patch
+END
+115-branch_emul_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/115-branch_emul_fix.patch
+END
+222-sound.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/222-sound.patch
+END
+110-netdev_random_core.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/110-netdev_random_core.patch
+END
+009-mtd_uaccess.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/009-mtd_uaccess.patch
+END
+618-netfilter_multiport_backport.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/618-netfilter_multiport_backport.patch
+END
+602-netfilter_layer7_2.21.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/602-netfilter_layer7_2.21.patch
+END
+229-usb_storage_16_byte_cdb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/229-usb_storage_16_byte_cdb.patch
+END
+208-usb2_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/208-usb2_fix.patch
+END
+230-tun_get_user_backport.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/230-tun_get_user_backport.patch
+END
+622-tc_esfq.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/622-tc_esfq.patch
+END
+607-netfilter_connmark.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/607-netfilter_connmark.patch
+END
+201-hfc_usb_backport.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/201-hfc_usb_backport.patch
+END
+226-atm_br2684.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/226-atm_br2684.patch
+END
+601-netfilter_ipp2p_0.8.1rc1.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/601-netfilter_ipp2p_0.8.1rc1.patch
+END
+227-jffs2_eofdetect.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/227-jffs2_eofdetect.patch
+END
+112-bridging_performance.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/112-bridging_performance.patch
+END
+700-multiple_default_gateways.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/700-multiple_default_gateways.patch
+END
+225-string_lib_useful_exports.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/225-string_lib_useful_exports.patch
+END
+612-netfilter_quota.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/612-netfilter_quota.patch
+END
+051-remove_pcmcia_modinst_compat.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/051-remove_pcmcia_modinst_compat.patch
+END
+629-netlink_types_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/629-netlink_types_h.patch
+END
+614-netfilter_nat_rtsp.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/614-netfilter_nat_rtsp.patch
+END
+002-squashfs_lzma.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/002-squashfs_lzma.patch
+END
+615-netfilter_nat_mms.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/615-netfilter_nat_mms.patch
+END
+231-mini_fo.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/231-mini_fo.patch
+END
+000-linux_mips.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/000-linux_mips.patch
+END
+604-netfilter_maxconn.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/604-netfilter_maxconn.patch
+END
+605-netfilter_TTL.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/605-netfilter_TTL.patch
+END
+224-atm_hotplug.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/224-atm_hotplug.patch
+END
+801-usb_serial_endpoint_size.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/801-usb_serial_endpoint_size.patch
+END
+001-squashfs.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/001-squashfs.patch
+END
+203-hfsplus_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/203-hfsplus_fix.patch
+END
+210-fix-irq-serial.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/210-fix-irq-serial.patch
+END
+609-netfilter_string.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/609-netfilter_string.patch
+END
+109-ipsec_nat_traversal.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/109-ipsec_nat_traversal.patch
+END
+624-netfilter_ip6t_reject.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/624-netfilter_ip6t_reject.patch
+END
+209-build_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/209-build_fixes.patch
+END
+606-netfilter_NETMAP.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/606-netfilter_NETMAP.patch
+END
+616-netfilter_imq.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/616-netfilter_imq.patch
+END
+804-watchdog_include.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/804-watchdog_include.patch
+END
+051-parallel_build.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/051-parallel_build.patch
+END
+116-bridge_ioctls.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/116-bridge_ioctls.patch
+END
+108-optional_aout_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.4/patches/108-optional_aout_support.patch
+END

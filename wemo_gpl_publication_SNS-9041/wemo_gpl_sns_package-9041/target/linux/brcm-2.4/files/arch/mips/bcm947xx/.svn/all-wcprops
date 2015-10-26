@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx
+END
+gpio.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/gpio.c
+END
+time.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/time.c
+END
+setup.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/setup.c
+END
+sbpci.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/sbpci.c
+END
+utils.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/utils.c
+END
+bcmsrom.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/bcmsrom.c
+END
+cfe_env.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/cfe_env.c
+END
+utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/utils.h
+END
+prom.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/prom.c
+END
+hndchipc.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/hndchipc.c
+END
+sflash.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/sflash.c
+END
+export.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/export.c
+END
+nvram.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/nvram.c
+END
+sbutils.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/sbutils.c
+END
+pcibios.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/pcibios.c
+END
+hndpmu.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/hndpmu.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/Makefile
+END
+sbmips.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/files/arch/mips/bcm947xx/sbmips.c
+END

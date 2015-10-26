@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles
+END
+WRT350Nv1.mk
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/WRT350Nv1.mk
+END
+100-Broadcom-b43.mk
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/100-Broadcom-b43.mk
+END
+110-None.mk
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/110-None.mk
+END
+WRTSL54GS.mk
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/WRTSL54GS.mk
+END
+WL500GPv1-ATH.mk
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/WL500GPv1-ATH.mk
+END
+106-Atheros-ath5k.mk
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/106-Atheros-ath5k.mk
+END
+WGT634U.mk
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/WGT634U.mk
+END
+105-Atheros.mk
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/profiles/105-Atheros.mk
+END

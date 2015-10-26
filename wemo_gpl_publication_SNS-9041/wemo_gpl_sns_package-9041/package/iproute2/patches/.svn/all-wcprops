@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches
+END
+003-iproute2-htb_overhead.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/003-iproute2-htb_overhead.patch
+END
+004-darwin_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/004-darwin_fixes.patch
+END
+120-libnetlink-pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/120-libnetlink-pic.patch
+END
+000-debian_patches_3.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/000-debian_patches_3.patch
+END
+110-extra-ccopts.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/110-extra-ccopts.patch
+END
+005-flex-generated.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/005-flex-generated.patch
+END
+100-allow_pfifo_fast.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/100-allow_pfifo_fast.patch
+END
+006-iproute2-tc_esfq.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/006-iproute2-tc_esfq.patch
+END
+001-iproute2-2.6.11_Config.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/001-iproute2-2.6.11_Config.patch
+END
+007-version_includes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/007-version_includes.patch
+END
+002-iproute2-ipxfrm_no_sctp.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iproute2/patches/002-iproute2-ipxfrm_no_sctp.patch
+END

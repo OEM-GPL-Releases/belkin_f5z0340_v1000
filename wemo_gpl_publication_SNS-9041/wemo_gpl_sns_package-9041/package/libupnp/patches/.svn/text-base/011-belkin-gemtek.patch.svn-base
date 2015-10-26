@@ -1,0 +1,663 @@
+Index: libupnp-1.6.19/threadutil/src/ThreadPool.c
+===================================================================
+--- libupnp-1.6.19.orig/threadutil/src/ThreadPool.c
++++ libupnp-1.6.19/threadutil/src/ThreadPool.c
+@@ -507,7 +507,12 @@ static void *WorkerThread(
+ 
+ 	SetSeed();
+ 	StatsTime(&start);
+-	printlog(LOG_DEBUG, "Worker thread started in thread-pool[%p]", tp);
++	
++	if(gUPnPLogEnable)
++		printlog(LOG_DEBUG, "Worker thread started in thread-pool[%p]", tp);
++	else
++		syslog(LOG_DEBUG, "Worker thread started in thread-pool[%p]", tp);
++
+ 	while (1) {
+ 		ithread_mutex_lock(&tp->mutex);
+ 		if (job) {
+@@ -953,7 +958,11 @@ int ThreadPoolAdd(ThreadPool *tp, Thread
+ 
+ 	totalJobs = tp->highJobQ.size + tp->lowJobQ.size + tp->medJobQ.size;
+ 	if (totalJobs >= tp->attr.maxJobsTotal) {
+-		printlog(LOG_DEBUG, "#######total jobs = %d, too many jobs, to dump junk messages", (int)totalJobs);
++		if(gUPnPLogEnable)
++			printlog(LOG_DEBUG, "#######total jobs = %d, too many jobs, to dump junk messages", (int)totalJobs);
++		else
++			syslog(LOG_DEBUG, "#######total jobs = %d, too many jobs, to dump junk messages", (int)totalJobs);
++
+ 		ithread_mutex_unlock(&tp->mutex);
+ 		exit(0);
+ 		//goto exit_function;
+Index: libupnp-1.6.19/upnp/src/api/upnpapi.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/api/upnpapi.c
++++ libupnp-1.6.19/upnp/src/api/upnpapi.c
+@@ -319,35 +319,35 @@ static int UpnpInitThreadPools(void)
+ 		goto exit_function;
+ 	}
+     	else
+-		printme(LOG_DEBUG, "gSendThreadPool threadpool [%p] initialized successfully", &gSendThreadPool);
++		syslog(LOG_DEBUG, "gSendThreadPool threadpool [%p] initialized successfully", &gSendThreadPool);
+ 
+ 	if (ThreadPoolInit(&gRecvThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
+     	else
+-		printme(LOG_DEBUG, "gRecvThreadPool threadpool [%p] initialized successfully", &gRecvThreadPool);
++		syslog(LOG_DEBUG, "gRecvThreadPool threadpool [%p] initialized successfully", &gRecvThreadPool);
+ 
+ 	if (ThreadPoolInit(&gSsdpRecvThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
+     	else
+-		printme(LOG_DEBUG, "gSsdpRecvThreadPool threadpool [%p] initialized successfully", &gSsdpRecvThreadPool);
++		syslog(LOG_DEBUG, "gSsdpRecvThreadPool threadpool [%p] initialized successfully", &gSsdpRecvThreadPool);
+ 	
+ 	if (ThreadPoolInit(&gDiscoveryRespThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
+     	else
+-		printme(LOG_DEBUG, "gDiscoveryRespThreadPool threadpool [%p] initialized successfully", &gDiscoveryRespThreadPool);
++		syslog(LOG_DEBUG, "gDiscoveryRespThreadPool threadpool [%p] initialized successfully", &gDiscoveryRespThreadPool);
+ 	
+ 	if (ThreadPoolInit(&gMiniServerThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
+     	else
+-		printme(LOG_DEBUG, "gMiniServerThreadPool threadpool [%p] initialized successfully", &gMiniServerThreadPool);
++		syslog(LOG_DEBUG, "gMiniServerThreadPool threadpool [%p] initialized successfully", &gMiniServerThreadPool);
+ 
+ exit_function:
+ 	if (ret != UPNP_E_SUCCESS) {
+@@ -554,11 +554,11 @@ int UpnpInit(const char *HostIP, unsigne
+ 	{
+ 		/* save the device information for later use */
+ 		strncpy(gDevUdn, (char *)UserData, sizeof(gDevUdn)-1);
+-		printme(LOG_DEBUG, "********* Device UDN passed: %s **********", gDevUdn);
++		syslog(LOG_DEBUG, "********* Device UDN passed: %s **********", gDevUdn);
+ 	}
+ 	else
+ 	{
+-		printme(LOG_DEBUG, "********* Invalid UDN passed **********");
++		syslog(LOG_DEBUG, "********* Invalid UDN passed **********");
+ 		retVal = UPNP_E_INIT_FAILED;
+ 		UpnpSdkInit = 0;
+ 		goto exit_function;
+Index: libupnp-1.6.19/upnp/src/gena/gena_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/gena/gena_device.c
++++ libupnp-1.6.19/upnp/src/gena/gena_device.c
+@@ -194,17 +194,23 @@ static UPNP_INLINE int notify_send_and_r
+ 		destination_url->hostport.text.buff);
+ 
+ 	//- try here
++	printme(LOG_DEBUG, "Before http_Connect");
+ 	do 
+ 	{
+ 		conn_fd = http_Connect( destination_url, &url);
+ 		counter++;
++		printme(LOG_DEBUG, "After http_Connect, cnt: %d", counter);
+ 	}while ((conn_fd < 0) && (counter < MAX_HTTP_CONNECT_TIMES));
+ 
+ 
+ 	if (conn_fd < 0)
+ 	{
+ 		//- connection time out three times, only one time deal with each session
+-		printme(LOG_DEBUG, "push notification gena connection failure");
++	    	if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "push notification gena connection failure");
++		else
++			syslog(LOG_DEBUG, "push notification gena connection failure");
++
+ 		/* return UPNP error */
+ 		return UPNP_E_SOCKET_CONNECT;
+ 	}
+@@ -227,6 +233,7 @@ static UPNP_INLINE int notify_send_and_r
+ 	}
+ 	timeout = GENA_NOTIFICATION_SENDING_TIMEOUT;
+ 	/* send msg (note: end of notification will contain "\r\n" twice) */
++	printme(LOG_DEBUG, "Before http_SendMessage");
+ 	ret_code = http_SendMessage(&info, &timeout,
+ 		"bbb",
+ 		start_msg.buf, start_msg.length,
+@@ -237,6 +244,7 @@ static UPNP_INLINE int notify_send_and_r
+ 		sock_destroy(&info, SD_BOTH);
+ 		return ret_code;
+ 	}
++	printme(LOG_DEBUG, "After http_SendMessage");
+ 	timeout = GENA_NOTIFICATION_ANSWERING_TIMEOUT;
+ 	ret_code = http_RecvMessage(&info, response,
+ 		HTTPMETHOD_NOTIFY, &timeout, &err_code);
+@@ -296,14 +304,22 @@ static int genaNotify(
+ 			url, &mid_msg, propertySet, &response);
+ 		if (return_code == UPNP_E_SUCCESS)
+ 		{
+-			printme(LOG_DEBUG, "Sent to IP: %.*s , sid: %s, key: %d", url->hostport.text.size, (url->hostport.text.buff), sub->sid, sub->ToSendEventKey);
++	    		if(gUPnPLogEnable)
++				printme(LOG_DEBUG, "Sent to IP: %.*s , sid: %s, key: %d", url->hostport.text.size, (url->hostport.text.buff), sub->sid, sub->ToSendEventKey);
++			else
++				syslog(LOG_DEBUG, "Sent to IP: %.*s , sid: %s, key: %d", url->hostport.text.size, (url->hostport.text.buff), sub->sid, sub->ToSendEventKey);
+ 			sub->failCnt=0;
+ 			break;
+ 	}
+ 		else
+ 		{
+-			printme(LOG_DEBUG, "Sending to IP: %.*s failed, return_code: %d, SID: %s, key: %d, fail_cnt: %d", 
+-				url->hostport.text.size, (url->hostport.text.buff), return_code, sub->sid, sub->ToSendEventKey, sub->failCnt);
++	    		if(gUPnPLogEnable)
++				printme(LOG_DEBUG, "Sending to IP: %.*s failed, return_code: %d, SID: %s, key: %d, fail_cnt: %d", 
++					url->hostport.text.size, (url->hostport.text.buff), return_code, sub->sid, sub->ToSendEventKey, sub->failCnt);
++			else
++				syslog(LOG_DEBUG, "Sending to IP: %.*s failed, return_code: %d, SID: %s, key: %d, fail_cnt: %d", 
++					url->hostport.text.size, (url->hostport.text.buff), return_code, sub->sid, sub->ToSendEventKey, sub->failCnt);
++
+ 			sub->failCnt++;
+ 			strncpy(IP, url->hostport.text.buff, url->hostport.text.size);
+ 		}
+@@ -347,8 +363,10 @@ void* advThread(void *arg)
+ 	int dev_handle;
+ 	char *ptr;
+ 
+-	printme(LOG_DEBUG, "In advThread");
+-
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "In advThread");
++	else
++		syslog(LOG_DEBUG, "In advThread");
+ 	memset(ipaddr, 0, sizeof(ipaddr));
+ 	memcpy(&dev_handle, (char *)arg, sizeof(int));
+ 	//strncpy(ipaddr, (char *)arg + sizeof(int), 20);
+@@ -358,9 +376,20 @@ void* advThread(void *arg)
+ 	free(arg);
+ 
+ 	sleep(1);
+-	printme(LOG_DEBUG, "sending out UPnP advertisement, dev_handle=%d, ipaddr: %s", dev_handle, ipaddr);
++
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "sending out UPnP advertisement, dev_handle=%d, ipaddr: %s", dev_handle, ipaddr);
++	else
++		syslog(LOG_DEBUG, "sending out UPnP advertisement, dev_handle=%d, ipaddr: %s", dev_handle, ipaddr);
++
+ 	UpnpSendAdvertisementLowPower(dev_handle, 86400, -1, -1, -1, 2, ipaddr);
+-	printme(LOG_DEBUG, "sent out UPnP advertisement, dev_handle=%d", dev_handle);
++
++
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "sent out UPnP advertisement, dev_handle=%d", dev_handle);
++	else
++		syslog(LOG_DEBUG, "sent out UPnP advertisement, dev_handle=%d", dev_handle);
++
+ 	fflush(stdout);
+ 	thread=-1;
+ }
+@@ -402,7 +431,11 @@ static void genaNotifyThread(
+ 	    !service->active ||
+ 	    !(sub = GetSubscriptionSID(in->sid, service)))
+ 	{
+-		printme(LOG_DEBUG, "No service id or subscription entry found");
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "No service id or subscription entry found");
++		else
++			syslog(LOG_DEBUG, "No service id or subscription entry found");
++
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+@@ -411,7 +444,11 @@ static void genaNotifyThread(
+ 	{
+ 	    sub->ToSendEventKey = in->eventKey;
+ 	    if(copy_subscription(sub, &sub_copy) != HTTP_SUCCESS) {
+-		printme(LOG_DEBUG, "sub copy failed");
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "sub copy failed");
++		else
++			syslog(LOG_DEBUG, "sub copy failed");
++
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+@@ -445,7 +482,11 @@ static void genaNotifyThread(
+ 	if(sub_copy.failCnt || (return_code == GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB))
+ 	{
+ 		ipaddr = strtok(hostaddr, ":");
+-		printme(LOG_DEBUG, "Failed %d to send SID: %s notification to: %s", sub_copy.failCnt, in->sid, ipaddr);
++
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "Failed %d to send SID: %s notification to: %s", sub_copy.failCnt, in->sid, ipaddr);
++		else
++			syslog(LOG_DEBUG, "Failed %d to send SID: %s notification to: %s", sub_copy.failCnt, in->sid, ipaddr);
+ 	}
+ 	sub->failCnt = sub_copy.failCnt;
+ 	//DBG_printf("\n[%d] Updated failcnt from copy (%p) %d: %d\n", syscall(SYS_gettid), sub, sub->failCnt, sub_copy.failCnt);
+@@ -453,7 +494,10 @@ static void genaNotifyThread(
+ 	freeSubscription(&sub_copy);
+ 	HandleLock();
+ 	if (GetHandleInfo(in->device_handle, &handle_info) != HND_DEVICE) {
+-		printme(LOG_DEBUG, "free_notify_struct");
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "free_notify_struct");
++		else
++			syslog(LOG_DEBUG, "free_notify_struct");
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+@@ -462,7 +506,11 @@ static void genaNotifyThread(
+ 	if (!(service = FindServiceId(&handle_info->ServiceTable, in->servId, in->UDN)) ||
+ 	    !service->active ||
+ 	    !(sub = GetSubscriptionSID(in->sid, service))) {
+-		printme(LOG_DEBUG, "sid: %s", in->sid);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "sid: %s", in->sid);
++		else
++			syslog(LOG_DEBUG, "sid: %s", in->sid);
++
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+@@ -477,7 +525,11 @@ static void genaNotifyThread(
+ 		char *data = (char *)malloc(sizeof(int) + 20);
+ 
+ 		//- Any failure, it will be removed since it is http request
+-		printme(LOG_DEBUG, "push notification failure, service id: %s to be removed %d, failCnt: %d", in->sid,return_code, sub->failCnt);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "push notification failure, service id: %s to be removed %d, failCnt: %d", in->sid,return_code, sub->failCnt);
++		else
++			syslog(LOG_DEBUG, "push notification failure, service id: %s to be removed %d, failCnt: %d", in->sid,return_code, sub->failCnt);
++
+ 		RemoveSubscriptionSID(in->sid, service);
+ 
+ 		/* Send UPnP advertisement */
+@@ -1344,9 +1396,11 @@ int check_existing_entry(char *url_entry
+ 
+ 	strncpy(url_entry_copy, url_entry, 100-1);
+ 	ipaddr = strtok(url_entry_copy, ":");
+-	printme(LOG_DEBUG, " from IP : %s", ipaddr);
+-	fflush(stdout);
+ 
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, " from IP : %s", ipaddr);
++	else
++		syslog(LOG_DEBUG, " from IP : %s", ipaddr);
+ 	//printme(LOG_DEBUG, "url_entry: %s, ipaddr: %s", url_entry, ipaddr);
+ 
+ 	while(subscriptionList != NULL)
+@@ -1430,7 +1484,10 @@ void gena_process_subscription_request(
+ 		"SubscriptionRequest for event URL path: %s\n",
+ 		event_url_path);
+ 
+-	printme(LOG_DEBUG, "SubscriptionRequest for event URL path: %s",event_url_path);
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "SubscriptionRequest for event URL path: %s",event_url_path);
++	else
++		syslog(LOG_DEBUG, "SubscriptionRequest for event URL path: %s",event_url_path);
+ 
+ 	HandleLock();
+ 
+@@ -1491,7 +1548,11 @@ void gena_process_subscription_request(
+ 	return_code = check_existing_entry(url->hostport.text.buff, service, &sub_entry);
+ 	if(return_code == UPNP_E_ALREADY_REGISTERED)
+ 	{
+-		printme(LOG_DEBUG, "Found existing subscription: %s, removing it!!!", sub_entry->sid);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "Found existing subscription: %s, removing it!!!", sub_entry->sid);
++		else
++			syslog(LOG_DEBUG, "Found existing subscription: %s, removing it!!!", sub_entry->sid);
++
+         	RemoveSubscriptionSID( sub_entry->sid, service );
+ 	}
+ 
+@@ -1553,13 +1614,20 @@ void gena_process_subscription_request(
+ 	service->subscriptionList = sub;
+ 	service->TotalSubscriptions++;
+ 	
+-	printme(LOG_DEBUG, "Creating new subscription: %s!!!", sub->sid);
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "Creating new subscription: %s!!!", sub->sid);
++	else
++		syslog(LOG_DEBUG, "Creating new subscription: %s!!!", sub->sid);
+ 
+ 	/* respond OK */
+ 	if (rc < 0 || (unsigned int) rc >= sizeof(sub->sid) ||
+ 		(respond_ok(info, time_out,
+ 		sub, request) != UPNP_E_SUCCESS)) {
+-		printme(LOG_DEBUG, "Sending response OK failed for SID: %s", sub->sid);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "Sending response OK failed for SID: %s", sub->sid);
++		else
++			syslog(LOG_DEBUG, "Sending response OK failed for SID: %s", sub->sid);
++
+ 		freeSubscriptionList(sub);
+ 		HandleUnlock();
+ 		goto exit_function;
+@@ -1696,7 +1764,11 @@ void gena_process_subscription_renewal_r
+     }
+ 
+     if( respond_ok( info, time_out, sub, request ) != UPNP_E_SUCCESS ) {
+-    	printme(LOG_DEBUG, "%s: Removing subscription sid: %s", __func__, sub->sid);
++	if(gUPnPLogEnable)
++    		printme(LOG_DEBUG, "%s: Removing subscription sid: %s", __func__, sub->sid);
++	else
++    		syslog(LOG_DEBUG, "%s: Removing subscription sid: %s", __func__, sub->sid);
++
+         RemoveSubscriptionSID( sub->sid, service );
+     }
+ 
+@@ -1731,8 +1803,10 @@ void gena_process_unsubscribe_request(
+     memcpy( sid, temp_hdr.buf, temp_hdr.length );
+     sid[temp_hdr.length] = '\0';
+ 
+-    printme(LOG_DEBUG, "Unsubscribe request for SID: %s", sid);
+-
++    if(gUPnPLogEnable)
++    	printme(LOG_DEBUG, "Unsubscribe request for SID: %s", sid);
++    else
++    	syslog(LOG_DEBUG, "Unsubscribe request for SID: %s", sid);
+     /* lookup service by eventURL */
+     membuffer_init( &event_url_path );
+     if( membuffer_append( &event_url_path, request->uri.pathquery.buff,
+Index: libupnp-1.6.19/upnp/src/genlib/miniserver/miniserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/miniserver/miniserver.c
++++ libupnp-1.6.19/upnp/src/genlib/miniserver/miniserver.c
+@@ -410,7 +410,7 @@ static void RunMiniServer(
+ 	maxMiniSock = max(maxMiniSock, miniSock->ssdpReqSock6);
+ #endif /* INCLUDE_CLIENT_APIS */
+ 	++maxMiniSock;
+-    	printme(LOG_DEBUG, "*************** RunMiniServer thread started ****************");
++    	syslog(LOG_DEBUG, "***************[tid: %d] RunMiniServer thread started ****************", (int)syscall(SYS_gettid));
+ 
+ 	gMServState = MSERV_RUNNING;
+ 	while (!stopSock) {
+Index: libupnp-1.6.19/upnp/src/genlib/net/http/httpreadwrite.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/http/httpreadwrite.c
++++ libupnp-1.6.19/upnp/src/genlib/net/http/httpreadwrite.c
+@@ -246,7 +246,7 @@ SOCKET http_Connect(
+ 	connfd = socket((int)url->hostport.IPaddress.ss_family,
+ 		SOCK_STREAM, 0);
+ 	if (connfd == INVALID_SOCKET) {
+-		printme(LOG_DEBUG, "Socket creation failed");
++		syslog(LOG_DEBUG, "Socket creation failed");
+ 		return (SOCKET)(UPNP_E_OUTOF_SOCKET);
+ 	}
+ 
+@@ -256,7 +256,7 @@ SOCKET http_Connect(
+ 	flags = fcntl(connfd, F_GETFL, 0 );
+ 	if(fcntl(connfd, F_SETFL, flags | O_NONBLOCK) < 0)
+ 	{
+-		printme(LOG_DEBUG, "Socket connection failed");
++		syslog(LOG_DEBUG, "Socket connection failed");
+ 		goto SOCKET_CLOSE;
+ 	}
+ 
+@@ -273,13 +273,13 @@ SOCKET http_Connect(
+ 
+ 	if( -1 == ret_connect)
+ 	{
+-		printme(LOG_DEBUG, "Socket connection SELECT failed");
++		syslog(LOG_DEBUG, "Socket connection SELECT failed");
+ 		goto SOCKET_CLOSE;
+ 	}
+ 
+ 	else if(0x00 == ret_connect)
+ 	{   //we had a timeout
+-		printme(LOG_DEBUG, "Socket connection select timeout");
++		syslog(LOG_DEBUG, "Socket connection select timeout");
+ 		goto SOCKET_CLOSE;
+ 	}
+ 	else
+@@ -291,7 +291,7 @@ SOCKET http_Connect(
+ 
+ SOCKET_CLOSE:
+ 	{
+-		printme(LOG_DEBUG, "SOCKET_CLOSE: Socket connection failed");
++		syslog(LOG_DEBUG, "SOCKET_CLOSE: Socket connection failed");
+ 		shutdown(connfd, SD_BOTH );
+ 		UpnpCloseSocket( connfd );
+ 		return UPNP_E_SOCKET_CONNECT;
+@@ -389,7 +389,7 @@ int http_RecvMessage(
+ 				*http_error_code = parser->http_error_code;
+ 				line = __LINE__;
+ 				ret = UPNP_E_BAD_HTTPMSG;
+-				printme(LOG_DEBUG, "err: %d", *http_error_code);
++				syslog(LOG_DEBUG, "err: %d", *http_error_code);
+ 				goto ExitFunction;
+ 			case PARSE_INCOMPLETE_ENTITY:
+ 				/* read until close */
+@@ -417,7 +417,10 @@ int http_RecvMessage(
+ 				*http_error_code = HTTP_BAD_REQUEST;    /* or response */
+ 				line = __LINE__;
+ 				ret = UPNP_E_BAD_HTTPMSG;
+-				printme(LOG_DEBUG, "err: %d", *http_error_code);
++				if(gUPnPLogEnable)
++					printme(LOG_DEBUG, "err: %d", *http_error_code);
++				else
++					syslog(LOG_DEBUG, "err: %d", *http_error_code);
+ 				goto ExitFunction;
+ 			}
+ 		} else {
+@@ -1267,7 +1270,10 @@ static int ReadResponseLineAndHeaders(
+ 		} else if (num_read == 0) {
+ 			/* partial msg */
+ 			*http_error_code = HTTP_BAD_REQUEST;	/* or response */
++			if(gUPnPLogEnable)
+ 				printme(LOG_DEBUG, "err: %d", *http_error_code);
++			else
++				syslog(LOG_DEBUG, "err: %d", *http_error_code);
+ 			return UPNP_E_BAD_HTTPMSG;
+ 		} else {
+ 			*http_error_code = parser->http_error_code;
+@@ -1307,7 +1313,10 @@ static int ReadResponseLineAndHeaders(
+ 		} else if (num_read == 0) {
+ 			/* partial msg */
+ 			*http_error_code = HTTP_BAD_REQUEST;	/* or response */
++			if(gUPnPLogEnable)
+ 				printme(LOG_DEBUG, "err: %d", *http_error_code);
++			else
++				syslog(LOG_DEBUG, "err: %d", *http_error_code);
+ 			return UPNP_E_BAD_HTTPMSG;
+ 		} else {
+ 			*http_error_code = parser->http_error_code;
+@@ -1418,7 +1427,10 @@ int http_ReadHttpGet(
+ 				/* partial msg */
+ 				*size = (size_t)0;
+ 				handle->response.http_error_code = HTTP_BAD_REQUEST;	/* or response */
+-				printme(LOG_DEBUG, "err: %d", HTTP_BAD_REQUEST);
++				if(gUPnPLogEnable)
++					printme(LOG_DEBUG, "err: %d", HTTP_BAD_REQUEST);
++				else
++					syslog(LOG_DEBUG, "err: %d", HTTP_BAD_REQUEST);
+ 				return UPNP_E_BAD_HTTPMSG;
+ 			}
+ 		} else {
+Index: libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/http/webserver.c
++++ libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+@@ -1452,14 +1452,21 @@ static int http_RecvPostMessage(
+ 	
+ 	if (0x00 != strstr(filename, "rules.db"))
+ 	{
+-		printme(LOG_DEBUG, "rules db post request, duplcate to rules1.db");
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "rules db post request, duplcate to rules1.db");
++		else
++			syslog(LOG_DEBUG, "rules db post request, duplcate to rules1.db");
++
+ 		char* cmd = "cp -f /tmp/Belkin_settings/rules.db /tmp/Belkin_settings/rules1.db";
+ 		system(cmd);
+ 		isDatabasePosted = 0x01;
+ 	}
+ 	else if (0x00 != strstr(filename, "icon.jpg"))
+ 	{
+-		printme(LOG_DEBUG, "icon post request: %s", filename);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "icon post request: %s", filename);
++		else
++			syslog(LOG_DEBUG, "icon post request: %s", filename);
+ 
+ 		gWebIconVersion++;
+ 
+@@ -1471,7 +1478,10 @@ static int http_RecvPostMessage(
+ 	}
+ 	else
+ 	{
+-		printme(LOG_DEBUG, "post request: %s", filename);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "post request: %s", filename);
++		else	
++			syslog(LOG_DEBUG, "post request: %s", filename);
+ 	}
+ 
+ 	if (Instr && Instr->IsVirtualFile) {
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_device.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_device.c
+@@ -80,7 +80,11 @@ void *advertiseAndReplyThread(void *data
+ 	otTime = ctime(&rawtime);
+ 	otTime[strlen(otTime) - 1] = 0x00;
+ 
+-	printme(LOG_DEBUG, "[%s]:job_id[%d]:Sent discovery response to device:%s", otTime,arg->job_id,inet_ntoa(((struct sockaddr_in *)&(arg->dest_addr))->sin_addr));
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "[%s]:job_id[%d]:Sent discovery response to device:%s", otTime,arg->job_id,inet_ntoa(((struct sockaddr_in *)&(arg->dest_addr))->sin_addr));
++	else
++		syslog(LOG_DEBUG, "[%s]:job_id[%d]:Sent discovery response to device:%s", otTime,arg->job_id,inet_ntoa(((struct sockaddr_in *)&(arg->dest_addr))->sin_addr));
++
+ 	free(arg);
+ 	return NULL;
+ }
+@@ -159,7 +163,12 @@ void ssdp_handle_device_request(http_mes
+ 	threadArg = (SsdpSearchReply *)malloc(sizeof(SsdpSearchReply));
+ 	if (threadArg == NULL)
+ 		return;
+-	printme(LOG_DEBUG, "[%s]:job_id[%d]:Receiving discovery request: MX: %d from: %s", otTime, job_id, mx, inet_ntoa(((struct sockaddr_in *)dest_addr)->sin_addr));
++
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "[%s]:job_id[%d]:Receiving discovery request: MX: %d from: %s", otTime, job_id, mx, inet_ntoa(((struct sockaddr_in *)dest_addr)->sin_addr));
++	else
++		syslog(LOG_DEBUG, "[%s]:job_id[%d]:Receiving discovery request: MX: %d from: %s", otTime, job_id, mx, inet_ntoa(((struct sockaddr_in *)dest_addr)->sin_addr));
++	
+ 	threadArg->handle = handle;
+ 	memcpy(&threadArg->dest_addr, dest_addr, sizeof(threadArg->dest_addr));
+ 	threadArg->event = event;
+@@ -173,7 +182,10 @@ void ssdp_handle_device_request(http_mes
+ 	return_code = ThreadPoolAdd(&gDiscoveryRespThreadPool, &job, NULL);
+         if( return_code != 0 )
+         {
+-                printme(LOG_DEBUG, "####################Adding Discovery response job failed: %d #########################",return_code);
++		if(gUPnPLogEnable)
++                	printme(LOG_DEBUG, "####################Adding Discovery response job failed: %d #########################",return_code);
++		else
++                	syslog(LOG_DEBUG, "####################Adding Discovery response job failed: %d #########################",return_code);
+         }
+ 
+ 	/* Subtract a percentage from the mx to allow for network and processing
+@@ -543,7 +555,10 @@ int UnicastAdvertisement(char *DevType,
+ 		DestAddr4->sin_family = (sa_family_t)AF_INET;
+ 		if(UnicastIP)
+ 		{
+-			printme(LOG_DEBUG, "Sending Advertisement to : %s", UnicastIP);
++			if(gUPnPLogEnable)
++				printme(LOG_DEBUG, "Sending Advertisement to : %s", UnicastIP);
++			else
++				syslog(LOG_DEBUG, "Sending Advertisement to : %s", UnicastIP);
+ 			inet_pton(AF_INET, UnicastIP, &DestAddr4->sin_addr);
+ 		}
+ 		else
+@@ -922,7 +937,10 @@ int ServiceAdvertisement(char *Udn, char
+ 		DestAddr4->sin_family = (sa_family_t)AddressFamily;
+ 		if(UnicastIP)
+ 		{
+-			printme(LOG_DEBUG, "Sending service Advertisement to : %s", UnicastIP);
++			if(gUPnPLogEnable)
++				printme(LOG_DEBUG, "Sending service Advertisement to : %s", UnicastIP);
++			else
++				syslog(LOG_DEBUG, "Sending service Advertisement to : %s", UnicastIP);
+ 			inet_pton(AF_INET, UnicastIP, &DestAddr4->sin_addr);
+ 		}
+ 		else
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_server.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+@@ -234,7 +234,10 @@ int AdvertiseAndReply(int AdFlag, UpnpDe
+ 	                                                    SInfo->SleepPeriod,
+ 	                                                    SInfo->RegistrationState,
+ 							    UnicastIP);
+-					printme(LOG_DEBUG, "UnicastAdvertisement to %s ret: %d", UnicastIP, err);
++					if(gUPnPLogEnable)
++						printme(LOG_DEBUG, "UnicastAdvertisement to %s ret: %d", UnicastIP, err);
++					else
++						syslog(LOG_DEBUG, "UnicastAdvertisement to %s ret: %d", UnicastIP, err);
+ 					fflush(stdout);
+ 				} else {
+ 					/* AdFlag == -1 */
+@@ -738,7 +741,11 @@ int buildDeviceList()
+ 
+ 	if(NULL == pfReadStream)
+ 	{
+-		printme(LOG_DEBUG, "open file %s failed", WEMO_DEVICES);
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "open file %s failed", WEMO_DEVICES);
++		else
++			syslog(LOG_DEBUG, "open file %s failed", WEMO_DEVICES);
++
+ 		return UPNP_E_FILE_NOT_FOUND;
+ 	}
+ 
+@@ -756,8 +763,10 @@ int buildDeviceList()
+ 			len = strlen(szBuff);		
+ 		}
+ 		
+-		printme(LOG_DEBUG, "Device: %s found, len: %d", szBuff, strlen(szBuff));
+-
++		if(gUPnPLogEnable)
++			printme(LOG_DEBUG, "Device: %s found, len: %d", szBuff, strlen(szBuff));
++		else
++			syslog(LOG_DEBUG, "Device: %s found, len: %d", szBuff, strlen(szBuff));
+ 		if(len)
+ 		{
+ 			g_szWeMoDevices[i] = calloc(1, len+1);
+@@ -768,7 +777,11 @@ int buildDeviceList()
+ 			}
+ 			else
+ 			{
+-				printme(LOG_DEBUG, "Memory allocation failure");
++				if(gUPnPLogEnable)
++					printme(LOG_DEBUG, "Memory allocation failure");
++				else
++					syslog(LOG_DEBUG, "Memory allocation failure");
++					
+ 				return UPNP_E_OUTOF_MEMORY;
+ 			}
+ 
+@@ -778,7 +791,10 @@ int buildDeviceList()
+ 	
+ 	fclose(pfReadStream);
+ 
+-	printme(LOG_DEBUG, "%d devices found", i);
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "%d devices found", i);
++	else
++		syslog(LOG_DEBUG, "%d devices found", i);
+ 	return 0;
+ 
+ }
+@@ -798,7 +814,10 @@ int freeDeviceList()
+ 			break;
+ 	}
+ 
+-	printme(LOG_DEBUG, "Freed %d device list entries", i);
++	if(gUPnPLogEnable)
++		printme(LOG_DEBUG, "Freed %d device list entries", i);
++	else
++		syslog(LOG_DEBUG, "Freed %d device list entries", i);
+ 	return 0;
+ }
+ 

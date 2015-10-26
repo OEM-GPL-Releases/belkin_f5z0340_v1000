@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifx-tapidemo/patches
+END
+110-no_echo_cancelation.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifx-tapidemo/patches/110-no_echo_cancelation.patch
+END
+100-ifxmips.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifx-tapidemo/patches/100-ifxmips.patch
+END

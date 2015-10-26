@@ -1,0 +1,14 @@
+Index: linux-2.6.21/drivers/net/wireless/rt2860v2/ap/ap_cfg.c
+===================================================================
+--- linux-2.6.21.orig/drivers/net/wireless/rt2860v2/ap/ap_cfg.c	2014-12-05 12:47:23.204480189 -0800
++++ linux-2.6.21/drivers/net/wireless/rt2860v2/ap/ap_cfg.c	2015-05-26 14:30:42.594550619 -0700
+@@ -5792,6 +5792,9 @@
+ 		WscOnOff(pAd, pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].bHideSsid);
+ #endif /* WSC_V2_SUPPORT */
+ 
++   APMakeAllBssBeacon(pAd);
++   APUpdateAllBeaconFrame(pAd);
++
+ 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_HideSSID_Proc::(HideSSID=%d)\n", pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].bHideSsid));
+ 
+ 	return TRUE;

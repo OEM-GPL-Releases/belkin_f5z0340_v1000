@@ -1,0 +1,149 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm
+END
+205-uclibc-locale-update.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/205-uclibc-locale-update.patch
+END
+100-uclibc-conf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/100-uclibc-conf.patch
+END
+300-libstdc++-pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/300-libstdc++-pic.patch
+END
+910-soft-float.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/910-soft-float.patch
+END
+920-soft-float.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/920-soft-float.patch
+END
+951-bug_37014.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/951-bug_37014.patch
+END
+960-apple_no_m32.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/960-apple_no_m32.patch
+END
+307-locale_facets.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/307-locale_facets.patch
+END
+304-index_macro.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/304-index_macro.patch
+END
+200-uclibc-locale.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/200-uclibc-locale.patch
+END
+961-llvm_mips_compile_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/961-llvm_mips_compile_fix.patch
+END
+303-c99-complex-ugly-hack.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/303-c99-complex-ugly-hack.patch
+END
+952-bug_34762.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/952-bug_34762.patch
+END
+203-uclibc-locale-no__x.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/203-uclibc-locale-no__x.patch
+END
+800-arm-bigendian.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/800-arm-bigendian.patch
+END
+910-mbsd_multi.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/910-mbsd_multi.patch
+END
+305-libmudflap-susv3-legacy.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/305-libmudflap-susv3-legacy.patch
+END
+302-c99-snprintf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/302-c99-snprintf.patch
+END
+930-eabi_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/930-eabi_fixes.patch
+END
+904-flatten-switch-stmt-00.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/904-flatten-switch-stmt-00.patch
+END
+402-libbackend_dep_gcov-iov.h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/402-libbackend_dep_gcov-iov.h.patch
+END
+204-uclibc-locale-wchar_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/204-uclibc-locale-wchar_fix.patch
+END
+306-libstdc++-namespace.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/306-libstdc++-namespace.patch
+END
+301-missing-execinfo_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/llvm/301-missing-execinfo_h.patch
+END

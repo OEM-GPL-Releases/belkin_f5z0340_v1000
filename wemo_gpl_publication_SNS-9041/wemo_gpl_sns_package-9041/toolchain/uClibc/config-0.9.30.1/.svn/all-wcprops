@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1
+END
+arm
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/arm
+END
+powerpc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/powerpc
+END
+mips64
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/mips64
+END
+arm.storm
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/arm.storm
+END
+ubicom32
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/ubicom32
+END
+m68k
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/m68k
+END
+debug
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/debug
+END
+armeb
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/armeb
+END
+arm.gemini
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/arm.gemini
+END
+common
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/common
+END
+mipsel
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/mipsel
+END
+i386
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/i386
+END
+i686
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/i686
+END
+mipsel.cobalt
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/mipsel.cobalt
+END
+avr32
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/avr32
+END
+x86_64
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/x86_64
+END
+cris
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/cris
+END
+mips64el
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/mips64el
+END
+mips
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/mips
+END
+mipsel.brcm-2.4
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/config-0.9.30.1/mipsel.brcm-2.4
+END

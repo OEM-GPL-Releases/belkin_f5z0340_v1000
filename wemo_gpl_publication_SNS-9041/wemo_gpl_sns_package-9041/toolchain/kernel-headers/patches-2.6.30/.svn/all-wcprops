@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/kernel-headers/patches-2.6.30
+END
+100-ubicom32_headers.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/kernel-headers/patches-2.6.30/100-ubicom32_headers.patch
+END

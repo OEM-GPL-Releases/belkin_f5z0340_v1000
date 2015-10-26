@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8754/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink
+END
+Kconfig
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/Kconfig
+END
+ralink_nand.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/ralink_nand.c
+END
+ralink_spi.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/ralink_spi.h
+END
+ralink_nand.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/ralink_nand.h
+END
+gdma.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/gdma.c
+END
+ralink_mtd.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/ralink_mtd.h
+END
+ralink_spi.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8754/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/ralink_spi.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/Makefile
+END
+gdma.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/mtd/ralink/gdma.h
+END

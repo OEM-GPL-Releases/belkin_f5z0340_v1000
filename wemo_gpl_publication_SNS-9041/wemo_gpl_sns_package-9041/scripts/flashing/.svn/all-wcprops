@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing
+END
+adam2flash-fritzbox.pl
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing/adam2flash-fritzbox.pl
+END
+adsl2mue_flash.pl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing/adsl2mue_flash.pl
+END
+adam2flash-502T.pl
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing/adam2flash-502T.pl
+END
+flash.sh
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing/flash.sh
+END
+jungo-image.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing/jungo-image.py
+END
+adam2flash.pl
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/scripts/flashing/adam2flash.pl
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit
+END
+20_failsafe_set_boot_wait_brcm
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit/20_failsafe_set_boot_wait_brcm
+END
+03_init_hotplug_failsafe_brcm
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit/03_init_hotplug_failsafe_brcm
+END
+05_init_interfaces_brcm
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit/05_init_interfaces_brcm
+END
+05_set_failsafe_switch_brcm
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit/05_set_failsafe_switch_brcm
+END
+15_mount_proc_brcm
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit/15_mount_proc_brcm
+END
+15_set_preinit_interface_brcm
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/base-files/lib/preinit/15_set_preinit_interface_brcm
+END

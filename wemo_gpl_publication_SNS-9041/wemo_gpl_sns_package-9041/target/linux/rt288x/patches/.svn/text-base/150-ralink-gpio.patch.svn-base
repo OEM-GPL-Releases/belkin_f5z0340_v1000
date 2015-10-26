@@ -1,0 +1,52 @@
+--- a/drivers/char/Kconfig	2014-03-06 14:35:40.505205527 +0900
++++ a/drivers/char/Kconfig	2014-03-06 13:58:55.424105000 +0900
+@@ -7,6 +7,27 @@
+ config RALINK_GPIO
+ 	tristate "Ralink GPIO Support"
+ 	default y
++choice
++    prompt "Ralink GPIO Support"
++	depends on RALINK_GPIO
++	default RALINK_GPIO_SMART
++
++	config RALINK_GPIO_SMART
++	        bool "GPIO for Smart"
++
++	config RALINK_GPIO_SNS
++	        bool "GPIO for SNS"
++	        
++	config RALINK_GPIO_INSIGHT
++	        bool "GPIO for INSIGHT"
++	        
++	config RALINK_GPIO_LIGHT
++	        bool "GPIO for LIGHT SWITCH"
++	        
++	config RALINK_GPIO_LINK
++	        bool "GPIO for LINK"
++endchoice
++	
+ 
+ config RALINK_GPIO_LED
+ 	bool "Ralink GPIO LED Support"
+--- a/drivers/char/Makefile	2014-03-06 14:35:40.509205527 +0900
++++ a/drivers/char/Makefile	2014-03-06 14:19:14.848833000 +0900
+@@ -13,7 +13,17 @@
+ 
+ obj-y	 += mem.o random.o tty_io.o n_tty.o tty_ioctl.o
+ 
+-obj-$(CONFIG_RALINK_GPIO)	+= ralink_gpio.o
++ifeq ($(CONFIG_RALINK_GPIO),y)
++obj-$(CONFIG_RALINK_GPIO_SMART)	+= ralink_gpio.o
++obj-$(CONFIG_RALINK_GPIO_SNS)	+= ralink_gpio_sns.o
++obj-$(CONFIG_RALINK_GPIO_SNS)	+= led_ioctrl.o
++obj-$(CONFIG_RALINK_GPIO_INSIGHT)	+= ralink_gpio_insight.o
++obj-$(CONFIG_RALINK_GPIO_INSIGHT)	+= led_ioctrl.o
++obj-$(CONFIG_RALINK_GPIO_LIGHT)	+= ralink_gpio_light.o
++obj-$(CONFIG_RALINK_GPIO_LIGHT)	+= led_ioctrl.o
++obj-$(CONFIG_RALINK_GPIO_LINK)	+= ralink_gpio_link.o
++endif
++
+ obj-$(CONFIG_RALINK_GDMA)	+= ralink_gdma.o
+ obj-$(CONFIG_RALINK_SPI) 	+= spi_drv.o
+ obj-$(CONFIG_RALINK_I2C) 	+= i2c_drv.o
+

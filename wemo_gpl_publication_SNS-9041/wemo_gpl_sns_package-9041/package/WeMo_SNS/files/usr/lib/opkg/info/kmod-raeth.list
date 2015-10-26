@@ -1,0 +1,2 @@
+/etc/modules.d/50-raeth
+/lib/modules/2.6.21/raeth.ko

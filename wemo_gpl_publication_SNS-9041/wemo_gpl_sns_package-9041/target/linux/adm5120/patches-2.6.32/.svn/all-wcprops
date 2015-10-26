@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32
+END
+201-amba_bus_hacks.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/201-amba_bus_hacks.patch
+END
+200-amba_pl010_hacks.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/200-amba_pl010_hacks.patch
+END
+102-jedec_pmc_39lvxxx_chips.patch
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/102-jedec_pmc_39lvxxx_chips.patch
+END
+005-adm5120_usb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/005-adm5120_usb.patch
+END
+002-adm5120_flash.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/002-adm5120_flash.patch
+END
+310-adm5120_wdt.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/310-adm5120_wdt.patch
+END
+009-adm5120_leds_switch_trigger.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/009-adm5120_leds_switch_trigger.patch
+END
+003-adm5120_switch.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/003-adm5120_switch.patch
+END
+903-adm5120-usb-use-the-admhcd-structure-directly-in-debugfs-files.patch
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/903-adm5120-usb-use-the-admhcd-structure-directly-in-debugfs-files.patch
+END
+101-cfi_fixup_macronix_bootloc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/101-cfi_fixup_macronix_bootloc.patch
+END
+103-mtd_trxsplit.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/103-mtd_trxsplit.patch
+END
+203-gpio_leds_brightness.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/203-gpio_leds_brightness.patch
+END
+902-adm5120-usb-remove-dev-power-power_state.patch
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/902-adm5120-usb-remove-dev-power-power_state.patch
+END
+901-adm5120-usb-fix-compiler-warning.patch
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/901-adm5120-usb-fix-compiler-warning.patch
+END
+001-adm5120.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/001-adm5120.patch
+END
+007-adm5120_pci.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/007-adm5120_pci.patch
+END
+120-rb153_cf_driver.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/patches-2.6.32/120-rb153_cf_driver.patch
+END

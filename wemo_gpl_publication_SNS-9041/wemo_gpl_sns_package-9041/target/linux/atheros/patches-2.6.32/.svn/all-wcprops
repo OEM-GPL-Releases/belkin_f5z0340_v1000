@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32
+END
+130-watchdog.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/130-watchdog.patch
+END
+220-enet_micrel_workaround.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/220-enet_micrel_workaround.patch
+END
+200-ar2313_enable_mvswitch.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/200-ar2313_enable_mvswitch.patch
+END
+001-get_c0_compare_int_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/001-get_c0_compare_int_fix.patch
+END
+100-board.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/100-board.patch
+END
+110-ar2313_ethernet.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/110-ar2313_ethernet.patch
+END
+141-redboot_various_erase_size_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/141-redboot_various_erase_size_fix.patch
+END
+120-spiflash.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/120-spiflash.patch
+END
+101-early-printk-support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/101-early-printk-support.patch
+END
+105-ar2315_pci.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/105-ar2315_pci.patch
+END
+140-redboot_partition_scan.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/140-redboot_partition_scan.patch
+END
+210-reset_button.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/210-reset_button.patch
+END
+002-mips_clocksource_init_war.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/patches-2.6.32/002-mips_clocksource_init_war.patch
+END

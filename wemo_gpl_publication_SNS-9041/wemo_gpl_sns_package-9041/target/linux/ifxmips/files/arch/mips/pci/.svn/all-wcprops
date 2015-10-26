@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/pci
+END
+ops-ifxmips.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/pci/ops-ifxmips.c
+END
+pci-ifxmips.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/pci/pci-ifxmips.c
+END

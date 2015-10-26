@@ -1,0 +1,59 @@
+Index: libupnp-1.6.19/upnp/src/gena/gena_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/gena/gena_device.c
++++ libupnp-1.6.19/upnp/src/gena/gena_device.c
+@@ -413,6 +413,7 @@ static void genaNotifyThread(
+ 	char *ipaddr = NULL;
+ 	int  fail_count;
+ 
++	char *strtok_r_temp;
+ 	memset(&job, 0, sizeof(job));
+ 
+ 	/* This should be a HandleLock and not a HandleReadLock otherwise if there
+@@ -483,7 +484,7 @@ static void genaNotifyThread(
+ 	return_code = genaNotify(in->headers, in->propertySet, &sub_copy, hostaddr);
+ 	if(sub_copy.failCnt || (return_code == GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB))
+ 	{
+-		ipaddr = strtok(hostaddr, ":");
++		ipaddr = strtok_r(hostaddr, ":",&strtok_r_temp);
+ 
+ 		if(gUPnPLogEnable)
+ 			printme(LOG_DEBUG, "Failed %d to send SID: %s notification to: %s", sub_copy.failCnt, in->sid, ipaddr);
+@@ -1398,9 +1399,10 @@ int check_existing_entry(const char *url
+ 	subscription *subscriptionList = service->subscriptionList;
+ 	int return_code;
+ 	char url_entry_copy[100] = {'\0'};
++	char *strtok_r_temp;
+ 
+ 	strncpy(url_entry_copy, url_entry, 100-1);
+-	ipaddr = strtok(url_entry_copy, ":");
++	ipaddr = strtok_r(url_entry_copy, ":",&strtok_r_temp);
+ 
+ 	if(gUPnPLogEnable)
+ 		printme(LOG_DEBUG, " from IP : %s", ipaddr);
+Index: libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/http/webserver.c
++++ libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+@@ -1364,6 +1364,7 @@ int UpdateXML()
+     FILE* pfWriteStream = 0x00;
+     char szBuff[MAX_FILE_LINE];
+     char szBuff1[MAX_FILE_LINE];
++    char *strtok_r_temp;
+ 
+     memset(szBuff, 0x00, sizeof(szBuff));
+     strncpy(szBuff, "cp /tmp/Belkin_settings/setup.xml /tmp/setup.xml", MAX_FILE_LINE);
+@@ -1395,10 +1396,10 @@ int UpdateXML()
+             int port = 0;
+ 	    char *pch = NULL, *pch2 = NULL;
+ 
+-	    pch = strtok(szBuff, "|");
+-	    pch2 = strtok(NULL, "|");
++	    pch = strtok_r(szBuff, "|",&strtok_r_temp);
++	    pch2 = strtok_r(NULL, "|",&strtok_r_temp);
+ 
+-	    pch = strtok(pch2, "<");
++	    pch = strtok_r(pch2, "<",&strtok_r_temp);
+ 	    if(pch) {
+ 		port = atoi(pch);
+ 	    }

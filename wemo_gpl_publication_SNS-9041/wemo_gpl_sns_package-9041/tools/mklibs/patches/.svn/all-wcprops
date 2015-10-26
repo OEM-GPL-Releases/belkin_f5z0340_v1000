@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches
+END
+005-readelf_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/005-readelf_fixes.patch
+END
+008-gc_sections.patch
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/008-gc_sections.patch
+END
+003-no_copy.patch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/003-no_copy.patch
+END
+002-disable_symbol_checks.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/002-disable_symbol_checks.patch
+END
+009-uclibc_libgcc_link.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/009-uclibc_libgcc_link.patch
+END
+006-duplicate_syms.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/006-duplicate_syms.patch
+END
+007-uclibc_init.patch
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/007-uclibc_init.patch
+END
+001-missing_stdio.patch
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/001-missing_stdio.patch
+END
+004-libpthread_link.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/tools/mklibs/patches/004-libpthread_link.patch
+END

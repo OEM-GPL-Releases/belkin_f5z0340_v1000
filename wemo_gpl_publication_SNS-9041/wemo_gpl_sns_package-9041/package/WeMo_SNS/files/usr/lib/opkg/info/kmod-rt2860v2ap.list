@@ -1,0 +1,2 @@
+/etc/modules.d/50-rt2860v2ap
+/lib/modules/2.6.21/rt2860v2_ap.ko

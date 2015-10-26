@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips
+END
+mipsregs.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/mipsregs.h
+END
+global_data.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/global_data.h
+END
+regdef.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/regdef.h
+END
+byteorder.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/byteorder.h
+END
+bitops.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/bitops.h
+END
+types.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/types.h
+END
+isadep.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/isadep.h
+END
+u-boot.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/u-boot.h
+END
+cachectl.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/cachectl.h
+END
+string.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/string.h
+END
+io.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/io.h
+END
+reg.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/reg.h
+END
+ptrace.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/ptrace.h
+END
+au1x00.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/au1x00.h
+END
+processor.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/processor.h
+END
+inca-ip.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/inca-ip.h
+END
+sgidefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/sgidefs.h
+END
+system.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/system.h
+END
+cacheops.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/cacheops.h
+END
+posix_types.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/posix_types.h
+END
+addrspace.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/include/asm-mips/addrspace.h
+END

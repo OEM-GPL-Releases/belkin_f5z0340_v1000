@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches
+END
+160-update_includes_for_iw.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/160-update_includes_for_iw.patch
+END
+140-fix-linking-libnl-genl.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/140-fix-linking-libnl-genl.patch
+END
+100-static.patch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/100-static.patch
+END
+110-offsetof.patch
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/110-offsetof.patch
+END
+150-fix-libnl-pc-config.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/150-fix-libnl-pc-config.patch
+END
+170-fix_netlink_local_missing_limits_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/170-fix_netlink_local_missing_limits_h.patch
+END
+120-add_if_vlan.h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/120-add_if_vlan.h.patch
+END
+130-fix_minor_memleaks_on_exit.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl/patches/130-fix_minor_memleaks_on_exit.patch
+END

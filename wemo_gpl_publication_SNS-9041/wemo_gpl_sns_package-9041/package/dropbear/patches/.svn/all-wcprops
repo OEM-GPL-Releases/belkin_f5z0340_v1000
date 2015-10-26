@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/dropbear/patches
+END
+150-dbconvert_standalone.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/dropbear/patches/150-dbconvert_standalone.patch
+END
+110-change_user.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/dropbear/patches/110-change_user.patch
+END
+130-ssh_ignore_o_and_x_args.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/dropbear/patches/130-ssh_ignore_o_and_x_args.patch
+END
+100-pubkey_path.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/dropbear/patches/100-pubkey_path.patch
+END

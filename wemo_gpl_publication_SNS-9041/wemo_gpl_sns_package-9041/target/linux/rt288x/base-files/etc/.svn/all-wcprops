@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc
+END
+banner
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/banner
+END
+check_mount_media.sh
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/check_mount_media.sh
+END
+force_mount_media.sh
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/force_mount_media.sh
+END
+ntp.sh
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/ntp.sh
+END
+group
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/group
+END
+proc_sys_kernel_hotplug.sh
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/proc_sys_kernel_hotplug.sh
+END
+mdev_mount_umount.sh
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/mdev_mount_umount.sh
+END
+rc.local
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/base-files/etc/rc.local
+END

@@ -1,0 +1,21 @@
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_server.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+@@ -922,6 +922,16 @@ void readFromSSDPSocket(SOCKET socket)
+ 					return;
+ 				}
+ 			}
++	    
++			if(strstr(requestBuf, "ssdp:discover"))
++                        {
++                            if(!(strstr(requestBuf, "urn:Belkin")) && !(strstr(requestBuf, "upnp:rootdevice")))
++                            {
++                                //printf("M-SEARCH from device with non wemo ST\n");
++                                free_ssdp_event_handler_data( data );
++                                return;
++                            }
++                        }
+ 
+ 			data->job_id = gSsdpRecvThreadPool.lastJobId;
+ 			TPJobInit( &job, ( start_routine )

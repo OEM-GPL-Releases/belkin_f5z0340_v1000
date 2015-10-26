@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog
+END
+msgbox.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/msgbox.c
+END
+lxdialog.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/lxdialog.c
+END
+dialog.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/dialog.h
+END
+colors.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/colors.h
+END
+inputbox.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/inputbox.c
+END
+checklist.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/checklist.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/Makefile
+END
+BIG.FAT.WARNING
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/BIG.FAT.WARNING
+END
+menubox.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/menubox.c
+END
+textbox.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/textbox.c
+END
+util.c
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/util.c
+END
+yesno.c
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/scripts/lxdialog/yesno.c
+END

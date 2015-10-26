@@ -1,0 +1,36 @@
+Index: libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/http/webserver.c	2015-02-17 16:22:39.701528516 +0530
++++ libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c	2015-02-17 16:23:57.177526792 +0530
+@@ -67,6 +67,7 @@
+ #endif
+ 
+ extern int gWebIconVersion;
++extern volatile int gRestartRuleEngine;
+ 
+ /*!
+  * Response Types.
+@@ -1447,9 +1448,6 @@
+ 	int ret_code = HTTP_OK;
+ 	char buff[ICON_BUF];
+ 
+-	//- Check it to post db file or not, if db file. duplcaite it
+-	int isDatabasePosted = 0x00;
+-	
+ 	if (0x00 != strstr(filename, "rules.db"))
+ 	{
+ 		if(gUPnPLogEnable)
+@@ -1459,7 +1457,12 @@
+ 
+ 		char* cmd = "cp -f /tmp/Belkin_settings/rules.db /tmp/Belkin_settings/rules1.db";
+ 		system(cmd);
+-		isDatabasePosted = 0x01;
++
++		if(1 == gRestartRuleEngine)
++		{
++			printf("\n%s:%s:%d:Restart rules engine now...\n", __FILE__, __FUNCTION__, __LINE__);
++			gRestartRuleEngine = 2; //RULE_ENGINE_RELOAD
++		}
+ 	}
+ 	else if (0x00 != strstr(filename, "icon.jpg"))
+ 	{

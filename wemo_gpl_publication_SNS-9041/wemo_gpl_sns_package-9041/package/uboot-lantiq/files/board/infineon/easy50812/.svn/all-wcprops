@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812
+END
+ar9_ddr221_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/ar9_ddr221_settings.h
+END
+ar9_ddr250_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/ar9_ddr250_settings.h
+END
+u-boot.lds
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/u-boot.lds
+END
+ar9_ddr166_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/ar9_ddr166_settings.h
+END
+pmuenable.S
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/pmuenable.S
+END
+ar9_ddr196_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/ar9_ddr196_settings.h
+END
+config.mk
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/config.mk
+END
+ar9.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/ar9.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/Makefile
+END
+ar9_ddr111_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/ar9_ddr111_settings.h
+END
+lowlevel_init.S
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50812/lowlevel_init.S
+END

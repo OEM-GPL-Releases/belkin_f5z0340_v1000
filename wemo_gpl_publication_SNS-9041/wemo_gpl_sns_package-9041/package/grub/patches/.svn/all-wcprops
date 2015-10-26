@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/grub/patches
+END
+002-strip_note_gnu_build_id.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/grub/patches/002-strip_note_gnu_build_id.patch
+END
+010-fixes-1.patch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/grub/patches/010-fixes-1.patch
+END

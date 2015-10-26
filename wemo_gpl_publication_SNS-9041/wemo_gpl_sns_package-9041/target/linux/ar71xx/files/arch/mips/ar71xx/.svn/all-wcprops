@@ -1,0 +1,371 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx
+END
+gpio.c
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/gpio.c
+END
+mach-dir-615-c1.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-dir-615-c1.c
+END
+Kconfig
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/Kconfig
+END
+dev-leds-gpio.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-leds-gpio.c
+END
+setup.c
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/setup.c
+END
+early_printk.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/early_printk.c
+END
+dev-leds-gpio.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-leds-gpio.h
+END
+dev-ap91-eth.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ap91-eth.c
+END
+mach-rb750.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-rb750.c
+END
+mach-tl-wr1043nd.c
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-tl-wr1043nd.c
+END
+dev-pb9x-pci.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-pb9x-pci.c
+END
+dev-ap91-eth.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ap91-eth.h
+END
+dev-pb9x-pci.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-pb9x-pci.h
+END
+mach-ubnt.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-ubnt.c
+END
+mach-wnr2000.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-wnr2000.c
+END
+mach-ap81.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-ap81.c
+END
+mach-ap83.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-ap83.c
+END
+devices.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/devices.c
+END
+mach-mzk-w04nu.c
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-mzk-w04nu.c
+END
+mach-pb92.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-pb92.c
+END
+dev-dsa.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-dsa.c
+END
+nvram.c
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/nvram.c
+END
+mach-wrt400n.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-wrt400n.c
+END
+mach-dir-600-a1.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-dir-600-a1.c
+END
+devices.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/devices.h
+END
+dev-ar913x-wmac.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ar913x-wmac.c
+END
+dev-dsa.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-dsa.h
+END
+nvram.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/nvram.h
+END
+mach-wzr-hp-g300nh.c
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-wzr-hp-g300nh.c
+END
+irq.c
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/irq.c
+END
+dev-pb42-pci.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-pb42-pci.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/Makefile
+END
+dev-ar913x-wmac.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ar913x-wmac.h
+END
+dev-ap91-pci.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ap91-pci.c
+END
+mach-dir-825-b1.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-dir-825-b1.c
+END
+dev-pb42-pci.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-pb42-pci.h
+END
+dev-ap94-pci.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ap94-pci.c
+END
+mach-wrt160nl.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-wrt160nl.c
+END
+dev-ap91-pci.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ap91-pci.h
+END
+dev-usb.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-usb.c
+END
+dev-gpio-buttons.c
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-gpio-buttons.c
+END
+dev-m25p80.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-m25p80.c
+END
+dev-ap94-pci.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-ap94-pci.h
+END
+dev-usb.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-usb.h
+END
+dev-gpio-buttons.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-gpio-buttons.h
+END
+pci.c
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/pci.c
+END
+dev-m25p80.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/dev-m25p80.h
+END
+mach-pb42.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-pb42.c
+END
+mach-rb4xx.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-rb4xx.c
+END
+prom.c
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/prom.c
+END
+mach-pb44.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-pb44.c
+END
+machtype.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/machtype.h
+END
+mach-tew-632brp.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-tew-632brp.c
+END
+mach-mzk-w300nh.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-mzk-w300nh.c
+END
+mach-tl-wr841n.c
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-tl-wr841n.c
+END
+mach-aw-nr580.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-aw-nr580.c
+END
+mach-wp543.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-wp543.c
+END
+mach-tl-wr741nd.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-tl-wr741nd.c
+END
+ar71xx.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/ar71xx.c
+END
+mach-wndr3700.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-wndr3700.c
+END
+mach-tl-wr941nd.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/files/arch/mips/ar71xx/mach-tl-wr941nd.c
+END

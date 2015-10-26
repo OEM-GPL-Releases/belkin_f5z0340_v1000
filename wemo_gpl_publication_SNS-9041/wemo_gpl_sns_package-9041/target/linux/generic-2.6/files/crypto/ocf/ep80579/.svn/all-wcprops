@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579
+END
+icp_common.c
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/icp_common.c
+END
+icp_sym.c
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/icp_sym.c
+END
+icp_asym.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/icp_asym.c
+END
+linux_2.6_kernel_space.mk
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/linux_2.6_kernel_space.mk
+END
+icp_ocf.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/icp_ocf.h
+END
+environment.mk
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/environment.mk
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/ep80579/Makefile
+END

@@ -1,0 +1,14 @@
+uuid:Socket
+uuid:Bridge
+uuid:Sensor
+uuid:Crockpot
+uuid:Lightswitch
+uuid:Insight
+uuid:NetCamSensor
+uuid:Maker
+uuid:Link
+uuid:AirPurifier
+uuid:CoffeeMaker
+uuid:Humidifier
+uuid:Heater
+uuid:Echo

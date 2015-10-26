@@ -1,0 +1,25 @@
+Index: linux-2.6.21/drivers/block/Kconfig
+===================================================================
+--- linux-2.6.21.orig/drivers/block/Kconfig	2012-04-04 08:59:32.603928864 -0700
++++ linux-2.6.21/drivers/block/Kconfig	2007-04-25 20:08:32.000000000 -0700
+@@ -361,7 +361,6 @@
+ 
+ config BLK_DEV_RAM
+ 	tristate "RAM disk support"
+-	depends on RT2880_ROOTFS_IN_RAM
+ 	---help---
+ 	  Saying Y here will allow you to use a portion of your RAM memory as
+ 	  a block device, so that you can make file systems on it, read and
+Index: linux-2.6.21/init/Kconfig
+===================================================================
+--- linux-2.6.21.orig/init/Kconfig	2012-04-04 08:59:48.163687146 -0700
++++ linux-2.6.21/init/Kconfig	2012-04-04 09:00:53.923675156 -0700
+@@ -306,7 +306,7 @@
+ 
+ config BLK_DEV_INITRD
+ 	bool "Initial RAM filesystem and RAM disk (initramfs/initrd) support"
+-	depends on (BROKEN || !FRV) && RT2880_ROOTFS_IN_RAM
++	depends on BROKEN || !FRV
+ 	help
+ 	  The initial RAM filesystem is a ramfs which is loaded by the
+ 	  boot loader (loadlin or lilo) and that is mounted as root

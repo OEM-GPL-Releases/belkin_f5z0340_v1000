@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s
+END
+i2s_ctrl.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/i2s_ctrl.c
+END
+i2s_debug.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/i2s_debug.c
+END
+audiohw.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/audiohw.h
+END
+i2s_ctrl.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/i2s_ctrl.h
+END
+wm8750.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/wm8750.c
+END
+amazinggrace.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/amazinggrace.c
+END
+wm8751.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/wm8751.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/README
+END
+wm8750.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/wm8750.h
+END
+wm8751.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/files/drivers/char/i2s/wm8751.h
+END

@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers
+END
+ralink_spi.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ralink_spi.h
+END
+ehci-core.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ehci-core.h
+END
+vtss.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/vtss.h
+END
+ehci-hcd.c
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ehci-hcd.c
+END
+spi_drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/spi_drv.c
+END
+rt2880_eth.c
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/rt2880_eth.c
+END
+spi_flash.c
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/spi_flash.c
+END
+ehci-ra.c
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ehci-ra.c
+END
+ehci.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ehci.h
+END
+ohci-hcd.c
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ohci-hcd.c
+END
+mii_mgr.c
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/mii_mgr.c
+END
+ralink_nand.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ralink_nand.h
+END
+ohci.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/ohci.h
+END
+i2c_drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/i2c_drv.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/Makefile
+END
+nand_flash.c
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/drivers/nand_flash.c
+END

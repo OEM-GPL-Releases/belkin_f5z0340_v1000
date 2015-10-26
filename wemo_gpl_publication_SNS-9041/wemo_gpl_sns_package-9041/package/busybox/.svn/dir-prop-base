@@ -1,0 +1,14 @@
+K 13
+svn:mergeinfo
+V 633
+/branches/backfire_sdk/package/busybox:3817-3992
+/branches/backfire_smart/package/busybox:4406-4552,5633,5874,6115,6525-6603,6745,6799,6970,7034
+/branches/backfire_smart_corewifi_mic/package/busybox:5933
+/branches/backfire_smart_memtrack/package/busybox:6229-6599
+/branches/backfire_smart_netcam/package/busybox:7056-7552
+/branches/backfire_wifi_integration/package/busybox:4416-4474
+/branches/wemo_dev_pro_RC_1_10/package/busybox:7258-7619
+/branches/wemo_dev_pro_RC_1_10_WEMO-31028/package/busybox:7400-7511
+/branches/wemo_dev_pro_RC_1_11/package/busybox:7593-7957
+/branches/wemo_dev_pro_RC_1_11_WEMO-30941/package/busybox:7634-7642
+END

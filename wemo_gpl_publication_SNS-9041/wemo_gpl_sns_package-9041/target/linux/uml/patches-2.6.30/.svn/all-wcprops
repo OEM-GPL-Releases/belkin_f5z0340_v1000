@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/uml/patches-2.6.30
+END
+002-gcc4_unfortify_source.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/uml/patches-2.6.30/002-gcc4_unfortify_source.patch
+END
+005-fix_bash4_builds.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/uml/patches-2.6.30/005-fix_bash4_builds.patch
+END
+001-gcc4_unit_at_a_time_i386_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/uml/patches-2.6.30/001-gcc4_unit_at_a_time_i386_fix.patch
+END
+901-lib_zlib_deflate_visible.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/uml/patches-2.6.30/901-lib_zlib_deflate_visible.patch
+END
+004-fix_section_warning.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/uml/patches-2.6.30/004-fix_section_warning.patch
+END

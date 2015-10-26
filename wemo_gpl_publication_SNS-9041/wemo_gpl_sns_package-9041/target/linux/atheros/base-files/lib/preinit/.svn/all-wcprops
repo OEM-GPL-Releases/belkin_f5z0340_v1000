@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/base-files/lib/preinit
+END
+15_preinit_iface_atheros
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/atheros/base-files/lib/preinit/15_preinit_iface_atheros
+END

@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles
+END
+compex.mk
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/compex.mk
+END
+linksys.mk
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/linksys.mk
+END
+01-madwifi.mk
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/01-madwifi.mk
+END
+buffalo.mk
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/buffalo.mk
+END
+d-link.mk
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/d-link.mk
+END
+tp-link.mk
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/tp-link.mk
+END
+atlantis.mk
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/atlantis.mk
+END
+00-default.mk
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/00-default.mk
+END
+trendnet.mk
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/trendnet.mk
+END
+atheros.mk
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/atheros.mk
+END
+netgear.mk
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/netgear.mk
+END
+planex.mk
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/planex.mk
+END
+ubnt.mk
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/profiles/ubnt.mk
+END

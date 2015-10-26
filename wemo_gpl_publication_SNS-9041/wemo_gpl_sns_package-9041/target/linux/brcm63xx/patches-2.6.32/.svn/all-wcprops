@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32
+END
+170-board_livebox.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/170-board_livebox.patch
+END
+007-usb-ohci-support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/007-usb-ohci-support.patch
+END
+012-mips_add_readl_writel_be_accessors.patch
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/012-mips_add_readl_writel_be_accessors.patch
+END
+180-udc_preliminary_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/180-udc_preliminary_support.patch
+END
+110-gpiodev.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/110-gpiodev.patch
+END
+011-add_bcm63xx_ehci_controller.patch
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/011-add_bcm63xx_ehci_controller.patch
+END
+210-init_gpio_out_low_high_current_value_at_boot.patch
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/210-init_gpio_out_low_high_current_value_at_boot.patch
+END
+100-reset_buttons.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/100-reset_buttons.patch
+END
+140-new_bcm96348gw_leds.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/140-new_bcm96348gw_leds.patch
+END
+040-bcm963xx_flashmap.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/040-bcm963xx_flashmap.patch
+END
+020-watchdog.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/020-watchdog.patch
+END
+120-board_rta1025w_16.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/120-board_rta1025w_16.patch
+END
+220-board-D4PW.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/220-board-D4PW.patch
+END
+010-add_bcm63xx_ohci_controller.patch
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/010-add_bcm63xx_ohci_controller.patch
+END
+190-typo_cpu_features_override.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/190-typo_cpu_features_override.patch
+END
+009-fix-double-gpio-registration.patch
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/009-fix-double-gpio-registration.patch
+END
+150-alice_gate2_leds.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/150-alice_gate2_leds.patch
+END
+130-board_DWVS0.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/130-board_DWVS0.patch
+END
+070_bcm63xx_enet_vlan_incoming_fixed.patch
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/070_bcm63xx_enet_vlan_incoming_fixed.patch
+END
+008-usb-ehci-support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/008-usb-ehci-support.patch
+END
+160-fix_gpio_count.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm63xx/patches-2.6.32/160-fix_gpio_count.patch
+END

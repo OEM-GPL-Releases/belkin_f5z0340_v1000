@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30
+END
+000-mips-bad-intctl.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/000-mips-bad-intctl.patch
+END
+500-arv452.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/500-arv452.patch
+END
+100-board.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/100-board.patch
+END
+140-mtd.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/140-mtd.patch
+END
+200-genirq_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/200-genirq_fix.patch
+END
+010-mips_clocksource_init_war.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/010-mips_clocksource_init_war.patch
+END
+150-wdt.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/150-wdt.patch
+END
+400-atm_hack.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/400-atm_hack.patch
+END
+160-led.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/160-led.patch
+END
+600-ebu-gpio.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/600-ebu-gpio.patch
+END
+300-cfi0001-swap.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/300-cfi0001-swap.patch
+END
+110-pci.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/110-pci.patch
+END
+310-cfi0002-swap.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/310-cfi0002-swap.patch
+END
+130-ethernet.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/130-ethernet.patch
+END
+120-serial.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/patches-2.6.30/120-serial.patch
+END

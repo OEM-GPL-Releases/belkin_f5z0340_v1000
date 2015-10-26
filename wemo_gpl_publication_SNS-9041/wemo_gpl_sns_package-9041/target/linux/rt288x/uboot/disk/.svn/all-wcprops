@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk
+END
+part_dos.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_dos.h
+END
+part_iso.c
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_iso.c
+END
+part_amiga.c
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_amiga.c
+END
+part_iso.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_iso.h
+END
+part.c
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part.c
+END
+part_mac.c
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_mac.c
+END
+part_amiga.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_amiga.h
+END
+part_dos.c
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_dos.c
+END
+part_mac.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/part_mac.h
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/uboot/disk/Makefile
+END

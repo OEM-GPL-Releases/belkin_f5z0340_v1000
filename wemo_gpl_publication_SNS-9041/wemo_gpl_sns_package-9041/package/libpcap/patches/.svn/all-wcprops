@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches
+END
+201-space_optimization.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/201-space_optimization.patch
+END
+101-makefile_create_bindir.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/101-makefile_create_bindir.patch
+END
+103-makefile_flex_workaround.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/103-makefile_flex_workaround.patch
+END
+102-makefile_disable_manpages.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/102-makefile_disable_manpages.patch
+END
+202-protocol_api.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/202-protocol_api.patch
+END
+100-debian_shared_lib.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/100-debian_shared_lib.patch
+END
+203-undef_iw_mode_monitor.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/203-undef_iw_mode_monitor.patch
+END
+200-debian_fix_any_intf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpcap/patches/200-debian_fix_any_intf.patch
+END

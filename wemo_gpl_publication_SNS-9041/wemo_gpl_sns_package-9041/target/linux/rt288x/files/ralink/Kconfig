@@ -1,0 +1,40 @@
+menu "Ralink Module"
+
+config RTDEV_USB
+bool
+default y if RT305x_INIC_USB || RT3572_AP || RT5572_AP
+
+config RTDEV_MII
+bool
+default y if RT2880v2_INIC_MII || RT305x_INIC_MII
+
+config RTDEV_PCI
+bool
+default y if RT2880v2_INIC_PCI || RT3090_AP || RT5392_AP
+
+config  UNIQUE_WPS
+	bool "Unique WPS for Concurrent AP"
+        depends on RT2860V2_AP_WSC
+        depends on RT3090_AP_WSC || RT3572_AP_WSC || RT5392_AP_WSC || RT5572_AP_WSC
+	default n
+#######
+# USB
+#######
+source "drivers/usb/dwc_otg/Kconfig"
+
+#######
+# NAT
+#######
+choice
+prompt "Ralink NAT Type"
+
+
+config  RA_NAT_NONE
+bool "None"
+config  RA_NAT_HW
+bool "Hardware"
+depends on !RALINK_RT5350
+endchoice
+
+endmenu
+

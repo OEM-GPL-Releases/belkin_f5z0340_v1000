@@ -1,0 +1,19 @@
+K 13
+svn:mergeinfo
+V 1005
+/branches/backfire_sdk/package/NatClient:3817-3992
+/branches/backfire_smart/package/NatClient:4406-4552,5633,5874,6115,6525-6603,6745,6799,6970,7034
+/branches/backfire_smart_corewifi_gpl/package/NatClient:7761-7912
+/branches/backfire_smart_corewifi_mic/package/NatClient:5933
+/branches/backfire_smart_memtrack/package/NatClient:6229-6599
+/branches/backfire_smart_netcam/package/NatClient:7056-7552
+/branches/backfire_wifi_integration/package/NatClient:4416-4474
+/branches/wemo_dev_pro_RC_1_10/package/NatClient:7258-7619,7682-7695,7740
+/branches/wemo_dev_pro_RC_1_10_WEMO-31028/package/NatClient:7400-7511
+/branches/wemo_dev_pro_RC_1_11/package/NatClient:7593-7957
+/branches/wemo_dev_pro_RC_1_11_CES_2015/package/NatClient:7709-7908
+/branches/wemo_dev_pro_RC_1_12/package/NatClient:8653-8657
+/branches/wemo_dev_pro_RC_1_12_LEDLight_HomeSense_merge/package/NatClient:8469-8658
+/branches/wemo_dev_pro_RC_1_12_gpl_merge/package/NatClient:7961,8130-8154
+/branches/wemo_dev_smart_RC_1_13/package/NatClient:8810
+END

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/acx-mac80211/patches
+END
+002-tx_queue_stats_removal.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/acx-mac80211/patches/002-tx_queue_stats_removal.patch
+END
+004-vlynq_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/acx-mac80211/patches/004-vlynq_fixes.patch
+END
+001-if_init_conf_removal.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/acx-mac80211/patches/001-if_init_conf_removal.patch
+END
+003-build_as_modules.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/acx-mac80211/patches/003-build_as_modules.patch
+END
+005-do_not_override_pci.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/acx-mac80211/patches/005-do_not_override_pci.patch
+END

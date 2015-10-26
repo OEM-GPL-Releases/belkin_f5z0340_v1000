@@ -1,0 +1,253 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006 OpenWrt.org
+
+START=10
+STOP=98
+
+DAT_FILE="/tmp/RT2860.dat"
+
+system_config() {
+	local cfg="$1"
+
+	local hostname conloglevel timezone
+
+	config_get hostname "$cfg" hostname 'OpenWrt'
+	echo "$hostname" > /proc/sys/kernel/hostname
+
+	config_get conloglevel "$cfg" conloglevel
+	config_get buffersize "$cfg" buffersize
+	[ -z "$conloglevel" -a -z "$buffersize" ] || dmesg ${conloglevel:+-n $conloglevel} ${buffersize:+-s $buffersize}
+
+	config_get timezone "$cfg" timezone 'UTC'
+	echo "$timezone" > /tmp/TZ
+
+	if [ -x /sbin/syslogd ]; then
+		local log_ip log_size log_port log_type log_file
+		config_get log_ip "$cfg" log_ip
+		config_get log_size "$cfg" log_size 45
+		config_get log_port "$cfg" log_port 514
+		config_get log_type "$cfg" log_type file
+		config_get log_file "$cfg" log_file "/var/log/messages"
+		if [ "$log_type" = "file" ]; then
+			syslogd -s $log_size -O $log_file ${log_ip:+-L -R ${log_ip}:${log_port}} -S
+		else
+			syslogd -C${log_size} ${log_ip:+-L -R ${log_ip}:${log_port}}
+		fi
+	fi
+	config_get klogconloglevel "$cfg" klogconloglevel
+	[ -x /sbin/klogd ] && klogd ${klogconloglevel:+-c $klogconloglevel}
+}
+
+apply_uci_config() {
+	sh -c '. /etc/functions.sh; include /lib/config; uci_apply_defaults'
+}
+
+create_rt2860_dat() {
+# setup wifi with check country code.
+echo "#The word of "Default" must not be removed
+Default" > /tmp/RT2860.dat
+
+nvram_target_country=`nvram_get target_country | cut -f2 -d=`
+target_country="`echo ${nvram_target_country} | tr "[A-Z]" "[a-z]"`"
+echo "##### WiFi setup for $target_country" >> /dev/console
+if [ "${target_country}x" != "usx" ]; then
+
+echo "CountryRegion=1
+CountryRegionABand=2
+CountryCode=FR
+Channel=12" >> $DAT_FILE 
+
+else
+
+echo "CountryRegion=0
+CountryRegionABand=7
+CountryCode=US
+Channel=1" >> $DAT_FILE 
+
+fi
+
+nvram_serial_number=`nvram_get SerialNumber | cut -f2 -d=`
+SSID_PREFIX="`echo ${nvram_serial_number} | cut -b 12-14`"
+SKU_1="`echo ${nvram_serial_number} | cut -b 7-7`"
+SKU_2="`echo ${nvram_serial_number} | cut -b 9-9`"
+if [ "${SKU_1}x" == "Kx" ]; then
+	if [ "${SKU_2}x" == "1x" ]; then
+		echo "SSID1=WeMo.Switch.${SSID_PREFIX}" >> $DAT_FILE 
+	elif [ "${SKU_2}x" == "2x" ]; then
+		echo "SSID1=WeMo.Insight.${SSID_PREFIX}" >> $DAT_FILE 
+	elif [ "${SKU_2}x" == "3x" ]; then
+		echo "SSID1=WeMo.Light.${SSID_PREFIX}" >> $DAT_FILE 
+	fi
+elif [ "${SKU_1}x" == "Lx" ]; then
+	echo "SSID1=WeMo.Motion.${SSID_PREFIX}" >> $DAT_FILE 
+else	
+	echo "SSID1=WeMo.Unknown.${SSID_PREFIX}" >> $DAT_FILE 
+fi
+
+cat /etc/Wireless/RT2860/RT2860.dat.base >> $DAT_FILE 
+}
+
+start() {
+   [ -f /proc/mounts ] || /sbin/mount_root
+   [ -f /proc/jffs2_bbc ] && echo "S" > /proc/jffs2_bbc
+   [ -f /proc/net/vlan/config ] && vconfig set_name_type DEV_PLUS_VID_NO_PAD
+
+   # create /tmp/fw_env.config
+   lock /tmp/.switch2jffs
+#   fw_config=/tmp/fw_env.config
+#   if [ ! -f $fw_config ]; then
+#       set -- $(grep Uboot_env /proc/mtd | sed s/://)
+#      env_part=$1
+#      erase_size=$3
+#      if [ "${env_part}x" != "x" ]; then
+#	 echo "/dev/${env_part} 0x0 0x1000 ${erase_size}" > $fw_config
+#      fi
+#   fi
+
+#   # create /tmp/nvram.config
+#   nvram_config=/tmp/nvram.config
+#   if [ ! -f $nvram_config ]; then
+#       set -- $(grep -i nvram /proc/mtd | sed s/://)
+#      env_nv_part=$1
+#      env_nv_size=$2
+#      erase_nv_size=$3
+#      if [ "${env_nv_part}x" != "x" ]; then
+#	 echo "/dev/${env_nv_part} 0x0 ${env_nv_size} ${erase_nv_size}" > $nvram_config
+#      fi
+#   fi
+   
+   set -- $(grep -i Belkin_settings /proc/mtd | sed s/:// | sed s/mtd//)
+   belkin_part=$1
+   if [ "${belkin_part}x" != "x" ]; then
+      mkdir /tmp/Belkin_settings
+      mount -t jffs2 /dev/mtdblock${belkin_part} /tmp/Belkin_settings
+   fi
+   lock -u /tmp/.switch2jffs
+
+	echo " " >> /dev/console
+	echo "********************************************************************" >> /dev/console
+	echo " Copyright (c) 2013 by Belkin, Inc. All Rights Reserved." >> /dev/console
+	echo " `cat /etc/ver.txt`" >> /dev/console
+	echo "********************************************************************" >> /dev/console
+	TEST_NVRAM="test_nvram"
+	STR_TEST_NVRAM="verified"
+	device_test_nvram=`nvram firstread $TEST_NVRAM | cut -f2 -d=`
+	if [ "${device_test_nvram}x" != "${STR_TEST_NVRAM}x" ]; then
+		nvram updatecrc
+		nvram_set $TEST_NVRAM $STR_TEST_NVRAM
+		device_test_nvram=`nvram_get $TEST_NVRAM | cut -f2 -d=`
+		if [ "${device_test_nvram}x" != "${STR_TEST_NVRAM}x" ]; then
+			echo "nvram parition is corrupted reinitializing..." >> /dev/console
+			echo "********************************************************************" >> /dev/console
+			nvram reset
+			nvram_set $TEST_NVRAM $STR_TEST_NVRAM
+		fi
+	fi
+
+	nvram_sn=`nvram_get SerialNumber | cut -f2 -d=`
+	nvram_tc=`nvram_get target_country | cut -f2 -d=`
+	nvram_cc=`nvram_get country_code | cut -f2 -d=`
+	nvram_wm=`nvram_get wl0_macaddr | cut -f2 -d=`
+	nvram_ctfsn=`nvram_get cwf_serial_number | cut -f2 -d=`
+	nvram_hv=`nvram_get hwVersion`
+	echo "##### nvram SerialNumber : ${nvram_sn}" >> /dev/console
+	echo "##### nvram target_country : ${nvram_tc}" >> /dev/console
+	echo "##### nvram country_code : ${nvram_cc}" >> /dev/console
+	echo "##### nvram wl0_macaddr : ${nvram_wm}" >> /dev/console
+	echo "##### nvram cwf_serial_number : ${nvram_ctfsn}" >> /dev/console
+	echo "##### nvram hwVersion : ${nvram_hv}" >> /dev/console
+
+	if [ "${nvram_sn}x" == "x" ]; then
+		factory_sn=`mtd factory_get serial`
+		echo "##### factory serial_number : ${factory_sn}" >> /dev/console
+		nvram_set SerialNumber $factory_sn
+	fi
+	if [ "${nvram_tc}x" == "x" ]; then
+		factory_tc=`mtd factory_get country`
+		echo "##### factory target_country : ${factory_tc}" >> /dev/console
+		nvram_set target_country $factory_tc
+	fi
+	if [ "${nvram_cc}x" == "x" ]; then
+		factory_cc=`mtd factory_get region`
+		echo "##### factory country_code : ${factory_cc}" >> /dev/console
+		nvram_set country_code $factory_cc
+	fi
+
+	if [ "${nvram_wm}x" == "x" ]; then
+		factory_wm=`mtd factory_get wl_mac`
+		echo "##### factory wl0_macaddr : ${factory_wm}" >> /dev/console
+		nvram_set wl0_macaddr $factory_wm
+	fi
+
+	if [ "${nvram_ctfsn}x" == "x" ]; then
+		factory_ctfsn=`mtd factory_get serial`
+		echo "##### factory cwf_serial_number : ${factory_ctfsn}" >> /dev/console
+		nvram_set cwf_serial_number $factory_ctfsn
+	fi
+
+	STR_PRODNAME=`cat /etc/product.name`
+	echo "##### factory product.name : ${STR_PRODNAME}" >> /dev/console
+	if [ $STR_PRODNAME == "WeMo_insightCR" ]; then
+		STR_HWVERSION="2"
+	else
+		STR_HWVERSION="1"
+	fi
+	if [ "${nvram_hv}x" != "${STR_HWVERSION}x" ]; then
+		echo "##### factory hwVersion : ${STR_HWVERSION}" >> /dev/console
+		nvram_set hwVersion $STR_HWVERSION
+	fi
+
+   create_rt2860_dat
+   apply_uci_config
+   config_load system
+   config_foreach system_config system
+
+   mkdir -p /var/run
+   mkdir -p /var/log
+   mkdir -p /var/lock
+   mkdir -p /var/state
+   mkdir -p /tmp/.uci
+   chmod 0700 /tmp/.uci
+   touch /var/log/wtmp
+   touch /var/log/lastlog
+   touch /tmp/resolv.conf.auto
+   ln -sf /tmp/resolv.conf.auto /tmp/resolv.conf
+   grep -q debugfs /proc/filesystems && mount -t debugfs debugfs /sys/kernel/debug
+   [ "$FAILSAFE" = "true" ] && touch /tmp/.failsafe
+
+   killall -q hotplug2
+   [ -x /sbin/hotplug2 ] && /sbin/hotplug2 --override --persistent \
+		  --set-worker /lib/hotplug2/worker_fork.so \
+		  --set-rules-file /etc/hotplug2.rules \
+		  --max-children 1 >/dev/null 2>&1 &
+
+   # the coldplugging of network interfaces needs to happen later, so we do it manually here
+   for iface in $(awk -F: '/:/ {print $1}' /proc/net/dev); do
+	  /usr/bin/env -i ACTION=add INTERFACE="$iface" /sbin/hotplug-call net
+   done
+
+   # create /dev/root if it doesn't exist
+   [ -e /dev/root ] || {
+	  rootdev=$(awk 'BEGIN { RS=" "; FS="="; } $1 == "root" { print $2 }' < /proc/cmdline)
+	  [ -n "$rootdev" ] && ln -s "$rootdev" /dev/root
+   }
+
+   load_modules /etc/modules.d/*
+
+	checkboot=`fw_printenv -n check_boot`
+	if [ "${checkboot}x" == "1x" ]; then
+		boot_state=$(fw_printenv -n bootstate)
+		if [ "${boot_state}x" == "1x" -o "${boot_state}x" == "3x" ]; then
+			if [ -f /sbin/update_test.sh ]; then
+				# an update has been applied, test that its' working
+				/sbin/update_test.sh 0 &
+			fi
+		else
+			fw_setenv check_boot 0
+		fi
+	fi
+}
+
+stop() {
+        killall -9 syslogd 2> /dev/null
+}

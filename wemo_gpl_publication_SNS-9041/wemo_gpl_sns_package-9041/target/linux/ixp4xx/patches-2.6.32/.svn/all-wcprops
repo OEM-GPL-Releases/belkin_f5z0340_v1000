@@ -1,0 +1,245 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32
+END
+301-avila_led.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/301-avila_led.patch
+END
+110-pronghorn_series_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/110-pronghorn_series_support.patch
+END
+600-skb_avoid_dmabounce.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/600-skb_avoid_dmabounce.patch
+END
+312-ixp4xx_pata_optimization.patch
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/312-ixp4xx_pata_optimization.patch
+END
+300-avila_fetch_mac.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/300-avila_fetch_mac.patch
+END
+170-ixdpg425_mac_plat_info.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/170-ixdpg425_mac_plat_info.patch
+END
+120-compex_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/120-compex_support.patch
+END
+203-npe_driver_mask_phy_features.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/203-npe_driver_mask_phy_features.patch
+END
+207-npe_driver_multiphy_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/207-npe_driver_multiphy_support.patch
+END
+311-gtwx5717_mac_plat_info.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/311-gtwx5717_mac_plat_info.patch
+END
+116-sidewinder_fis_location.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/116-sidewinder_fis_location.patch
+END
+205-npe_driver_separate_phy_functions.patch
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/205-npe_driver_separate_phy_functions.patch
+END
+115-sidewinder_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/115-sidewinder_support.patch
+END
+151-lanready_ap1000_mac_plat_info.patch
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/151-lanready_ap1000_mac_plat_info.patch
+END
+190-cambria_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/190-cambria_support.patch
+END
+131-wrt300nv2_mac_plat_info.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/131-wrt300nv2_mac_plat_info.patch
+END
+201-npe_driver_print_license_location.patch
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/201-npe_driver_print_license_location.patch
+END
+192-cambria_gpio_device.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/192-cambria_gpio_device.patch
+END
+191-cambria_optional_uart.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/191-cambria_optional_uart.patch
+END
+105-wg302v1_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/105-wg302v1_support.patch
+END
+180-tw5334_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/180-tw5334_support.patch
+END
+150-lanready_ap1000_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/150-lanready_ap1000_support.patch
+END
+500-usr8200_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/500-usr8200_support.patch
+END
+050-disable_dmabounce.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/050-disable_dmabounce.patch
+END
+130-wrt300nv2_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/130-wrt300nv2_support.patch
+END
+111-pronghorn_swap_uarts.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/111-pronghorn_swap_uarts.patch
+END
+193-cambria_pld_gpio.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/193-cambria_pld_gpio.patch
+END
+401-avila_pci_dev.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/401-avila_pci_dev.patch
+END
+162-wg302v1_mem_fixup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/162-wg302v1_mem_fixup.patch
+END
+302-avila_gpio_device.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/302-avila_gpio_device.patch
+END
+090-increase_entropy_pools.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/090-increase_entropy_pools.patch
+END
+206-npe_driver_add_update_link_function.patch
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/206-npe_driver_add_update_link_function.patch
+END
+020-gateworks_i2c_pld.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/020-gateworks_i2c_pld.patch
+END
+310-gtwx5717_spi_bus.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/310-gtwx5717_spi_bus.patch
+END
+010-ixp43x_pci_fixup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/010-ixp43x_pci_fixup.patch
+END
+295-latch_led_driver.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/295-latch_led_driver.patch
+END
+100-wg302v2_gateway7001_mac_plat_info.patch
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/100-wg302v2_gateway7001_mac_plat_info.patch
+END
+402-ixp4xx_gpiolib.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/402-ixp4xx_gpiolib.patch
+END
+185-mi424wr_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/185-mi424wr_support.patch
+END
+304-ixp4xx_eth_jumboframe.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ixp4xx/patches-2.6.32/304-ixp4xx_eth_jumboframe.patch
+END

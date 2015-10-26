@@ -1,0 +1,66 @@
+Index: pjproject-1.8.10/pjnath/src/pjnath/turn_session.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/turn_session.c
++++ pjproject-1.8.10/pjnath/src/pjnath/turn_session.c
+@@ -46,6 +46,7 @@
+ void *data_channel_send(void *sess);
+ void *data_channel_recv(void *sess);
+ int nodatarcv=0;
++extern unsigned int gRemoteDataBytes;
+ static const char *state_names[] = 
+ {
+     "Null",
+@@ -2035,7 +2036,8 @@ void *data_channel_recv(void *p_sess)
+ 			break;
+ 		}
+ 		printf("Received %d Bytes\n", bytes_recieved);
+-		
++		gRemoteDataBytes = bytes_recieved;
++	
+ 		recv_data[bytes_recieved] = '\0';
+ 
+ 		hdr = (pj_stun_msg_hdr*)recv_data;
+Index: pjproject-1.8.10/pjnath/src/pjnath/turn_sock.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/turn_sock.c
++++ pjproject-1.8.10/pjnath/src/pjnath/turn_sock.c
+@@ -104,6 +104,7 @@ static void timer_cb(pj_timer_heap_t *th
+ 
+ extern void *data_channel_recv(void *sess);
+ extern pthread_mutex_t pjnathmutex;
++extern unsigned int gRemoteDataBytes;
+ 
+ /* Init config */
+ PJ_DEF(void) pj_turn_sock_cfg_default(pj_turn_sock_cfg *cfg)
+@@ -580,6 +581,7 @@ static pj_bool_t on_data_read(pj_actives
+ 
+     turn_sock = (pj_turn_sock*) pj_activesock_get_user_data(asock);
+     pj_lock_acquire(turn_sock->lock);
++    gRemoteDataBytes = size;
+ 
+     if (status == PJ_SUCCESS && turn_sock->sess) {
+ 	/* Report incoming packet to TURN session, repeat while we have
+Index: pjproject-1.8.10/pjlib/src/pj/os_time_unix.c
+===================================================================
+--- pjproject-1.8.10.orig/pjlib/src/pj/os_time_unix.c
++++ pjproject-1.8.10/pjlib/src/pj/os_time_unix.c
+@@ -27,8 +27,19 @@
+ 
+ #include <errno.h>
+ 
++unsigned int gRemoteDataBytes = 0;
+ ///////////////////////////////////////////////////////////////////////////////
+ 
++PJ_DEF(pj_size_t) pjGetRemoteDataBytes(void)
++{
++    return gRemoteDataBytes;
++}
++
++PJ_DECL(void) pjSetRemoteDataBytes(void)
++{
++    gRemoteDataBytes = 0;
++}
++
+ PJ_DEF(pj_status_t) pj_gettimeofday(pj_time_val *p_tv)
+ {
+     struct timeval the_time;

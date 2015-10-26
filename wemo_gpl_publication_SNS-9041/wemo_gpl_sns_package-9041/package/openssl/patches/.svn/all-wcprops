@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches
+END
+180-fix_link_segfault.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/180-fix_link_segfault.patch
+END
+190-remove_timestamp_check.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/190-remove_timestamp_check.patch
+END
+150-no_engines.patch
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/150-no_engines.patch
+END
+110-optimize-for-size.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/110-optimize-for-size.patch
+END
+130-perl-path.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/130-perl-path.patch
+END
+140-makefile-dirs.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/140-makefile-dirs.patch
+END
+160-disable_doc_tests.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/160-disable_doc_tests.patch
+END
+170-bash_path.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/170-bash_path.patch
+END
+200-etrax_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/openssl/patches/200-etrax_support.patch
+END

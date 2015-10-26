@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120
+END
+adm5120_nand.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_nand.h
+END
+war.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/war.h
+END
+adm5120_defs.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_defs.h
+END
+adm5120_switch.h
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_switch.h
+END
+irq.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/irq.h
+END
+adm5120_platform.h
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_platform.h
+END
+gpio.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/gpio.h
+END
+cpu-feature-overrides.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/cpu-feature-overrides.h
+END
+adm5120_info.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_info.h
+END
+adm5120_uart.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_uart.h
+END
+adm5120_mpmc.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_mpmc.h
+END
+adm5120_intc.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/adm5120_intc.h
+END

@@ -1,0 +1,14 @@
+--- a/main.c	2013-12-03 17:51:57.859920592 -0800
++++ b/init/main.c	2013-12-03 17:53:09.299561981 -0800
+@@ -764,10 +764,7 @@
+ 		printk(KERN_WARNING "Failed to execute %s.  Attempting "
+ 					"defaults...\n", execute_command);
+ 	}
+-	run_init_process("/sbin/init");
+-	run_init_process("/etc/init");
+-	run_init_process("/bin/init");
+-	run_init_process("/bin/sh");
++	run_init_process("/etc/preinit");
+ 
+ 	panic("No init found.  Try passing init= option to kernel.");
+ 	return 0;

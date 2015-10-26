@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image
+END
+gen_image_olpc.sh
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image/gen_image_olpc.sh
+END
+menu.lst
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image/menu.lst
+END
+gen_image_x86.sh
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image/gen_image_x86.sh
+END
+Config.in
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image/Config.in
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image/Makefile
+END
+olpc.fth
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/x86/image/olpc.fth
+END

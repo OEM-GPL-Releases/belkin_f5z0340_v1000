@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21
+END
+900-headers_type_and_time.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/900-headers_type_and_time.patch
+END
+061-belkin-dual_partition.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/061-belkin-dual_partition.patch
+END
+999-use_preinit_as_init.patch
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/999-use_preinit_as_init.patch
+END
+903-stddef_include.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/903-stddef_include.patch
+END
+904-ls_time_locale.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/904-ls_time_locale.patch
+END
+990-buildfix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/990-buildfix.patch
+END
+006-gcc4_inline_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/006-gcc4_inline_fix.patch
+END
+32-time_fix_timespec_add_ns.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/32-time_fix_timespec_add_ns.patch
+END
+209-mini_fo.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/209-mini_fo.patch
+END
+060-rootfs_split.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/060-rootfs_split.patch
+END
+011-mips_boot.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/011-mips_boot.patch
+END
+004-extra_optimization.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/004-extra_optimization.patch
+END
+211-no_block2mtd_readahead.patch
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/211-no_block2mtd_readahead.patch
+END
+30-fix_conflicting_getline.patch
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/30-fix_conflicting_getline.patch
+END
+31-use_kbuild.h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/31-use_kbuild.h.patch
+END
+007-samsung_flash.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/007-samsung_flash.patch
+END
+204-jffs2_eofdetect.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/204-jffs2_eofdetect.patch
+END
+903-hostap_txpower.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/903-hostap_txpower.patch
+END
+420-gpiodev.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/420-gpiodev.patch
+END
+201-multiple_default_gateways.patch
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/201-multiple_default_gateways.patch
+END
+180-netfilter_depends.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/180-netfilter_depends.patch
+END
+009-revert_intel_flash_breakage.patch
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/009-revert_intel_flash_breakage.patch
+END
+212-block2mtd_erase_scan.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/212-block2mtd_erase_scan.patch
+END
+213-kobject_uevent.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/213-kobject_uevent.patch
+END
+065-block2mtd_init.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/065-block2mtd_init.patch
+END
+208-rtl8110sb_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/208-rtl8110sb_fix.patch
+END
+202-mips-freestanding.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/202-mips-freestanding.patch
+END
+012-mips_cpu_tlb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/patches-2.6.21/012-mips_cpu_tlb.patch
+END

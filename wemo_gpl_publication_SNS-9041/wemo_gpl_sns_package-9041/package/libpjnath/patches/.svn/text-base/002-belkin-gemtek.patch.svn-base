@@ -1,0 +1,58 @@
+diff -urpw a/pjnath/src/pjnath/turn_session.c b/pjnath/src/pjnath/turn_session.c
+--- a/pjnath/src/pjnath/turn_session.c	2014-02-11 18:35:44.130125023 -0800
++++ b/pjnath/src/pjnath/turn_session.c	2014-01-29 14:02:50.215961747 -0800
+@@ -41,7 +41,7 @@
+ #define PJ_TURN_CHANNEL_HTABLE_SIZE 8
+ #define PJ_TURN_PERM_HTABLE_SIZE    8
+ #define DATA_BUFFER_SIZE        2048
+-#define MAX_PAYLOAD_LEN 	8192
++#define MAX_PAYLOAD_LEN 	16384
+ 
+ void *data_channel_send(void *sess);
+ void *data_channel_recv(void *sess);
+@@ -167,6 +167,8 @@ struct pj_turn_session
+ 	int require_data_channel;
+ 	int data_sock;
+ 	int refresh_status;
++
++	int alloc_error;
+ };
+ 
+ 
+@@ -565,6 +567,17 @@ PJ_DEF(pj_int32_t) pj_turn_session_get_d
+ {
+ 	return sess->data_sock;
+ }
++
++PJ_DEF(pj_int32_t) pj_turn_session_get_alloc_error( pj_turn_session *sess)
++{
++	return sess->alloc_error;
++}
++
++PJ_DEF(void) pj_turn_session_set_alloc_error( pj_turn_session *sess, int val)
++{
++	sess->alloc_error = val;
++}
++
+ PJ_DEF(pj_int32_t) pj_turn_session_get_refresh_status( pj_turn_session *sess)
+ {
+ 	return sess->refresh_status;
+@@ -1329,6 +1342,7 @@ static void on_session_fail( pj_turn_ses
+ 		  pj_stun_get_method_name(method),
+ 		  (int)reason->slen, reason->ptr));
+ 
++
+ 	/* If this is ALLOCATE response and we don't have more server 
+ 	 * addresses to try, notify application and destroy the TURN
+ 	 * session.
+@@ -1337,6 +1351,10 @@ static void on_session_fail( pj_turn_ses
+ 	    sess->srv_addr == &sess->srv_addr_list[sess->srv_addr_cnt-1]) 
+ 	{
+ 
++		  if (!strncmp("Unauthorized", reason->ptr, ((int)reason->slen))) {
++				sess->alloc_error = 111;
++				printf("\nalloc error is ------%s----------------%d--------\n", reason->ptr, sess->alloc_error);
++		  }
+ 	    set_state(sess, PJ_TURN_STATE_DEALLOCATED);
+ 	    sess_shutdown(sess, status);
+ 	    return;

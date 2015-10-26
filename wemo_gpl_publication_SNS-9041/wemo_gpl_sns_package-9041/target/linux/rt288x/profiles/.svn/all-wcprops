@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles
+END
+100-WemoJarden.mk
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoJarden.mk
+END
+100-WemoSNS.mk
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoSNS.mk
+END
+100-WemoInsight.mk
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoInsight.mk
+END
+100-WemoSmart.mk
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoSmart.mk
+END
+100-WemoLight.mk
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoLight.mk
+END
+100-WemoNetcam.mk
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoNetcam.mk
+END
+100-WeMoInsightCR.mk
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WeMoInsightCR.mk
+END
+100-WemoLink.mk
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/rt288x/profiles/100-WemoLink.mk
+END

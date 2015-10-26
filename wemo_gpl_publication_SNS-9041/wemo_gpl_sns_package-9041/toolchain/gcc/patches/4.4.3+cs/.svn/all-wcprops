@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs
+END
+100-uclibc-conf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/100-uclibc-conf.patch
+END
+810-arm-softfloat-libgcc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/810-arm-softfloat-libgcc.patch
+END
+820-libgcc_pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/820-libgcc_pic.patch
+END
+910-mbsd_multi.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/910-mbsd_multi.patch
+END
+993-arm_insn-opinit-RTX_CODE-fixup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/993-arm_insn-opinit-RTX_CODE-fixup.patch
+END
+302-c99-snprintf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/302-c99-snprintf.patch
+END
+305-libmudflap-susv3-legacy.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/305-libmudflap-susv3-legacy.patch
+END
+600-ubicom_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/600-ubicom_support.patch
+END
+000-codesourcery_2009q3_68.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/000-codesourcery_2009q3_68.patch
+END
+301-missing-execinfo_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/301-missing-execinfo_h.patch
+END
+999-coldfire.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.4.3+cs/999-coldfire.patch
+END

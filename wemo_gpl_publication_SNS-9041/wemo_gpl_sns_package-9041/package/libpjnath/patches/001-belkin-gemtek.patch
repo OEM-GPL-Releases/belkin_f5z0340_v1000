@@ -1,0 +1,1976 @@
+Index: pjproject-1.8.10/Makefile
+===================================================================
+--- pjproject-1.8.10.orig/Makefile
++++ pjproject-1.8.10/Makefile
+@@ -2,7 +2,8 @@ include build.mak
+ include build/host-$(HOST_NAME).mak
+ -include user.mak
+ 
+-DIRS = pjlib/build pjlib-util/build pjnath/build third_party/build pjmedia/build pjsip/build pjsip-apps/build $(EXTRA_DIRS)
++DIRS = pjlib/build pjlib-util/build pjnath/build 
++#DIRS = pjlib/build pjlib-util/build pjnath/build third_party/build pjmedia/build pjsip/build pjsip-apps/build $(EXTRA_DIRS)
+ 
+ ifdef MINSIZE
+ MAKE_FLAGS := MINSIZE=1
+@@ -32,14 +33,7 @@ doc:
+ 	
+ LIBS = 	pjlib/lib/libpj-$(TARGET_NAME).a \
+ 	pjlib-util/lib/libpjlib-util-$(TARGET_NAME).a \
+-	pjnath/lib/libpjnath-$(TARGET_NAME).a \
+-	pjmedia/lib/libpjmedia-$(TARGET_NAME).a \
+-	pjmedia/lib/libpjmedia-audiodev-$(TARGET_NAME).a \
+-	pjmedia/lib/libpjmedia-codec-$(TARGET_NAME).a \
+-    	pjsip/lib/libpjsip-$(TARGET_NAME).a \
+-	pjsip/lib/libpjsip-ua-$(TARGET_NAME).a \
+-	pjsip/lib/libpjsip-simple-$(TARGET_NAME).a \
+-	pjsip/lib/libpjsua-$(TARGET_NAME).a
++	pjnath/lib/libpjnath-$(TARGET_NAME).a
+ BINS = 	pjsip-apps/bin/pjsua-$(TARGET_NAME)$(HOST_EXE) 
+ 
+ size:
+@@ -98,7 +92,7 @@ install:
+ 	mkdir -p $(DESTDIR)$(prefix)/lib
+ 	cp -f $(APP_LIB_FILES) $(DESTDIR)$(prefix)/lib/
+ 	mkdir -p $(DESTDIR)$(prefix)/include
+-	for d in pjlib pjlib-util pjnath pjmedia pjsip; do \
++	for d in pjlib pjlib-util pjnath; do \
+ 		cp -RLf $$d/include/* $(DESTDIR)$(prefix)/include/; \
+ 	done
+ 	mkdir -p $(DESTDIR)$(prefix)/lib/pkgconfig
+Index: pjproject-1.8.10/build.mak.in
+===================================================================
+--- pjproject-1.8.10.orig/build.mak.in
++++ pjproject-1.8.10/build.mak.in
+@@ -3,7 +3,8 @@ export MACHINE_NAME := auto
+ export OS_NAME := auto
+ export HOST_NAME := unix
+ export CC_NAME := gcc
+-export TARGET_NAME := @target@
++#export TARGET_NAME := @target@
++export TARGET_NAME := pc-linux-gnu
+ export CROSS_COMPILE := @ac_cross_compile@
+ export LINUX_POLL := @ac_linux_poll@ 
+ 
+@@ -90,16 +91,8 @@ export APP_LDLIBS := -lpjsua-$(TARGET_NA
+ 	$(APP_THIRD_PARTY_EXT)\
+ 	-lpj-$(TARGET_NAME)\
+ 	@LIBS@
+-export APP_LIB_FILES = $(PJ_DIR)/pjsip/lib/libpjsua-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjsip/lib/libpjsip-ua-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjsip/lib/libpjsip-simple-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjsip/lib/libpjsip-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjmedia/lib/libpjmedia-codec-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjmedia/lib/libpjmedia-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjmedia/lib/libpjmedia-audiodev-$(LIB_SUFFIX) \
+-	$(PJ_DIR)/pjnath/lib/libpjnath-$(LIB_SUFFIX) \
++export APP_LIB_FILES = $(PJ_DIR)/pjnath/lib/libpjnath-$(LIB_SUFFIX) \
+ 	$(PJ_DIR)/pjlib-util/lib/libpjlib-util-$(LIB_SUFFIX) \
+-	$(APP_THIRD_PARTY_LIB_FILES) \
+ 	$(PJ_DIR)/pjlib/lib/libpj-$(LIB_SUFFIX)
+ 
+ # Here are the variabels to use if application is using the library
+Index: pjproject-1.8.10/pjlib/include/pj/os.h
+===================================================================
+--- pjproject-1.8.10.orig/pjlib/include/pj/os.h
++++ pjproject-1.8.10/pjlib/include/pj/os.h
+@@ -129,6 +129,9 @@ PJ_DECL(pj_status_t) pj_thread_register
+ 					  pj_thread_desc desc,
+ 					  pj_thread_t **thread);
+ 
++PJ_DECL(pj_status_t) pj_thread_register_I ( const char *thread_name,
++					  pj_thread_desc desc,
++					  pj_thread_t **thread);
+ /**
+  * Check if this thread has been registered to PJLIB.
+  *
+@@ -974,7 +977,6 @@ PJ_DECL(pj_status_t) pj_event_destroy(pj
+  */
+ PJ_DECL(pj_status_t) pj_gettimeofday(pj_time_val *tv);
+ 
+-
+ /**
+  * Parse time value into date/time representation.
+  *
+Index: pjproject-1.8.10/pjlib/src/pj/os_core_unix.c
+===================================================================
+--- pjproject-1.8.10.orig/pjlib/src/pj/os_core_unix.c
++++ pjproject-1.8.10/pjlib/src/pj/os_core_unix.c
+@@ -441,6 +441,83 @@ PJ_DEF(pj_status_t) pj_thread_register (
+ }
+ 
+ /*
++ * pj_thread_register_I(..)
++ */
++PJ_DEF(pj_status_t) pj_thread_register_I ( const char *cstr_thread_name,
++					 pj_thread_desc desc,
++					 pj_thread_t **ptr_thread)
++{
++#if PJ_HAS_THREADS
++    char stack_ptr;
++    pj_status_t rc;
++    pj_thread_t *thread = (pj_thread_t *)desc;
++    pj_str_t thread_name = pj_str((char*)cstr_thread_name);
++
++    /* Size sanity check. */
++    if (sizeof(pj_thread_desc) < sizeof(pj_thread_t)) {
++	pj_assert(!"Not enough pj_thread_desc size!");
++	return PJ_EBUG;
++    }
++
++    /* Warn if this thread has been registered before */
++    if (pj_thread_local_get (thread_tls_id) != 0) {
++	// 2006-02-26 bennylp:
++	//  This wouldn't work in all cases!.
++	//  If thread is created by external module (e.g. sound thread),
++	//  thread may be reused while the pool used for the thread descriptor
++	//  has been deleted by application.
++	//*thread_ptr = (pj_thread_t*)pj_thread_local_get (thread_tls_id);
++        //return PJ_SUCCESS;
++	PJ_LOG(4,(THIS_FILE, "Info: possibly re-registering existing "
++			     "thread"));
++    }
++
++	PJ_LOG(4,(THIS_FILE, "Info: registering thread "));
++
++    /* On the other hand, also warn if the thread descriptor buffer seem to
++     * have been used to register other threads.
++     */
++#if 0
++    pj_assert(thread->signature1 != SIGNATURE1 ||
++	      thread->signature2 != SIGNATURE2 ||
++	      (thread->thread == pthread_self()));
++#endif
++    /* Initialize and set the thread entry. */
++    pj_bzero(desc, sizeof(struct pj_thread_t));
++    thread->thread = pthread_self();
++    thread->signature1 = SIGNATURE1;
++    thread->signature2 = SIGNATURE2;
++
++    if(cstr_thread_name && pj_strlen(&thread_name) < sizeof(thread->obj_name)-1)
++	pj_ansi_snprintf(thread->obj_name, sizeof(thread->obj_name), 
++			 cstr_thread_name, thread->thread);
++    else
++	pj_ansi_snprintf(thread->obj_name, sizeof(thread->obj_name), 
++			 "thr%p", (void*)thread->thread);
++    
++    rc = pj_thread_local_set(thread_tls_id, thread);
++    if (rc != PJ_SUCCESS) {
++	pj_bzero(desc, sizeof(struct pj_thread_t));
++	return rc;
++    }
++
++#if defined(PJ_OS_HAS_CHECK_STACK) && PJ_OS_HAS_CHECK_STACK!=0
++    thread->stk_start = &stack_ptr;
++    thread->stk_size = 0xFFFFFFFFUL;
++    thread->stk_max_usage = 0;
++#else
++    stack_ptr = '\0';
++#endif
++
++    *ptr_thread = thread;
++    return PJ_SUCCESS;
++#else
++    pj_thread_t *thread = (pj_thread_t*)desc;
++    *ptr_thread = thread;
++    return PJ_SUCCESS;
++#endif
++}
++/*
+  * pj_thread_init(void)
+  */
+ pj_status_t pj_thread_init(void)
+Index: pjproject-1.8.10/pjnath/include/pjnath/config.h
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/include/pjnath/config.h
++++ pjproject-1.8.10/pjnath/include/pjnath/config.h
+@@ -85,7 +85,7 @@
+  * The default value is 16x RTO (as per RFC 3489-bis).
+  */
+ #ifndef PJ_STUN_TIMEOUT_VALUE
+-#   define PJ_STUN_TIMEOUT_VALUE		    (16 * PJ_STUN_RTO_VALUE)
++#   define PJ_STUN_TIMEOUT_VALUE		    (400 * PJ_STUN_RTO_VALUE)
+ #endif
+ 
+ 
+@@ -151,7 +151,7 @@
+  * The packet buffer size for the STUN transport.
+  */
+ #ifndef PJ_STUN_SOCK_PKT_LEN
+-#   define PJ_STUN_SOCK_PKT_LEN			    2000
++#   define PJ_STUN_SOCK_PKT_LEN			    8192
+ #endif
+ 
+ 
+Index: pjproject-1.8.10/pjnath/include/pjnath/ice_strans.h
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/include/pjnath/ice_strans.h
++++ pjproject-1.8.10/pjnath/include/pjnath/ice_strans.h
+@@ -698,6 +698,19 @@ PJ_DECL(pj_status_t) pj_ice_strans_chang
+ 					       pj_ice_sess_role new_role);
+ 
+ 
++
++
++PJ_DEF(pj_status_t) pj_ice_strans_create_turn_perm_for_non_ice_peer( 
++	                               pj_ice_strans *ice_st,
++				       pj_sockaddr  remote_addr);
++
++
++PJ_DEF(pj_status_t) pj_ice_strans_set_data_port_for_turn_tcp(
++                                       pj_ice_strans *ice_st,
++                                       int data_port
++                                       );
++
++
+ /**
+  * Start ICE connectivity checks. This function can only be called
+  * after the ICE session has been created in the ICE stream transport
+Index: pjproject-1.8.10/pjnath/include/pjnath/stun_msg.h
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/include/pjnath/stun_msg.h
++++ pjproject-1.8.10/pjnath/include/pjnath/stun_msg.h
+@@ -92,6 +92,10 @@ enum pj_stun_method_e
+      */
+     PJ_STUN_CHANNEL_BIND_METHOD		    = 9,
+ 
++    /* tcp connect to send tcp data to peer */
++    PJ_STUN_CONNECT_METHOD = 10,
++
++    PJ_STUN_CONNECTION_ATTEMPT_METHOD		    = 12,
+     /**
+      * All known methods.
+      */
+@@ -291,7 +295,15 @@ typedef enum pj_stun_msg_type
+     /**
+      * Error response to STUN ChannelBind request.
+      */
+-    PJ_STUN_CHANNEL_BIND_ERROR_RESPONSE	    = 0x0119
++    PJ_STUN_CHANNEL_BIND_ERROR_RESPONSE	    = 0x0119,
++
++		/* tcp connect to send tcp data to peer */
++    PJ_STUN_CONNECT = 0x000A,	
++
++    PJ_STUN_CONNECTION_BIND_REQUEST	    = 0x000B,	//nish
++    //PJ_STUN_CONNECTION_BIND_REQUEST	    = 0x001B,	//nish
++
++    PJ_STUN_CONNECTION_ATTEMPT_INDICATION   = 0x001C	//nish
+ 
+ } pj_stun_msg_type;
+ 
+@@ -332,6 +344,7 @@ typedef enum pj_stun_attr_type
+     PJ_STUN_ATTR_XOR_REFLECTED_FROM = 0x0023,/**< XOR-REFLECTED-FROM	    */
+     PJ_STUN_ATTR_PRIORITY	    = 0x0024,/**< PRIORITY		    */
+     PJ_STUN_ATTR_USE_CANDIDATE	    = 0x0025,/**< USE-CANDIDATE		    */
++    PJ_STUN_ATTR_CONNECTIONID	    = 0x002a,
+     PJ_STUN_ATTR_ICMP		    = 0x0030,/**< ICMP (TURN)		    */
+ 
+     PJ_STUN_ATTR_END_MANDATORY_ATTR,
+@@ -1131,6 +1144,8 @@ typedef struct pj_stun_uint64_attr pj_st
+  */
+ typedef struct pj_stun_uint_attr pj_stun_icmp_attr;
+ 
++typedef struct pj_stun_uint_attr pj_stun_connection_id_attr; //nish
++
+ /**
+  * This structure describes a parsed STUN message. All integral fields
+  * in this structure (including IP addresses) will be in the host
+Index: pjproject-1.8.10/pjnath/include/pjnath/stun_sock.h
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/include/pjnath/stun_sock.h
++++ pjproject-1.8.10/pjnath/include/pjnath/stun_sock.h
+@@ -274,6 +274,12 @@ typedef struct pj_stun_sock_cfg
+      */
+     pj_bool_t qos_ignore_error;
+ 
++     int stunProtocol;
++     pj_uint16_t sin_port;       /**< Transport layer port number.   */
++     pj_in_addr  sin_addr;       /**< IP address.                    */
++		 int timerstat;
++
++
+ } pj_stun_sock_cfg;
+ 
+ 
+Index: pjproject-1.8.10/pjnath/include/pjnath/turn_session.h
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/include/pjnath/turn_session.h
++++ pjproject-1.8.10/pjnath/include/pjnath/turn_session.h
+@@ -508,6 +508,12 @@ PJ_DECL(pj_status_t) pj_turn_session_set
+ PJ_DECL(void*) pj_turn_session_get_user_data(pj_turn_session *sess);
+ 
+ 
++PJ_DEF(pj_status_t) pj_turn_session_get_data_conn( pj_turn_session *sess);
++
++PJ_DEF(void) pj_turn_session_set_data_conn( pj_turn_session *sess, int val);
++
++PJ_DEF(pj_int32_t) pj_turn_session_get_refresh_status( pj_turn_session *sess);
++
+ /**
+  * Configure message logging. By default all flags are enabled.
+  *
+Index: pjproject-1.8.10/pjnath/include/pjnath/turn_sock.h
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/include/pjnath/turn_sock.h
++++ pjproject-1.8.10/pjnath/include/pjnath/turn_sock.h
+@@ -211,6 +211,7 @@ PJ_DECL(pj_status_t) pj_turn_sock_set_us
+  */
+ PJ_DECL(void*) pj_turn_sock_get_user_data(pj_turn_sock *turn_sock);
+ 
++PJ_DECL(pj_status_t) pj_turn_sock_get_status(pj_turn_sock *turn_sock);
+ 
+ /**
+  * Get the TURN transport info. The transport info contains, among other
+@@ -388,7 +389,14 @@ PJ_DECL(pj_status_t) pj_turn_sock_bind_c
+ /**
+  * @}
+  */
++PJ_DEF(void) pj_turn_sock_set_data_sock( pj_turn_sock *turn_sock,
++                                               int sock);
+ 
++typedef struct pj_turn_data_sock_cfg
++{
++	pj_turn_session *sess;
++	int *data_sock;
++}pj_turn_data_sock_cfg;
+ 
+ PJ_END_DECL
+ 
+Index: pjproject-1.8.10/pjnath/src/pjnath/ice_session.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/ice_session.c
++++ pjproject-1.8.10/pjnath/src/pjnath/ice_session.c
+@@ -28,7 +28,8 @@
+ #include <pj/pool.h>
+ #include <pj/rand.h>
+ #include <pj/string.h>
+-
++#include <pjnath/stun_msg.h>
++#include <pjnath/stun_sock.h>
+ /* String names for candidate types */
+ static const char *cand_type_names[] =
+ {
+@@ -38,6 +39,9 @@ static const char *cand_type_names[] =
+     "relay"
+ 
+ };
++int g_send_ind_count=0;
++int send_peer_down_ind_cloud=0;
++#define PJ_MAX_SEND_IND_COUNT  7
+ 
+ /* String names for pj_ice_sess_check_state */
+ #if PJ_LOG_MAX_LEVEL >= 4
+@@ -58,6 +62,26 @@ static const char *clist_state_name[] =
+ };
+ #endif	/* PJ_LOG_MAX_LEVEL >= 4 */
+ 
++int s_unreplied_ind_count=0;
++pj_bool_t f_mapped_addr_change=0;
++int pj_unreplied_send_ind_count()
++{
++		return s_unreplied_ind_count;
++}
++
++void pj_set_unreplied_send_ind_count(int value)
++{
++		 s_unreplied_ind_count=value;
++}
++int pj_is_mapped_addr_change()
++{
++		return f_mapped_addr_change;
++}
++
++void pj_set_mapped_addr_status(int value)
++{
++		f_mapped_addr_change=value;
++}
+ static const char *role_names[] = 
+ {
+     "Unknown",
+@@ -1210,6 +1234,18 @@ static void ice_keep_alive(pj_ice_sess *
+ 	 */
+ 	saved = pj_stun_session_use_fingerprint(comp->stun_sess, PJ_FALSE);
+ 
++  //nish
++      /* Create and add USERNAME attribute if needed */
++    int sts=0;
++
++      if (ice && (ice->tx_ufrag.slen)) {
++    sts = pj_stun_msg_add_string_attr(tdata->pool, tdata->msg,
++                 PJ_STUN_ATTR_USERNAME,
++                 &ice->tx_ufrag);
++    PJ_ASSERT_RETURN(sts==PJ_SUCCESS, sts);
++      }
++  // nish
++
+ 	/* Send to session */
+ 	addr_len = pj_sockaddr_get_len(&the_check->rcand->addr);
+ 	status = pj_stun_session_send_msg(comp->stun_sess, msg_data,
+@@ -2791,26 +2827,72 @@ static pj_status_t on_stun_rx_indication
+ 					 unsigned src_addr_len)
+ {
+     struct stun_data *sd;
+-
+-    PJ_UNUSED_ARG(sess);
++    pj_ice_sess_check *the_check;
++    //PJ_UNUSED_ARG(sess);
+     PJ_UNUSED_ARG(pkt);
+     PJ_UNUSED_ARG(pkt_len);
+-    PJ_UNUSED_ARG(msg);
++   // PJ_UNUSED_ARG(msg);
+     PJ_UNUSED_ARG(token);
+     PJ_UNUSED_ARG(src_addr);
+     PJ_UNUSED_ARG(src_addr_len);
+ 
++		pj_stun_sock *stun_sock;
++		const pj_stun_sockaddr_attr *mapped_attr;
+     sd = (struct stun_data*) pj_stun_session_get_user_data(sess);
+ 
+     if (msg->hdr.type == PJ_STUN_BINDING_INDICATION) {
+ 	LOG5((sd->ice->obj_name, "Received Binding Indication keep-alive "
+ 	      "for component %d", sd->comp_id));
++		//	s_unreplied_ind_count=0;
++   s_unreplied_ind_count++;
++	 if(s_unreplied_ind_count == 65534)
++	 s_unreplied_ind_count=0;
+     } else {
+ 	LOG4((sd->ice->obj_name, "Received unexpected %s indication "
+ 	      "for component %d", pj_stun_get_method_name(msg->hdr.type), 
+ 	      sd->comp_id));
+     }
+-
++		stun_sock = (pj_stun_sock *) pj_stun_session_get_user_data(sess);
++/* Get XOR-MAPPED-ADDRESS, or MAPPED-ADDRESS when XOR-MAPPED-ADDRESS
++ * doesn't exist.
++ */
++ mapped_attr = (const pj_stun_sockaddr_attr*)
++ pj_stun_msg_find_attr(msg, PJ_STUN_ATTR_XOR_MAPPED_ADDR,
++ 0);
++ if (mapped_attr==NULL) {
++		 mapped_attr = (const pj_stun_sockaddr_attr*)
++				 pj_stun_msg_find_attr(msg, PJ_STUN_ATTR_MAPPED_ADDR,
++								 0);
++ }      
++
++
++pj_ice_sess_comp *comp = &(sd->ice)->comp[(sd->ice)->comp_ka];
++
++pj_assert(comp->nominated_check != NULL);
++  the_check = comp->nominated_check;
++/* Determine if mapped address has changed, and save the new mapped
++ * address and call callback if so 
++ */
++  f_mapped_addr_change= !pj_sockaddr_has_addr(&the_check->lcand->addr) ||
++        pj_sockaddr_cmp(&the_check->lcand->addr,
++		              &mapped_attr->sockaddr) != 0;
++	if (f_mapped_addr_change) {
++			/* Print mapped adress */
++			{
++					char addrinfo[PJ_INET6_ADDRSTRLEN+10];
++					char addrinfo1[PJ_INET6_ADDRSTRLEN+10];
++#if 0
++					PJ_LOG(4,(stun_sock->obj_name,
++											"STUN mapped address found/changed: %s",
++											pj_sockaddr_print(&mapped_attr->sockaddr,
++													addrinfo, sizeof(addrinfo), 3))); 
++					PJ_LOG(4,(stun_sock->obj_name,
++											"Earlier STUN mapped address was: %s",
++											pj_sockaddr_print(&the_check->lcand->addr,
++													addrinfo1, sizeof(addrinfo1), 3)));
++#endif
++			}
++	}
+     return PJ_SUCCESS;
+ }
+ 
+Index: pjproject-1.8.10/pjnath/src/pjnath/ice_strans.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/ice_strans.c
++++ pjproject-1.8.10/pjnath/src/pjnath/ice_strans.c
+@@ -1044,6 +1044,40 @@ PJ_DEF(pj_status_t) pj_ice_strans_change
+     return pj_ice_sess_change_role(ice_st->ice, new_role);
+ }
+ 
++
++PJ_DEF(pj_status_t) pj_ice_strans_create_turn_perm_for_non_ice_peer( 
++	                               pj_ice_strans *ice_st,
++				       pj_sockaddr  remote_addr)
++{
++    pj_status_t status;
++    pj_ice_strans_comp *comp = ice_st->comp[0];
++    if (comp->turn_sock) 
++    {
++       status = pj_turn_sock_set_perm(comp->turn_sock, 1, &remote_addr, 0);
++       ice_st->ice = NULL;
++       PJ_LOG(4,(ice_st->obj_name,
++		  "setting ice session null for non ice peer"));
++       return status;
++    }
++}
++
++PJ_DEF(pj_status_t) pj_ice_strans_set_data_port_for_turn_tcp(
++                                       pj_ice_strans *ice_st,
++                                       int data_port
++                                       )
++{
++    pj_status_t status = PJ_SUCCESS;
++    pj_ice_strans_comp *comp = ice_st->comp[0];
++    if (comp->turn_sock)
++    {
++       pj_turn_sock_set_data_port(comp->turn_sock, data_port);
++       PJ_LOG(4,(ice_st->obj_name,
++                  "setting  data port for turn-tcp for non ice peer"));
++    }
++    return status;
++}
++
++
+ /*
+  * Start ICE processing !
+  */
+@@ -1168,6 +1202,7 @@ PJ_DEF(pj_status_t) pj_ice_strans_sendto
+ 	if (comp->turn_sock) {
+ 	    pj_turn_sock_lock(comp->turn_sock);
+ 	}
++        printf("pjnat lib:sending through ice seesion\n"); 
+ 	status = pj_ice_sess_send_data(ice_st->ice, comp_id, data, data_len);
+ 	if (comp->turn_sock) {
+ 	    pj_turn_sock_unlock(comp->turn_sock);
+@@ -1193,6 +1228,7 @@ PJ_DEF(pj_status_t) pj_ice_strans_sendto
+ 		comp->turn_log_off = PJ_TRUE;
+ 	    }
+ 
++        printf("pjnat lib:sending throug turn sock for non ice\n"); 
+ 	    status = pj_turn_sock_sendto(comp->turn_sock, (const pj_uint8_t*)data, data_len,
+ 					 dst_addr, dst_addr_len);
+ 	    return (status==PJ_SUCCESS||status==PJ_EPENDING) ? 
+Index: pjproject-1.8.10/pjnath/src/pjnath/stun_msg.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/stun_msg.c
++++ pjproject-1.8.10/pjnath/src/pjnath/stun_msg.c
+@@ -45,6 +45,9 @@ static const char *stun_method_names[PJ_
+     "Data",			/* 7 */
+     "CreatePermission",		/* 8 */
+     "ChannelBind",		/* 9 */
++    "Connect",			/* 10 */
++    "ConnectionBind",	 	/* 11 */
++    "ConnectionAttempt"		/* 12 */	 //nish//
+ };
+ 
+ static struct
+@@ -477,10 +480,10 @@ static struct attr_desc mandatory_attr_d
+     },
+     {
+ 	/* ID 0x002a is not assigned */
+-	NULL,
+-	NULL,
+-	NULL,
+-	NULL
++	"CONNECTION-ID" ,
++	&decode_uint_attr,
++	&encode_uint_attr,
++	&clone_uint_attr
+     },
+     {
+ 	/* ID 0x002b is not assigned */
+@@ -2379,7 +2382,7 @@ PJ_DEF(pj_status_t) pj_stun_msg_decode(p
+ 	    /* Unrecognized attribute */
+ 	    pj_stun_binary_attr *attr = NULL;
+ 
+-	    PJ_LOG(5,(THIS_FILE, "Unrecognized attribute type 0x%x", 
++	    PJ_LOG(5,(THIS_FILE, "nc: Unrecognized attribute type 0x%x", 
+ 		      attr_type));
+ 
+ 	    /* Is this a fatal condition? */
+Index: pjproject-1.8.10/pjnath/src/pjnath/stun_msg_dump.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/stun_msg_dump.c
++++ pjproject-1.8.10/pjnath/src/pjnath/stun_msg_dump.c
+@@ -131,6 +131,7 @@ static int print_attr(char *buffer, unsi
+     case PJ_STUN_ATTR_FINGERPRINT:
+     case PJ_STUN_ATTR_REFRESH_INTERVAL:
+     case PJ_STUN_ATTR_ICMP:
++    case PJ_STUN_ATTR_CONNECTIONID:		//nish
+ 	{
+ 	    const pj_stun_uint_attr *attr;
+ 
+Index: pjproject-1.8.10/pjnath/src/pjnath/stun_sock.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/stun_sock.c
++++ pjproject-1.8.10/pjnath/src/pjnath/stun_sock.c
+@@ -31,6 +31,13 @@
+ #include <pj/pool.h>
+ #include <pj/rand.h>
+ 
++/**nish ***/
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++#include <pjnath/turn_session.h>
++
+ 
+ struct pj_stun_sock
+ {
+@@ -56,6 +63,8 @@ struct pj_stun_sock
+ 
+     pj_uint16_t		 tsx_id[6];	/* .. to match STUN msg	    */
+     pj_stun_session	*stun_sess;	/* STUN session		    */
++    int                 stunProtocol;    /* stun protocol UDP or TCP */
++		int timerstat;
+ 
+ };
+ 
+@@ -194,11 +203,19 @@ PJ_DEF(pj_status_t) pj_stun_sock_create(
+     pj_memcpy(&stun_sock->cb, cb, sizeof(*cb));
+ 
+     stun_sock->ka_interval = cfg->ka_interval;
++		stun_sock->timerstat = cfg->timerstat;
+     if (stun_sock->ka_interval == 0)
+ 	stun_sock->ka_interval = PJ_STUN_KEEP_ALIVE_SEC;
+ 
++ //printf(": cfg->stunProtocol=%d\n", cfg->stunProtocol);
++		printf("%s", cfg->timerstat ? "SBR keepalive enabled\n": "SBR keepalive disabled\n");
+     /* Create socket and bind socket */
+-    status = pj_sock_socket(af, pj_SOCK_DGRAM(), 0, &stun_sock->sock_fd);
++    //status = pj_sock_socket(af, pj_SOCK_DGRAM(), 0, &stun_sock->sock_fd);	//nish
++    if(cfg->stunProtocol == 1)
++    status = pj_sock_socket(af, PJ_SOCK_STREAM, 0, &stun_sock->sock_fd);
++    else
++    status = pj_sock_socket(af, pj_SOCK_DGRAM(), 0, &stun_sock->sock_fd);	//nish
++	
+     if (status != PJ_SUCCESS)
+ 	goto on_error;
+ 
+@@ -208,7 +225,8 @@ PJ_DEF(pj_status_t) pj_stun_sock_create(
+ 				NULL);
+     if (status != PJ_SUCCESS && !cfg->qos_ignore_error)
+ 	goto on_error;
+-
++/****nish ***/
++#if 0
+     /* Bind socket */
+     if (pj_sockaddr_has_addr(&cfg->bound_addr)) {
+ 	status = pj_sock_bind(stun_sock->sock_fd, &cfg->bound_addr,
+@@ -223,6 +241,22 @@ PJ_DEF(pj_status_t) pj_stun_sock_create(
+ 
+     if (status != PJ_SUCCESS)
+ 	goto on_error;
++#endif
++/****nish ***/
++
++/***nish***/
++#if 0
++	printf("nish connecting on fd=%d\n", stun_sock->sock_fd);
++    status = pj_sock_connect(stun_sock->sock_fd, &stun_sock->srv_addr.ipv4, sizeof(pj_sockaddr_in));
++    if (status != PJ_SUCCESS) {
++	printf("connect failed on fd=%d\n", stun_sock->sock_fd);
++        pj_sock_close(stun_sock->sock_fd);
++        return status;
++    }
++#endif
++	
++/***nish***/
++
+ 
+     /* Create more useful information string about this transport */
+ #if 0
+@@ -254,17 +288,53 @@ PJ_DEF(pj_status_t) pj_stun_sock_create(
+ 	pj_bzero(&activesock_cb, sizeof(activesock_cb));
+ 	activesock_cb.on_data_recvfrom = &on_data_recvfrom;
+ 	activesock_cb.on_data_sent = &on_data_sent;
++        if(cfg->stunProtocol == 1)
++	{
+ 	status = pj_activesock_create(pool, stun_sock->sock_fd, 
+-				      pj_SOCK_DGRAM(), 
++				      //pj_SOCK_DGRAM(), 		//nish
++				      PJ_SOCK_STREAM, 
++				      &activesock_cfg, stun_cfg->ioqueue,
++				      &activesock_cb, stun_sock,
++				      &stun_sock->active_sock);
++	}
++	else
++	{
++	    status = pj_activesock_create(pool, stun_sock->sock_fd, 
++				      pj_SOCK_DGRAM(), 		//nish
+ 				      &activesock_cfg, stun_cfg->ioqueue,
+ 				      &activesock_cb, stun_sock,
+ 				      &stun_sock->active_sock);
++	}
+ 	if (status != PJ_SUCCESS)
+ 	    goto on_error;
+ 
++        if(cfg->stunProtocol == 1)
++	{
++/***nish***/
++		stun_sock->srv_addr.addr.sa_family = AF_INET;
++		//stun_sock->srv_addr.ipv4.sin_port= pj_htons(34788);
++		stun_sock->srv_addr.ipv4.sin_port= pj_htons(cfg->sin_port);
++		//stun_sock->srv_addr.ipv4.sin_addr = pj_inet_addr2("10.32.4.178");
++		stun_sock->srv_addr.ipv4.sin_addr = (cfg->sin_addr);
++		//peer->mapped_addr.ipv4.sin_addr = pj_inet_addr2("173.196.160.173");
++		//stun_sock->srv_addr.ipv4.sin_addr = pj_inet_addr2("125.23.218.144");
++
++		status=pj_activesock_start_connect(stun_sock->active_sock, 
++				pool,
++				&(stun_sock->srv_addr), 
++				pj_sockaddr_get_len(&(stun_sock->srv_addr)));
++
++		if (status == PJ_SUCCESS) {
++			printf("actie sock connect succesful");
++		}
++/***nish***/
++	}
++
++	
+ 	/* Start asynchronous read operations */
+ 	status = pj_activesock_start_recvfrom(stun_sock->active_sock, pool,
+ 					      cfg->max_pkt_size, 0);
++	
+ 	if (status != PJ_SUCCESS)
+ 	    goto on_error;
+ 
+@@ -275,13 +345,24 @@ PJ_DEF(pj_status_t) pj_stun_sock_create(
+ 			       sizeof(stun_sock->int_send_key));
+     }
+ 
++/***nish **/
++#if 0
++char pkt[32];
++	int size = strlen(pkt);
++	strcpy(pkt, "this is test");
++    status = pj_activesock_send(stun_sock->active_sock, &stun_sock->int_send_key,
++										pkt, &size, 0);
++#endif
++/***nish **/
++
+     /* Create STUN session */
+     {
+ 	pj_stun_session_cb sess_cb;
+-
+ 	pj_bzero(&sess_cb, sizeof(sess_cb));
+ 	sess_cb.on_request_complete = &sess_on_request_complete;
+ 	sess_cb.on_send_msg = &sess_on_send_msg;
++	stun_sock->stunProtocol = cfg->stunProtocol;
++	printf(" stun_sock->stunProtocol=%d\n", stun_sock->stunProtocol);
+ 	status = pj_stun_session_create(&stun_sock->stun_cfg, 
+ 					stun_sock->obj_name,
+ 					&sess_cb, PJ_FALSE, 
+@@ -371,7 +452,6 @@ PJ_DEF(pj_status_t) pj_stun_sock_start(
+ 	}
+ 
+ 	pj_sockaddr_set_port(&stun_sock->srv_addr, (pj_uint16_t)default_port);
+-
+ 	/* Start sending Binding request */
+ 	return get_mapped_addr(stun_sock);
+     }
+@@ -503,7 +583,8 @@ static pj_status_t get_mapped_addr(pj_st
+ 				    PJ_FALSE, PJ_TRUE, &stun_sock->srv_addr,
+ 				    pj_sockaddr_get_len(&stun_sock->srv_addr),
+ 				    tdata);
+-    if (status != PJ_SUCCESS)
++    //if (status != PJ_SUCCESS)		//nish
++    if (status != PJ_SUCCESS && (status != PJ_EPENDING))
+ 	goto on_error;
+ 
+     return PJ_SUCCESS;
+@@ -619,9 +700,24 @@ static pj_status_t sess_on_send_msg(pj_s
+     PJ_UNUSED_ARG(token);
+ 
+     size = pkt_size;
++/****nish **/
++//#if 1	
++    if( stun_sock->stunProtocol == 1 )
++    {
++	pj_status_t status;
++	status = pj_activesock_send(stun_sock->active_sock, &stun_sock->int_send_key,
++		pkt, &size, 0);
++	if (status != PJ_SUCCESS && status != PJ_EPENDING) {
++		printf("err: in activesock send status=%d\n", status);
++	 }
++	 return status;
++	 /****nish **/
++    }
++//#else
+     return pj_activesock_sendto(stun_sock->active_sock, 
+ 				&stun_sock->int_send_key,
+ 				pkt, &size, 0, dst_addr, addr_len);
++//#endif
+ }
+ 
+ /* This callback is called by the STUN session when outgoing transaction 
+@@ -704,7 +800,7 @@ static void sess_on_request_complete(pj_
+ 
+ on_return:
+     /* Start/restart keep-alive timer */
+-    if (resched)
++    if (resched && (stun_sock->timerstat != 1))
+ 	start_ka_timer(stun_sock);
+ }
+ 
+@@ -802,6 +898,13 @@ static pj_bool_t on_data_recvfrom(pj_act
+ 	goto process_app_data;
+     }
+ 
++  if(stun_sock->stunProtocol == 1){
++	//pj_stun_sock *ssock=NULL;
++        //tsess = (pj_turn_session*) pj_stun_session_get_user_data(stun_sock->stun_sess);
++        //src_addr = (pj_sockaddr_t *)tsess->srv_addr;
++        //src_addr = tsess->srv_addr;
++	src_addr = &(stun_sock->srv_addr);
++}
+     /* This is our STUN Binding response. Give it to the STUN session */
+     status = pj_stun_session_on_rx_pkt(stun_sock->stun_sess, data, size,
+ 				       PJ_STUN_IS_DATAGRAM, NULL, NULL,
+Index: pjproject-1.8.10/pjnath/src/pjnath/stun_transaction.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/stun_transaction.c
++++ pjproject-1.8.10/pjnath/src/pjnath/stun_transaction.c
+@@ -275,7 +275,8 @@ PJ_DEF(pj_status_t) pj_stun_client_tsx_s
+ 	pj_assert(tsx->retransmit_timer.id == 0);
+ 	tsx->transmit_count = PJ_STUN_MAX_TRANSMIT_COUNT;
+ 
+-	timeout = tsx->rto_msec * 16;
++//	timeout = tsx->rto_msec * 16;
++	timeout = tsx->rto_msec * 400;
+ 	tsx->retransmit_time.sec = timeout / 1000;
+ 	tsx->retransmit_time.msec = timeout % 1000;
+ 
+Index: pjproject-1.8.10/pjnath/src/pjnath/turn_session.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/turn_session.c
++++ pjproject-1.8.10/pjnath/src/pjnath/turn_session.c
+@@ -17,7 +17,8 @@
+  * along with this program; if not, write to the Free Software
+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  */
+-#include <pjnath/turn_session.h>
++//#include <pjnath/turn_session.h>
++#include <pjnath/turn_sock.h>
+ #include <pjnath/errno.h>
+ #include <pjlib-util/srv_resolver.h>
+ #include <pj/addr_resolv.h>
+@@ -30,12 +31,21 @@
+ #include <pj/pool.h>
+ #include <pj/rand.h>
+ #include <pj/sock.h>
++#include <pthread.h>
++
++#include <sys/socket.h>
++#include <netinet/in.h>
+ 
+ #define PJ_TURN_CHANNEL_MIN	    0x4000
+ #define PJ_TURN_CHANNEL_MAX	    0x7FFF  /* inclusive */
+ #define PJ_TURN_CHANNEL_HTABLE_SIZE 8
+ #define PJ_TURN_PERM_HTABLE_SIZE    8
++#define DATA_BUFFER_SIZE        2048
++#define MAX_PAYLOAD_LEN 	8192
+ 
++void *data_channel_send(void *sess);
++void *data_channel_recv(void *sess);
++int nodatarcv=0;
+ static const char *state_names[] = 
+ {
+     "Null",
+@@ -153,6 +163,10 @@ struct pj_turn_session
+     pj_uint8_t		 tx_pkt[PJ_TURN_MAX_PKT_LEN];
+ 
+     pj_uint16_t		 next_ch;
++	// added for tcp support
++	int require_data_channel;
++	int data_sock;
++	int refresh_status;
+ };
+ 
+ 
+@@ -201,6 +215,7 @@ static void invalidate_perm(pj_turn_sess
+ 			    struct perm_t *perm);
+ static void on_timer_event(pj_timer_heap_t *th, pj_timer_entry *e);
+ 
++pthread_mutex_t         pjnathmutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+ /*
+  * Create default pj_turn_alloc_param.
+@@ -391,6 +406,12 @@ static void sess_shutdown(pj_turn_sessio
+ 
+     PJ_LOG(4,(sess->obj_name, "Request to shutdown in state %s, cause:%d",
+ 	      state_names[sess->state], status));
++	sess->refresh_status=0;
++	if(status == 370004)
++	{
++			PJ_LOG(4,(sess->obj_name, "NC....sttign data sock to 370004 should be refresh timeout case sess-0x%x", sess));
++			sess->refresh_status=37004;
++	}
+ 
+     switch (sess->state) {
+     case PJ_TURN_STATE_NULL:
+@@ -525,6 +546,66 @@ PJ_DEF(void*) pj_turn_session_get_user_d
+     return sess->user_data;
+ }
+ 
++PJ_DEF(pj_int32_t) pj_turn_session_get_data_conn( pj_turn_session *sess)
++{
++	return sess->require_data_channel;
++}
++
++PJ_DEF(void ) pj_turn_session_set_data_conn( pj_turn_session *sess, int val)
++{
++	sess->require_data_channel = val;
++}
++
++PJ_DEF(void ) pj_turn_session_set_data_sock( pj_turn_session *sess, int val)
++{
++	sess->data_sock = val;
++}
++
++PJ_DEF(pj_int32_t) pj_turn_session_get_data_sock( pj_turn_session *sess)
++{
++	return sess->data_sock;
++}
++PJ_DEF(pj_int32_t) pj_turn_session_get_refresh_status( pj_turn_session *sess)
++{
++	return sess->refresh_status;
++}
++
++#if 1
++pj_turn_sock_do_tcp_connect(pj_turn_session *sess, pj_sockaddr peer_addr)
++{
++	pj_stun_tx_data *tData;
++	pj_bool_t retransmit;
++	pj_status_t status;
++
++	printf("b4 create req\n");
++	/* Create new request */
++	status = pj_stun_session_create_req(sess->stun, PJ_STUN_CONNECT, PJ_STUN_MAGIC, NULL, &tData);
++	if (status != PJ_SUCCESS)
++	{
++		printf("req creation fail status =%d\n", status);
++		return status;
++	}
++	/* Add XOR-PEER-ADDRESS */
++	status = pj_stun_msg_add_sockaddr_attr(tData->pool, tData->msg,
++			PJ_STUN_ATTR_XOR_PEER_ADDR,
++			PJ_TRUE,
++			&peer_addr,
++			sizeof(peer_addr));
++	if (status != PJ_SUCCESS)
++		printf("add header failed status=%d\n", status);
++
++	retransmit = (sess->conn_type == PJ_TURN_TP_UDP);
++	status = pj_stun_session_send_msg(sess->stun, NULL, PJ_FALSE, 
++			retransmit, sess->srv_addr,
++			pj_sockaddr_get_len(sess->srv_addr), 
++			tData);
++
++	if (status != PJ_SUCCESS) {
++		printf("CONNECT sending failed \n");
++	}
++
++}
++#endif
+ 
+ /*
+  * Configure message logging. By default all flags are enabled.
+@@ -578,6 +659,7 @@ PJ_DEF(pj_status_t) pj_turn_session_set_
+ 			  pj_sockaddr_get_addr(&tmp_addr));
+     is_ip_addr = (status == PJ_SUCCESS);
+ 
++
+     if (!is_ip_addr && resolver) {
+ 	/* Resolve with DNS SRV resolution, and fallback to DNS A resolution
+ 	 * if default_port is specified.
+@@ -737,9 +819,20 @@ PJ_DEF(pj_status_t) pj_turn_session_allo
+     }
+ 
+     /* MUST include REQUESTED-TRANSPORT attribute */
++	if(sess->conn_type == PJ_TURN_TP_TCP)	
++	{
++		pj_stun_msg_add_uint_attr(tdata->pool, tdata->msg,
++				PJ_STUN_ATTR_REQ_TRANSPORT, 
++				PJ_STUN_SET_RT_PROTO(PJ_TURN_TP_TCP));
++		printf("conn type= TCP\n");
++	}
++	else if(sess->conn_type == PJ_TURN_TP_UDP)
++	{
+     pj_stun_msg_add_uint_attr(tdata->pool, tdata->msg,
+ 			      PJ_STUN_ATTR_REQ_TRANSPORT, 
+ 			      PJ_STUN_SET_RT_PROTO(PJ_TURN_TP_UDP));
++		printf("conn type= UDP\n");
++	}
+ 
+     /* Include BANDWIDTH if requested */
+     if (sess->alloc_param.bandwidth > 0) {
+@@ -808,16 +901,13 @@ PJ_DEF(pj_status_t) pj_turn_session_set_
+      * which the request belongs.
+      */
+     req_token = (void*)(long)pj_rand();
+-
+     /* Process the addresses */
+     for (i=0; i<addr_cnt; ++i) {
+ 	struct perm_t *perm;
+-
+ 	/* Lookup the perm structure and create if it doesn't exist */
+ 	perm = lookup_perm(sess, &addr[i], pj_sockaddr_get_len(&addr[i]),
+ 			   PJ_TRUE);
+ 	perm->renew = (options & 0x01);
+-
+ 	/* Only add to the request if the request doesn't contain this
+ 	 * address yet.
+ 	 */
+@@ -877,6 +967,7 @@ on_error:
+  */
+ static void send_refresh(pj_turn_session *sess, int lifetime)
+ {
++#if 1
+     pj_stun_tx_data *tdata;
+     pj_status_t status;
+ 
+@@ -914,6 +1005,7 @@ on_error:
+ 	set_state(sess, PJ_TURN_STATE_DEALLOCATED);
+ 	sess_shutdown(sess, status);
+     }
++	#endif
+ }
+ 
+ 
+@@ -1407,6 +1499,7 @@ static void stun_on_request_complete(pj_
+ 				     unsigned src_addr_len)
+ {
+     pj_turn_session *sess;
++	static int gAlreadyShutDown = 0;
+     enum pj_stun_method_e method = (enum pj_stun_method_e) 
+ 			      	   PJ_STUN_GET_METHOD(tdata->msg->hdr.type);
+ 
+@@ -1537,8 +1630,7 @@ static void stun_on_request_complete(pj_
+     } else if (method == PJ_STUN_CREATE_PERM_METHOD) {
+ 	/* Handle CreatePermission response */
+ 	if (status==PJ_SUCCESS && 
+-	    PJ_STUN_IS_SUCCESS_RESPONSE(response->hdr.type)) 
+-	{
++				PJ_STUN_IS_SUCCESS_RESPONSE(response->hdr.type)) {
+ 	    /* No special handling when the request is successful. */
+ 	} else {
+ 	    /* Iterate the permission table and invalidate all permissions
+@@ -1584,6 +1676,14 @@ static void stun_on_request_complete(pj_
+ 			      err_code, (int)reason.slen, reason.ptr));
+ 
+ 		    invalidate_perm(sess, perm);
++					/***nish in case of perm timeout shutdown and reinit ****/
++					if(!gAlreadyShutDown) // ctrl comes here again in case of multiple permission - we need to shutdon only once
++					{
++						gAlreadyShutDown = 1;
++						status = err_code;
++						sess_shutdown(sess, status);
++					}
++					/******************/
+ 		}
+ 	    }
+ 
+@@ -1595,13 +1695,73 @@ static void stun_on_request_complete(pj_
+ 	    }
+ 	}
+ 
+-    } else {
+-	PJ_LOG(4,(sess->obj_name, "Unexpected STUN %s response",
+-		  pj_stun_get_method_name(response->hdr.type)));
+     }
++	else if (method == PJ_STUN_CONNECT_METHOD) {
++		pj_stun_tx_data *tdata;
++		int i=0;
++		pj_bool_t retransmit;
++		pj_stun_connection_id_attr *connid_attr;
++
++		/* create new data_sock and send connection bind request */
++		PJ_LOG(4,(sess->obj_name, "method=%d", method));
++
++		connid_attr = (pj_stun_connection_id_attr *)
++			pj_stun_msg_find_attr(response, PJ_STUN_ATTR_CONNECTIONID, 0);
++		printf("conn id=%d\n", connid_attr->value);
++
++		/* Create new request */
++		status = pj_stun_session_create_req(stun, PJ_STUN_CONNECTION_BIND_REQUEST, PJ_STUN_MAGIC, NULL, &tdata);
++		if (status != PJ_SUCCESS)
++		{
++			printf("req creation fail status =%d\n", status);
++			return status;
++}
++		//printf("attr count=%d \n", msg->attr_count);
++		for (i=0; i < response->attr_count; ++i) 
++		{
++			//printf("hdr type=%d \n", msg->attr[i]->type);
++			const pj_stun_attr_hdr *asrc = response->attr[i];
++
++			if (asrc->type == PJ_STUN_ATTR_CONNECTIONID)
++			{
++				//	printf("tdata->msg->attr_count=%d\n", tdata->msg->attr_count);
++				//tdata->msg->attr[tdata->msg->attr_count++] =
++				//pj_stun_attr_clone(tdata->pool, asrc);
++
++				pj_stun_msg_add_uint_attr(tdata->pool, tdata->msg, PJ_STUN_ATTR_CONNECTIONID, connid_attr->value);
++			}
++
++		}
++		/* Send request */
++		//set_state(sess, PJ_TURN_STATE_ALLOCATING);
++		retransmit = (sess->conn_type == PJ_TURN_TP_UDP);
++
++		//printf("setting require_data_channel\n");
++		sess->require_data_channel = 1;
++
++		status = pj_stun_session_send_msg(sess->stun, NULL, PJ_FALSE, 
++				retransmit, sess->srv_addr,
++				pj_sockaddr_get_len(sess->srv_addr), 
++				tdata);
++		if (status != PJ_SUCCESS) {
++			printf("connBind sending failed \n");
++		}
++		pthread_t tid;
++		pthread_create(&tid, NULL,data_channel_send, sess);
++		pthread_detach(tid);
++
++	}
++	else {
++		if(response)
++			PJ_LOG(4,(sess->obj_name, "Unexpected STUN %s response %d", pj_stun_get_method_name(response->hdr.type),method));
++		else
++			PJ_LOG(4,(sess->obj_name, "Unexpected STUN %d response", method));
++	}
+ }
+ 
+ 
++
++
+ /*
+  * Notification from STUN session on incoming STUN Indication
+  * message.
+@@ -1618,6 +1778,11 @@ static pj_status_t stun_on_rx_indication
+     pj_stun_xor_peer_addr_attr *peer_attr;
+     pj_stun_icmp_attr *icmp;
+     pj_stun_data_attr *data_attr;
++	pj_stun_connection_id_attr *connid_attr;
++	pj_stun_tx_data *tdata;
++	pj_status_t status;
++	int i=0;
++	pj_bool_t retransmit;
+ 
+     PJ_UNUSED_ARG(token);
+     PJ_UNUSED_ARG(pkt);
+@@ -1625,14 +1790,145 @@ static pj_status_t stun_on_rx_indication
+     PJ_UNUSED_ARG(src_addr);
+     PJ_UNUSED_ARG(src_addr_len);
+ 
++
+     sess = (pj_turn_session*)pj_stun_session_get_user_data(stun);
+ 
+     /* Expecting Data Indication only */
+-    if (msg->hdr.type != PJ_STUN_DATA_INDICATION) {
++	//printf("hdr.type=%d %x\n", msg->hdr.type, msg->hdr.type);
++	if ((msg->hdr.type != PJ_STUN_DATA_INDICATION) && (msg->hdr.type != PJ_STUN_CONNECTION_ATTEMPT_INDICATION)) {
+ 	PJ_LOG(4,(sess->obj_name, "Unexpected STUN %s indication",
+ 		  pj_stun_get_method_name(msg->hdr.type)));
+ 	return PJ_EINVALIDOP;
+     }
++	if (msg->hdr.type == PJ_STUN_CONNECTION_ATTEMPT_INDICATION) 
++	{
++		//printf("indentified hdr.type=%d\n", msg->hdr.type);
++		/* make new tcp connection
++			 sedn conection bind req with same connction-id as in connection attempt
++			 wait for data on this connection
++			 send data to application
++		 */
++		PJ_LOG(4,(sess->obj_name, 
++					"Received PJ_STUN_CONNECTION_ATTEMPT_INDICATION indication"));
++		nodatarcv = 1;
++		connid_attr = (pj_stun_connection_id_attr *)
++			pj_stun_msg_find_attr(msg, PJ_STUN_ATTR_CONNECTIONID, 0);
++		//printf("conn id=%d\n", connid_attr->value);
++
++		/* Create new request */
++		status = pj_stun_session_create_req(stun, PJ_STUN_CONNECTION_BIND_REQUEST, PJ_STUN_MAGIC, NULL, &tdata);
++		if (status != PJ_SUCCESS)
++		{
++			printf("req creation fail status =%d\n", status);
++			return status;
++		}
++		//printf("attr count=%d \n", msg->attr_count);
++		for (i=0; i<msg->attr_count; ++i) 
++		{
++			//printf("hdr type=%d \n", msg->attr[i]->type);
++			const pj_stun_attr_hdr *asrc = msg->attr[i];
++
++			if (asrc->type == PJ_STUN_ATTR_CONNECTIONID)
++			{
++				//	printf("tdata->msg->attr_count=%d\n", tdata->msg->attr_count);
++				//tdata->msg->attr[tdata->msg->attr_count++] =
++				//pj_stun_attr_clone(tdata->pool, asrc);
++
++				pj_stun_msg_add_uint_attr(tdata->pool, tdata->msg, PJ_STUN_ATTR_CONNECTIONID, connid_attr->value);
++			}
++
++		}
++		/* Send request */
++		//set_state(sess, PJ_TURN_STATE_ALLOCATING);
++		retransmit = (sess->conn_type == PJ_TURN_TP_UDP);
++
++		//printf("setting require_data_channel\n");
++		sess->require_data_channel = 1;
++
++		status = pj_stun_session_send_msg(sess->stun, NULL, PJ_FALSE, 
++				retransmit, sess->srv_addr,
++				pj_sockaddr_get_len(sess->srv_addr), 
++				tdata);
++		if (status != PJ_SUCCESS) {
++			printf("connBind sending failed \n");
++		}
++#if 0
++		pthread_t tid;
++		pthread_create(&tid, NULL,data_channel_recv, sess);
++		pthread_detach(tid);
++		
++		PJ_LOG(4,(sess->obj_name, 
++					"data_channel_recv thread spawned for handling data being received"));
++#endif
++		PJ_LOG(4,(sess->obj_name, 
++					"Leaving Received PJ_STUN_CONNECTION_ATTEMPT_INDICATION indication condition"));
++
++#if 0
++		//CHECK( pj_thread_create(gNatTravGlbInfo.pool, "NatTravLib", &nattrav_worker_thread,
++		//                    NULL, 0, 0, &gNatTravGlbInfo.thread) );
++		/* crwtae socket and bind in library
++			 connect here and invoke pj send with a flag,localfd, serveraddr,serverport  and send 
++			 Include CONNECTIOD-ID in connection bind request */
++		/*
++			 int bytes_recieved;
++			 char recv_data[1024];
++			 while(1)
++			 {
++			 printf("waiting to recv d connBind respo from TS \n");
++			 bytes_recieved=recv(sock,recv_data,1024,0);
++			 recv_data[bytes_recieved] = '\0';
++			 printf("\nRecieved data = %s " , recv_data);
++			 break;
++			 }
++		 */
++		int bytes_recieved;
++		char recv_data[1024];
++		pj_stun_msg_hdr *hdr;
++		pj_uint16_t type;
++		while(1)
++		{
++			printf("waiting to recv d connBind respo/data from TS on socket=%d \n", sess->data_sock);
++			bytes_recieved=recv(sess->data_sock, recv_data,1024,0);
++			recv_data[bytes_recieved] = '\0';
++			printf("bytes_recieved=%d strlen(recv_data)=%d nodatarcv=%d\n", bytes_recieved,  strlen(recv_data), nodatarcv);
++			if (bytes_recieved == 0 ) {
++				printf("going out of loop=%d setting nodatarcv \n", sess->data_sock);
++				nodatarcv = 1;
++				close(sess->data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++				break;
++			}
++
++			hdr = (pj_stun_msg_hdr*)recv_data;
++			if(hdr)
++			{
++				pj_memcpy(&type, &hdr->type, 2);
++				type = pj_ntohs(type);
++				//printf("\nRecieved : type= %d\n" ,type);
++				printf("\nRecieved data = %s " , recv_data);
++				//if (PJ_STUN_IS_RESPONSE(type))
++				if(PJ_STUN_GET_METHOD(type) == 11)
++				{
++					//printf("\nRecieved resp PJ_STUN_IS_RESPONSE(type)==true\n");
++					printf("this is a response -> method in resp=%d\n",PJ_STUN_GET_METHOD(type));
++				}
++				else
++				{
++					/* Notify application */
++					if (sess->cb.on_rx_data) {
++						(*sess->cb.on_rx_data)(sess, recv_data, strlen(recv_data), NULL,  /*&peer_attr->sockaddr,*/ 0 /*pj_sockaddr_get_len(&peer_attr->sockaddr)*/);
++						//printf("\after on rx_Data= %s " , recv_data);
++					}
++					memset(recv_data, 0, 1024);
++				}
++			}
++			sleep(3);
++			//break;
++		}
++#endif
++	}else {
++		PJ_LOG(4,(sess->obj_name, 
++					"Not in Received PJ_STUN_CONNECTION_ATTEMPT_INDICATION indication condition"));
++	}
+ 
+     /* Check if there is ICMP attribute in the message */
+     icmp = (pj_stun_icmp_attr*)
+@@ -1658,15 +1954,355 @@ static pj_status_t stun_on_rx_indication
+     }
+ 
+     /* Notify application */
+-    if (sess->cb.on_rx_data) {
++	if (sess->cb.on_rx_data && (nodatarcv!=1)) {
+ 	(*sess->cb.on_rx_data)(sess, data_attr->data, data_attr->length, 
+ 			       &peer_attr->sockaddr,
+ 			       pj_sockaddr_get_len(&peer_attr->sockaddr));
+     }
+-
+     return PJ_SUCCESS;
+ }
+ 
++#define HEADER_DATA_LEN	8
++#define PJ_FIXED_HDR_LEN		80
++#define CLOUD_MSG_TYPE	0xfeed
++
++void *data_channel_recv(void *p_sess)
++{
++	int bytes_recieved, data_sock, rc;
++	char recv_data[DATA_BUFFER_SIZE+1]; //1 byte for the terminating NULL byte
++	char *payload_buffer=NULL; 
++	pj_stun_msg_hdr *hdr;
++	pj_uint16_t type;
++	pj_turn_session *sess = NULL;
++	struct timeval tv;
++	pj_turn_data_sock_cfg *pturnsock = NULL;
++
++	pj_thread_desc rec_thread_desc;
++	pj_thread_t         *rec_thread;
++	pj_status_t status;
++	
++	unsigned int *ptr = NULL;
++	unsigned int msg_type = 0;
++	unsigned int len  = 0;
++	unsigned int bytes_to_receive = 0;
++	int recvd_bytes  = 0;
++	unsigned int payload_offset = 0;
++
++	pturnsock = (pj_turn_data_sock_cfg*)p_sess;
++	//sess = (pj_turn_session *)p_sess;
++	sess = (pj_turn_session *)pturnsock->sess;
++	data_sock = *((int*)(pturnsock->data_sock));
++	printf("\n%s entry for data_sock = %d\n", __FUNCTION__, data_sock);
++	//printf("in worker thread for data_channel register recv thread recv data buffer size=%d\n",DATA_BUFFER_SIZE);
++	status = pj_thread_register("data_recv_thread", rec_thread_desc, &rec_thread);
++	//data_sock = sess->data_sock;
++	while(1)
++	{
++		//set recv timeout
++		tv.tv_sec = 180;
++		tv.tv_usec = 0;
++		setsockopt(data_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(struct timeval));
++		payload_offset=0;
++
++		/* Story 3658: first retrieve the message header = 4 bytes msg_type + 4 bytes payload length */
++		printf("waiting to recv the message header\n");
++		bytes_recieved=recv(data_sock, recv_data,DATA_BUFFER_SIZE,0);
++		if(bytes_recieved <= 0) {
++			printf("hdr recv failure, going out of loop=%d setting nodatarcv \n", data_sock);
++			nodatarcv = 1;
++			close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++			break;
++		}
++		printf("Received %d Bytes\n", bytes_recieved);
++		
++		recv_data[bytes_recieved] = '\0';
++
++		hdr = (pj_stun_msg_hdr*)recv_data;
++		if(hdr)
++		{
++			pj_memcpy(&type, &hdr->type, 2);
++			type = pj_ntohs(type);
++			//printf("\nRecieved : type= %d\n" ,type);
++			//printf("\nRecieved data = %s " , recv_data);
++			//if (PJ_STUN_IS_RESPONSE(type))
++			if(PJ_STUN_GET_METHOD(type) == 11)
++			{
++				//printf("\nRecieved resp PJ_STUN_IS_RESPONSE(type)==true\n");
++				printf("this is a response -> method in resp=%d\n",PJ_STUN_GET_METHOD(type));
++				if (bytes_recieved > PJ_FIXED_HDR_LEN) {
++					printf("this handling is for response with data %d\n", bytes_recieved);
++						/*
++						 * Read Header here.
++						 */
++						ptr = (unsigned int *)&recv_data[PJ_FIXED_HDR_LEN];
++						msg_type = ntohl(*ptr);
++						len  = ntohl(*(ptr+1));
++
++						printf("hdr recv, msg_type=%x len=%u\n", msg_type, len);
++						//Check for Length in the header for corruption.
++
++						/* validate msg_type */
++						if(CLOUD_MSG_TYPE != msg_type)
++						{
++							printf("Invalid msg_type: %x, dropping message !!", msg_type);
++							nodatarcv = 1;
++							close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++							break;
++						}
++						
++						if (len > MAX_PAYLOAD_LEN) {
++							printf("length received in header is invalid: %u...\n", len);
++							nodatarcv = 1;
++							close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++							break;
++						}
++						else
++						{
++							/* allocate memory for payload */
++							payload_buffer = (char *)calloc(1, len);
++							if(NULL == payload_buffer)
++							{
++								printf("Allocating %u bytes for payload failed!!", len);
++								nodatarcv = 1;
++								close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++								break;
++							}
++							
++						}
++
++						payload_offset = (bytes_recieved - PJ_FIXED_HDR_LEN - HEADER_DATA_LEN);
++
++						if(len < payload_offset)
++						{
++							printf("We already have received %u bytes\n", payload_offset);
++							payload_offset=len;
++						}
++
++						memcpy(payload_buffer, &recv_data[PJ_FIXED_HDR_LEN + HEADER_DATA_LEN], payload_offset);
++						printf("Copied %u bytes from recv_data to payload_buffer\n", payload_offset);
++
++						while (len > (bytes_recieved - PJ_FIXED_HDR_LEN - HEADER_DATA_LEN)) {
++								bytes_to_receive = len - bytes_recieved + PJ_FIXED_HDR_LEN + HEADER_DATA_LEN;
++
++								recvd_bytes = recv(data_sock, &payload_buffer[payload_offset], bytes_to_receive, 0);
++
++								printf("%d:recvd_bytes=%d nodatarcv=%d data_sock=%d, requested bytes %d\n", __LINE__, recvd_bytes, nodatarcv, data_sock,bytes_to_receive);
++
++								if ((recvd_bytes <= 0)) {
++									printf("going out of loop=%d setting nodatarcv \n", data_sock);
++									nodatarcv = 1;
++									if(payload_buffer)
++									{
++										free(payload_buffer);
++										payload_buffer=NULL;
++									}
++									close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++									break;
++								}
++
++								bytes_recieved += recvd_bytes;
++								payload_offset += recvd_bytes;
++						}
++
++						if(NULL == payload_buffer)
++						{
++							/* This leg will be hit if we fail in the while loop above. Do not pass this to application */
++							break;
++						}
++
++					//rc = pthread_mutex_lock(&pjnathmutex);
++					/* Notify application */
++					if (sess->cb.on_rx_data) {
++						printf("in data_channel_recv thread before invoking application handler 11\n");
++						//(*sess->cb.on_rx_data)(sess, recv_data, strlen(recv_data), NULL,  /*&peer_attr->sockaddr,*/ 0 /*pj_sockaddr_get_len(&peer_attr->sockaddr)*/);
++						(*sess->cb.on_rx_data)(sess, payload_buffer, (bytes_recieved-PJ_FIXED_HDR_LEN-HEADER_DATA_LEN), NULL,  /*&peer_attr->sockaddr,*/ data_sock /*pj_sockaddr_get_len(&peer_attr->sockaddr)*/);
++						//printf("\after on rx_Data= %s " , recv_data);
++					}
++					memset(recv_data, 0, DATA_BUFFER_SIZE);
++					if(payload_buffer)
++					{
++						free(payload_buffer);
++						payload_buffer=NULL;
++					}
++					//rc = pthread_mutex_unlock(&pjnathmutex);
++				}
++			}
++			else
++			{
++						/*
++						 * Read Header here.
++						 */
++						ptr = (unsigned int *)recv_data;
++						msg_type = ntohl(*ptr);
++						len  = ntohl(*(ptr+1));
++
++						printf("hdr recv, msg_type=%x len=%u\n", msg_type, len);
++
++						/* validate msg_type */
++						if(CLOUD_MSG_TYPE != msg_type)
++						{
++							printf("Invalid msg_type: %x, dropping message !!", msg_type);
++							nodatarcv = 1;
++							close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++							break;
++						}
++						
++						//Check for Length in the header for corruption.
++						if (len > MAX_PAYLOAD_LEN) {
++							printf("length received in header is invalid: %u...\n", len);
++							nodatarcv = 1;
++							close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++							break;
++						}
++						else
++						{
++							/* allocate memory for payload */
++							payload_buffer = (char *)calloc(1, len);
++							if(NULL == payload_buffer)
++							{
++								printf("Allocating %u bytes for payload failed!!", len);
++								nodatarcv = 1;
++								close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++								break;
++							}
++							
++						}
++
++						payload_offset = (bytes_recieved - HEADER_DATA_LEN);
++
++						if(len < payload_offset)
++						{
++							printf("We already have received %u bytes\n", payload_offset);
++							payload_offset=len;
++						}
++
++						memcpy(payload_buffer, &recv_data[HEADER_DATA_LEN], payload_offset);
++						printf("Copied %u bytes from recv_data to payload_buffer\n", payload_offset);
++
++
++						while (len > (bytes_recieved - HEADER_DATA_LEN)) {
++								bytes_to_receive = len - bytes_recieved + HEADER_DATA_LEN;
++
++								recvd_bytes = recv(data_sock, &payload_buffer[payload_offset], bytes_to_receive, 0);
++
++								printf("%d:recvd_bytes=%d nodatarcv=%d data_sock=%d, requested bytes %d\n", __LINE__, recvd_bytes, nodatarcv, data_sock,bytes_to_receive);
++
++								if ((recvd_bytes <= 0)) {
++									printf("going out of loop=%d setting nodatarcv \n", data_sock);
++									nodatarcv = 1;
++									if(payload_buffer)
++									{
++										free(payload_buffer);
++										payload_buffer=NULL;
++									}
++									close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++									break;
++								}
++
++								bytes_recieved += recvd_bytes;
++								payload_offset += recvd_bytes;
++						}
++
++
++
++				//rc = pthread_mutex_lock(&pjnathmutex);
++				/* Notify application */
++				if (sess->cb.on_rx_data) {
++					printf("in data_channel_recv thread before invoking application handler");
++					//(*sess->cb.on_rx_data)(sess, recv_data, strlen(recv_data), NULL,  /*&peer_attr->sockaddr,*/ 0 /*pj_sockaddr_get_len(&peer_attr->sockaddr)*/);
++					(*sess->cb.on_rx_data)(sess, payload_buffer, bytes_recieved-HEADER_DATA_LEN, NULL,  /*&peer_attr->sockaddr,*/ data_sock /*pj_sockaddr_get_len(&peer_attr->sockaddr)*/);
++					//printf("\after on rx_Data= %s " , recv_data);
++				}
++				memset(recv_data, 0, DATA_BUFFER_SIZE);
++				if(payload_buffer)
++				{
++					free(payload_buffer);
++					payload_buffer=NULL;
++				}
++				//rc = pthread_mutex_unlock(&pjnathmutex);
++			}
++		}
++		//sleep(3);
++		//break;
++	}
++#if 1
++	if (pturnsock) {
++		free(pturnsock->data_sock);
++		pturnsock->data_sock = NULL;
++		free(pturnsock);
++		pturnsock = NULL;
++	}
++#endif
++	printf("%s exit\n", __FUNCTION__);
++	pthread_exit(&rc);	
++}
++
++void *data_channel_send(void *p_sess)
++{
++	int bytes_recieved, data_sock, rc;
++	char recv_data[DATA_BUFFER_SIZE], send_data[DATA_BUFFER_SIZE];
++	pj_stun_msg_hdr *hdr;
++	pj_uint16_t type;
++	pj_turn_session *sess = NULL;
++
++	pj_thread_desc send_thread_desc;
++	pj_thread_t         *sen_thread;
++	pj_status_t status;
++
++	sess = (pj_turn_session *)p_sess;
++	printf("%s entry\n", __FUNCTION__);
++	printf("in worker thread for data_channel");
++	status = pj_thread_register("data_send_thread", send_thread_desc, &sen_thread);
++	data_sock = sess->data_sock;
++	while(1)
++	{
++		printf("waiting to recv d connBind respo/data from TS on socket=%d \n", data_sock);
++		bytes_recieved=recv(data_sock, recv_data,DATA_BUFFER_SIZE,0);
++		recv_data[bytes_recieved] = '\0';
++		printf("bytes_recieved=%d strlen(recv_data)=%d nodatarcv=%d\n", bytes_recieved,  strlen(recv_data), nodatarcv);
++		if (bytes_recieved == 0 ) {
++			printf("going out of loop=%d setting nodatarcv \n", data_sock);
++			nodatarcv = 1;
++			close(data_sock);		// close here not when rcvd response as ever conbind is folwd by data
++			break;
++		}
++
++		hdr = (pj_stun_msg_hdr*)recv_data;
++		if(hdr)
++		{
++			pj_memcpy(&type, &hdr->type, 2);
++			type = pj_ntohs(type);
++			//printf("\nRecieved : type= %d\n" ,type);
++			printf("\nRecieved data = %s " , recv_data);
++			//if (PJ_STUN_IS_RESPONSE(type))
++			strncpy(send_data, "this is test connect msg", sizeof(send_data)-1);
++			if(PJ_STUN_GET_METHOD(type) == 11)
++			{
++				//printf("\nRecieved resp PJ_STUN_IS_RESPONSE(type)==true\n");
++				printf("this is a response -> method in resp=%d\n",PJ_STUN_GET_METHOD(type));
++				send(data_sock, send_data, bytes_recieved, 0);
++				printf("\after send\n");
++			}
++			else
++			{
++				rc = pthread_mutex_lock(&pjnathmutex);
++				/* Notify application */
++				if (sess->cb.on_rx_data) {
++					(*sess->cb.on_rx_data)(sess, recv_data, bytes_recieved, NULL,  /*&peer_attr->sockaddr,*/ 0 /*pj_sockaddr_get_len(&peer_attr->sockaddr)*/);
++					//printf("\after on rx_Data= %s " , recv_data);
++				}
++				memset(recv_data, 0, DATA_BUFFER_SIZE);
++				rc = pthread_mutex_unlock(&pjnathmutex);
++			}
++		}
++		//sleep(3);
++		//break;
++	}
++	pthread_exit(&rc);
++
++	printf("%s exit\n", __FUNCTION__);
++}
++
+ 
+ /*
+  * Notification on completion of DNS SRV resolution.
+Index: pjproject-1.8.10/pjnath/src/pjnath/turn_sock.c
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/src/pjnath/turn_sock.c
++++ pjproject-1.8.10/pjnath/src/pjnath/turn_sock.c
+@@ -26,6 +26,13 @@
+ #include <pj/pool.h>
+ #include <pj/ioqueue.h>
+ 
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++#include <pthread.h>
++
++
+ enum
+ {
+     TIMER_NONE,
+@@ -55,6 +62,9 @@ struct pj_turn_sock
+     pj_turn_tp_type	 conn_type;
+     pj_activesock_t	*active_sock;
+     pj_ioqueue_op_key_t	 send_key;
++	int data_sock;
++	int data_port;
++	int status;
+ };
+ 
+ 
+@@ -92,6 +102,8 @@ static pj_bool_t on_connect_complete(pj_
+ static void destroy(pj_turn_sock *turn_sock);
+ static void timer_cb(pj_timer_heap_t *th, pj_timer_entry *e);
+ 
++extern void *data_channel_recv(void *sess);
++extern pthread_mutex_t pjnathmutex;
+ 
+ /* Init config */
+ PJ_DEF(void) pj_turn_sock_cfg_default(pj_turn_sock_cfg *cfg)
+@@ -298,6 +310,28 @@ PJ_DEF(pj_status_t) pj_turn_sock_set_use
+     return PJ_SUCCESS;
+ }
+ 
++PJ_DEF(void) pj_turn_sock_set_data_sock( pj_turn_sock *turn_sock,
++		int sock)
++{
++	PJ_ASSERT_RETURN(turn_sock, PJ_EINVAL);
++	turn_sock->data_sock = sock;
++}
++PJ_DEF(void) pj_turn_sock_set_data_port( pj_turn_sock *turn_sock,
++		int data_port)
++{
++	PJ_ASSERT_RETURN(turn_sock, PJ_EINVAL);
++	turn_sock->data_port= data_port;
++}
++PJ_DEF(pj_status_t) pj_turn_sock_get_status( pj_turn_sock *turn_sock)
++{
++				PJ_ASSERT_RETURN(turn_sock, PJ_EINVAL);
++				return(turn_sock->status);
++}
++pj_turn_session * pj_turn_sock_get_turn_session(pj_turn_sock *turn_sock)
++{
++	return(turn_sock->sess);
++}
++
+ /*
+  * Get user data.
+  */
+@@ -603,6 +637,43 @@ on_return:
+ }
+ 
+ 
++
++#if 0
++pj_turn_sock_do_tcp_connect(pj_turn_sock *turn_sock, pj_sockaddr peer_addr)
++{
++	pj_stun_tx_data *tdata;
++	pj_bool_t retransmit;
++	pj_status_t status;
++
++	/* Create new request */
++	status = pj_stun_session_create_req(turn_sock->sess, PJ_STUN_CONNECT, PJ_STUN_MAGIC, NULL, &tdata);
++	if (status != PJ_SUCCESS)
++	{
++		printf("req creation fail status =%d\n", status);
++		return status;
++	}
++	/* Add XOR-PEER-ADDRESS */
++	status = pj_stun_msg_add_sockaddr_attr(tdata->pool, tdata->msg,
++			PJ_STUN_ATTR_XOR_PEER_ADDR,
++			PJ_TRUE,
++			&peer_addr,
++			sizeof(peer_addr));
++	if (status != PJ_SUCCESS)
++		printf("add header failed status=%d\n", status);
++
++	retransmit = (turn_sock->sess->conn_type == PJ_TURN_TP_UDP);
++	status = pj_stun_session_send_msg(turn_sock->sess->stun, NULL, PJ_FALSE, 
++			retransmit, turn_sock->sess->srv_addr,
++			pj_sockaddr_get_len(sess->srv_addr), 
++			tdata);
++
++	if (status != PJ_SUCCESS) {
++		printf("CONNECT sending failed \n");
++	}
++
++}
++#endif
++
+ /*
+  * Callback from TURN session to send outgoing packet.
+  */
+@@ -612,6 +683,8 @@ static pj_status_t turn_on_send_pkt(pj_t
+ 				    const pj_sockaddr_t *dst_addr,
+ 				    unsigned dst_addr_len)
+ {
++	printf("in func turn_on_send_pkt\n");
++	int pret = -1;
+     pj_turn_sock *turn_sock = (pj_turn_sock*) 
+ 			      pj_turn_session_get_user_data(sess);
+     pj_ssize_t len = pkt_len;
+@@ -625,7 +698,132 @@ static pj_status_t turn_on_send_pkt(pj_t
+ 
+     PJ_UNUSED_ARG(dst_addr);
+     PJ_UNUSED_ARG(dst_addr_len);
++	pj_sockaddr *paddr;
++	struct sockaddr_in server_addr;
++
++	paddr = (pj_sockaddr *)dst_addr;
+ 
++	server_addr.sin_family = AF_INET;
++	server_addr.sin_addr.s_addr = paddr->ipv4.sin_addr.s_addr;
++	server_addr.sin_port = (paddr->ipv4.sin_port);
++	//server_addr.sin_port = pj_htons(34789);
++
++	printf("dst addr=%s htons.port=%d ntwk.port=%d\n", pj_inet_ntoa(paddr->ipv4.sin_addr), pj_htons(paddr->ipv4.sin_port), paddr->ipv4.sin_port );
++	printf("check  server_addr.sin_addr=%s .port=%d \n", inet_ntoa(server_addr.sin_addr), (server_addr.sin_port) );
++	int sock; //TODO
++	if(pj_turn_session_get_data_conn(sess)) //TODO
++	{
++		/*  create sock */
++		int sock_c, rc;
++		struct sockaddr_in slf_server_addr;
++		int optval;
++
++		rc = pthread_mutex_lock(&pjnathmutex);
++		pj_turn_session_set_data_conn(sess, 0);
++		if ((sock_c = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
++			perror("Socket");
++			rc = pthread_mutex_unlock(&pjnathmutex);
++			return -1;
++			//exit(1);
++		}
++		printf("data sock fd=%d data_port=%d\n",sock_c, turn_sock->data_port);
++		slf_server_addr.sin_family = AF_INET;
++		slf_server_addr.sin_port = htons(turn_sock->data_port);
++		printf("data_port aftr htons=%d\n", slf_server_addr.sin_port);
++		slf_server_addr.sin_addr.s_addr = INADDR_ANY;
++
++		optval = 1;
++		setsockopt(sock_c, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
++
++		if (bind(sock_c,(struct sockaddr *)&slf_server_addr,
++					sizeof(struct sockaddr)) == -1)
++		{
++			perror("Bind");
++			rc = pthread_mutex_unlock(&pjnathmutex);
++			return -1;
++			//exit(1);
++		}
++
++		turn_sock->data_sock = sock_c;
++		sock = turn_sock->data_sock;
++		pj_turn_session_set_data_sock(sess, turn_sock->data_sock);
++		printf("turn_sock->data_sock while setting =%d\n", sock);
++		printf("*********************\n");
++		printf("this shud print only for CONN BIND\n");
++		printf("*********************\n");
++		if (connect(sock, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)) == -1)
++		{
++			perror("Connect");
++			rc = pthread_mutex_unlock(&pjnathmutex);
++			return -1;
++			//exit(1);
++		}
++		//sleep(2);
++		printf("sending %d bytes of data to turn server\n", len);
++		status = send(sock, pkt, len, 0);
++		printf("after senddata status=%d\n", status);
++		if(status != -1) {
++			status=0;
++#if 1
++		pj_turn_data_sock_cfg *turndatasock;
++		turndatasock = (pj_turn_data_sock_cfg*)malloc(sizeof(pj_turn_data_sock_cfg));
++		//memset(turndatasock, 0x0, sizeof(pj_turn_data_sock_cfg));
++		turndatasock->data_sock = (int*)malloc(sizeof(int));
++		//memset(turndatasock->data_sock, 0x0, sizeof(int));
++		turndatasock->sess = sess;
++		//memcpy(turndatasock->data_sock, sock, sizeof(int));
++		*(turndatasock->data_sock) = sock;
++		pthread_t tid;
++		//pthread_create(&tid, NULL,data_channel_recv, sess);
++		pret = pthread_create(&tid, NULL,data_channel_recv, turndatasock);
++		if (pret == 0) {
++				pthread_detach(tid);
++				printf("\ndata_channel_recv thread spawned for handling data being received for data_sock=%d successfully\n", sock);
++		}else {
++#if 1
++				printf("\ndata_channel_recv thread spawned for handling data being received for data_sock=%di failed\n", sock);
++				close(turndatasock->data_sock);
++				if (turndatasock) {
++						free(turndatasock->data_sock);
++						turndatasock->data_sock = NULL;
++						free(turndatasock);
++						turndatasock = NULL;
++				}
++#endif
++		}
++
++#endif
++		}
++		rc = pthread_mutex_unlock(&pjnathmutex);
++#if 0
++		char send_data[1024],recv_data[1024];
++		int bytes_recieved;
++		char recv_data[1024];
++		pj_stun_msg_hdr *hdr;
++		pj_uint16_t type;
++		while(1)
++		{
++			printf("waiting to recv d connBind respo from TS \n");
++			bytes_recieved=recv(sock,recv_data,1024,0);
++			recv_data[bytes_recieved] = '\0';
++
++			hdr = (pj_stun_msg_hdr*)recv_data;
++			if(hdr)
++			{
++				pj_memcpy(&type, &hdr->type, 2);
++				type = pj_ntohs(type);
++				printf("\nRecieved : type= %d\n" ,type);
++				if (PJ_STUN_IS_RESPONSE(type))
++					printf("\nRecieved resp PJ_STUN_IS_RESPONSE(type)==true\n");
++				printf("method in resp=%d\n",PJ_STUN_GET_METHOD(type));
++			}
++			printf("\nRecieved data = %s " , recv_data);
++			sleep(3);
++			//break;
++		}
++#endif
++		return status;
++	}
+     status = pj_activesock_send(turn_sock->active_sock, &turn_sock->send_key,
+ 				pkt, &len, 0);
+     if (status != PJ_SUCCESS && status != PJ_EPENDING) {
+@@ -689,7 +887,8 @@ static void turn_on_state(pj_turn_sessio
+ 	/* We've been destroyed */
+ 	return;
+     }
+-
++  turn_sock->status =pj_turn_session_get_refresh_status(sess);
++	printf("in turn_sock=%d\n",turn_sock->status);
+     /* Notify app first */
+     if (turn_sock->cb.on_state) {
+ 	(*turn_sock->cb.on_state)(turn_sock, old_state, new_state);
+Index: pjproject-1.8.10/pjlib/src/pj/ip_helper_generic.c
+===================================================================
+--- pjproject-1.8.10.orig/pjlib/src/pj/ip_helper_generic.c
++++ pjproject-1.8.10/pjlib/src/pj/ip_helper_generic.c
+@@ -26,7 +26,7 @@
+ #include <pj/sock.h>
+ 
+ /* Set to 1 to enable tracing */
+-#if 0
++#if 1
+ #   include <pj/log.h>
+ #   define THIS_FILE	"ip_helper_generic.c"
+ #   define TRACE_(exp)	PJ_LOG(5,exp)
+@@ -53,8 +53,7 @@
+ #if 0
+     /* dummy */
+ 
+-#elif defined(PJ_HAS_IFADDRS_H) && PJ_HAS_IFADDRS_H != 0 && \
+-      defined(PJ_HAS_NET_IF_H) && PJ_HAS_NET_IF_H != 0
++#elif defined(PJ_HAS_IFADDRS_H) && PJ_HAS_IFADDRS_H != 0
+ /* Using getifaddrs() is preferred since it can work with both IPv4 and IPv6 */
+ static pj_status_t if_enum_by_af(int af,
+ 				 unsigned *p_cnt,
+@@ -179,6 +178,7 @@ static pj_status_t if_enum_by_af(int af,
+ 	struct ifreq *itf = &ifr[i];
+ 	struct sockaddr *ad = &itf->ifr_addr;
+ 	
++	TRACE_((THIS_FILE, " checking interface %s count %d ", itf->ifr_name,count));
+ 	TRACE_((THIS_FILE, " checking interface %s", itf->ifr_name));
+ 
+ 	/* Skip address with different family */
+@@ -188,9 +188,18 @@ static pj_status_t if_enum_by_af(int af,
+ 	    continue;
+ 	}
+ 
+-	if ((itf->ifr_flags & IFF_UP)==0) {
+-	    TRACE_((THIS_FILE, "  interface is down"));
+-	    continue; /* Skip when interface is down */
++#ifdef __NetCamHDv2__
++	if (!strncmp(itf->ifr_name, "br0", 3)) 
++#else
++	if (!strncmp(itf->ifr_name, "apcli0", 6)) 
++#endif
++	{  //NetCam Specific TODO
++		TRACE_((THIS_FILE, " checking interface %s count %d ifr_flags 0x%x", itf->ifr_name,count, (itf->ifr_flags & IFF_UP)));
++	} else {
++		if ((itf->ifr_flags & IFF_UP)==0) {
++		TRACE_((THIS_FILE, "  interface is down"));
++		continue; /* Skip when interface is down */
++		}
+ 	}
+ 
+ #if PJ_IP_HELPER_IGNORE_LOOPBACK_IF

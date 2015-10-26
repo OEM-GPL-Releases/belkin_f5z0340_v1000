@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn
+END
+hifnHIPPvar.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/hifnHIPPvar.h
+END
+hifnHIPP.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/hifnHIPP.c
+END
+hifn7751var.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/hifn7751var.h
+END
+hifn7751.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/hifn7751.c
+END
+hifnHIPPreg.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/hifnHIPPreg.h
+END
+hifn7751reg.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/hifn7751reg.h
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/generic-2.6/files/crypto/ocf/hifn/Makefile
+END

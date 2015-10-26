@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/qos-scripts/files/usr/bin
+END
+qos-stop
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/qos-scripts/files/usr/bin/qos-stop
+END
+qos-stat
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/qos-scripts/files/usr/bin/qos-stat
+END
+qos-start
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/qos-scripts/files/usr/bin/qos-start
+END

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips
+END
+gpio.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/gpio.c
+END
+Kconfig
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/Kconfig
+END
+setup.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/setup.c
+END
+timer.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/timer.c
+END
+pmu.c
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/pmu.c
+END
+reset.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/reset.c
+END
+board.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/board.c
+END
+dma-core.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/dma-core.c
+END
+clock.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/clock.c
+END
+irq.c
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/irq.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/Makefile
+END
+prom.c
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ifxmips/files/arch/mips/ifxmips/prom.c
+END

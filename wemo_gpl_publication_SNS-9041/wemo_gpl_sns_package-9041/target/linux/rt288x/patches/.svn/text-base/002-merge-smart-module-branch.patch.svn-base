@@ -1,0 +1,3571 @@
+adiff -urpwN --exclude-from a/Documentation/dontdiff a/linux-2.6.21/Makefile b/Makefile
+--- a/linux-2.6.21/Makefile	2013-11-18 18:29:16.116741972 -0800
++++ b/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -493,9 +493,9 @@ else
+ CFLAGS		+= -fomit-frame-pointer
+ endif
+ 
+-CFLAGS		+= -gdwarf-2
+ ifdef CONFIG_DEBUG_INFO
+ CFLAGS		+= -g
++CFLAGS		+= -gdwarf-2
+ endif
+ 
+ # Force gcc to behave correct even for buggy distributions
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/arch/mips/Makefile b/arch/mips/Makefile
+--- a/linux-2.6.21/arch/mips/Makefile	2013-11-18 18:29:16.120075308 -0800
++++ b/arch/mips/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -165,13 +165,6 @@ cflags-$(CONFIG_RALINK_RT2880)	+= -Iincl
+ load-$(CONFIG_RALINK_RT2880)	+= 0x88000000
+ 
+ #
+-# Ralink RT2883 board
+-#
+-core-$(CONFIG_RALINK_RT2883)	+= arch/mips/rt2880/
+-cflags-$(CONFIG_RALINK_RT2883)	+= -Iinclude/asm-mips/rt2880
+-load-$(CONFIG_RALINK_RT2883)	+= 0x80000000
+-
+-#
+ # Ralink RT3052 board
+ #
+ core-$(CONFIG_RALINK_RT3052)	+= arch/mips/rt2880/
+@@ -647,9 +640,6 @@ core-$(CONFIG_TOSHIBA_RBTX4938) += arch/
+ core-$(CONFIG_TOSHIBA_RBTX4938) += arch/mips/tx4938/common/
+ load-$(CONFIG_TOSHIBA_RBTX4938) += 0xffffffff80100000
+ 
+-# temporary until string.h is fixed
+-cflags-y += -ffreestanding
+-
+ cflags-y			+= -Iinclude/asm-mips/mach-generic
+ drivers-$(CONFIG_PCI)		+= arch/mips/pci/
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/arch/mips/kernel/head.S b/arch/mips/kernel/head.S
+--- a/linux-2.6.21/arch/mips/kernel/head.S	2013-11-18 18:29:15.550074752 -0800
++++ b/arch/mips/kernel/head.S	2012-05-09 06:02:08.000000000 -0700
+@@ -129,15 +129,11 @@
+ #endif
+ 	.endm
+ 
+-
+-	j kernel_entry
+-	nop
+-
+ 	/*
+ 	 * Reserved space for exception handlers.
+ 	 * Necessary for machines which link their kernels at KSEG0.
+ 	 */
+-	.align 10
++	.fill	0x400
+ 
+ EXPORT(stext)					# used for profiling
+ EXPORT(_stext)
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/arch/mips/kernel/vmlinux.lds.S b/arch/mips/kernel/vmlinux.lds.S
+--- a/linux-2.6.21/arch/mips/kernel/vmlinux.lds.S	2007-04-25 20:08:32.000000000 -0700
++++ b/arch/mips/kernel/vmlinux.lds.S	2012-05-09 06:02:08.000000000 -0700
+@@ -27,6 +27,7 @@ SECTIONS
+   /* read-only */
+   _text = .;			/* Text and read-only data */
+   .text : {
++    . = . + 0x8000;
+     *(.text)
+     SCHED_TEXT
+     LOCK_TEXT
+@@ -135,6 +136,10 @@ SECTIONS
+   .bss : {
+     *(.bss)
+     *(COMMON)
++    *(.cod0)
++    *(.cod1)
++    *(.dec0)
++    *(.dec1)
+   }
+   __bss_stop = .;
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/arch/mips/mm/tlbex.c b/arch/mips/mm/tlbex.c
+--- a/linux-2.6.21/arch/mips/mm/tlbex.c	2013-11-18 18:29:15.570074771 -0800
++++ b/arch/mips/mm/tlbex.c	2012-05-09 06:02:08.000000000 -0700
+@@ -887,6 +887,7 @@ static __init void build_tlb_write_entry
+ 	case CPU_R10000:
+ 	case CPU_R12000:
+ 	case CPU_R14000:
++	case CPU_4KC:
+ 	case CPU_SB1:
+ 	case CPU_SB1A:
+ 	case CPU_4KSC:
+@@ -914,7 +915,6 @@ static __init void build_tlb_write_entry
+ 		tlbw(p);
+ 		break;
+ 
+-	case CPU_4KC:
+ 	case CPU_4KEC:
+ 	case CPU_24K:
+ 	case CPU_34K:
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/char/Kconfig b/drivers/char/Kconfig
+--- a/linux-2.6.21/drivers/char/Kconfig	2013-11-18 18:29:16.126741981 -0800
++++ b/drivers/char/Kconfig	2012-05-09 06:02:08.000000000 -0700
+@@ -5,7 +5,7 @@
+ menu "Character devices"
+ 
+ config RALINK_GPIO
+-	bool "Ralink GPIO Support"
++	tristate "Ralink GPIO Support"
+ 	default y
+ 
+ config RALINK_GPIO_LED
+@@ -25,13 +25,13 @@ choice
+ 	        bool "PCM/Others"
+ 		---help---
+ 		   RT305x/RT3350/RT2883=>Ch0-Ch7:PCM0/PCM1
+-		   RT3352/RT5350/RT3883=>Ch0-Ch7:PCM0/PCM1, Ch8-Ch15:others
++		   RT3352/RT5350/RT3883/RT6855=>Ch0-Ch7:PCM0/PCM1, Ch8-Ch15:others
+ 
+ 	config GDMA_PCM_I2S_OTHERS
+ 	        bool "PCM/I2S/Others"
+ 		---help---
+ 		   RT305x/RT3350/RT2883=>4Ch:PCM0 / 2Ch:I2S / 2Ch:Others
+-		   RT3352/RT5350/RT3883=>4Ch:PCM0 / 2Ch:I2S_Tx / 2Ch:I2S_Rx / 8Ch:Others
++		   RT3352/RT5350/RT3883/RT6855=>4Ch:PCM0 / 2Ch:I2S_Tx / 2Ch:I2S_Rx / 8Ch:Others
+ 
+ 	config GDMA_EVERYBODY
+ 	        bool "All for Everybody"
+@@ -44,15 +44,27 @@ config RALINK_SPI
+ 	tristate "Ralink RT2880 SPI Support"
+ 	default n
+ 
+-config RALINK_SPI0_POL_HI
++config RALINK_SPI_CS0_HIGH_ACTIVE
+ 	depends on RALINK_SPI
+-	bool "SPI0 CS(Chip Select) is high active"
++	bool "SPI CS0(Chip Select) is high active"
+ 	default n
+ 
+-config RALINK_SPI1_POL_HI
++config RALINK_SPI_CS1_HIGH_ACTIVE
+ 	depends on RALINK_SPI
+-	depends on RALINK_RT3352 || RALINK_RT5350
+-	bool "SPI1 CS(Chip Select) is high active"
++	depends on RALINK_RT3883 || RALINK_RT3352 || RALINK_RT5350 || RALINK_RT6855
++	bool "SPI CS1(Chip Select) is high active"
++	default n
++
++config RALINK_VITESSE_SWITCH_CONNECT_SPI_CS1
++	depends on RALINK_SPI
++	depends on RALINK_RT3883 || RALINK_RT3352 || RALINK_RT5350 || RALINK_RT6855
++	bool "Vitess Switch CS Pin Connects to SPI CS1"
++	default n
++
++config RALINK_SLIC_CONNECT_SPI_CS1
++        depends on RALINK_SPI
++	depends on RALINK_RT3883 || RALINK_RT3352 || RALINK_RT5350 || RALINK_RT6855
++        bool "SLIC CS Pin Connects to SPI CS1"
+ 	default n
+ 
+ config RALINK_I2C
+@@ -107,9 +119,9 @@ config RALINK_PCMDIV
+ config RALINK_PCMINTDIV
+         int "PCM Clock Dividor Interger Part Value"
+         depends on RALINK_PCM
+-        depends on RALINK_RT3352 || RALINK_RT5350 || RALINK_RT3883
++        depends on RALINK_RT3352 || RALINK_RT5350 || RALINK_RT3883 || RALINK_RT6855
+ 	range 0 1024
+-	default "78"
++	default "9"
+ 	---help---
+ 	Set PCM clock dividor interger part value based on SoC internal clock (40Mhz).
+ 
+@@ -117,9 +129,9 @@ config RALINK_PCMINTDIV
+ config RALINK_PCMCOMPDIV
+         int "PCM Clock Dividor Fraction Part Value"
+ 	depends on RALINK_PCM
+-	depends on RALINK_RT3352 || RALINK_RT5350 || RALINK_RT3883
++	depends on RALINK_RT3352 || RALINK_RT5350 || RALINK_RT3883 || RALINK_RT6855
+ 	range 0 512
+-	default "16"
++	default "196"
+ 	---help---
+ 	Set PCM clock dividor fraction part value based on SoC internal clock (40Mhz).
+ 
+@@ -127,7 +139,7 @@ config RALINK_PCMSLOTMODE
+ 	int "PCM slot mode"
+ 	depends on RALINK_PCM
+ 	range 0 5
+-	default "0"
++	default "3"
+ 	---help---
+ 	PCM slot mode : 0 for 4 slots, 1 for 8 slots, 2 for 16 slots, 3 for 32 slots, 4 for 64 slots, and 5 for 128 slots.
+ 
+@@ -157,7 +169,7 @@ config I2S_IN_CLK
+ config I2S_MS_MODE
+         bool "Ralink SoC as I2S Master Device"
+ 	depends on RALINK_I2S
+-        depends on RALINK_RT3352 || RALINK_RT5350
++        depends on RALINK_RT3352 || RALINK_RT5350 || RALINK_RT6855
+ 	default n
+ choice
+         prompt "Audio Codec MCLK Setting"
+@@ -1149,13 +1161,6 @@ config CS5535_GPIO
+ 
+ 	  If compiled as a module, it will be called cs5535_gpio.
+ 
+-config GPIO_DEVICE
+-	tristate "GPIO device support"
+-	depends on GENERIC_GPIO
+-	help
+-	  Say Y to enable Linux GPIO device support.  This allows control of
+-	  GPIO pins using a character device
+-
+ config GPIO_VR41XX
+ 	tristate "NEC VR4100 series General-purpose I/O Unit support"
+ 	depends on CPU_VR41XX
+@@ -1244,3 +1249,4 @@ config TELCLOCK
+ 	  controlling the behavior of this hardware.
+ 
+ endmenu
++
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/char/Makefile b/drivers/char/Makefile
+--- a/linux-2.6.21/drivers/char/Makefile	2013-11-18 18:29:16.126741981 -0800
++++ b/drivers/char/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -11,7 +11,7 @@ ifeq ($(PLUGIN_BOARD),NEW)
+ CFLAGS          += -DPLUGIN_BOARD_NEW
+ endif
+ 
+-obj-y	 += mem.o random.o tty_io.o n_tty.o tty_ioctl.o led_ioctrl.o
++obj-y	 += mem.o random.o tty_io.o n_tty.o tty_ioctl.o
+ 
+ obj-$(CONFIG_RALINK_GPIO)	+= ralink_gpio.o
+ obj-$(CONFIG_RALINK_GDMA)	+= ralink_gdma.o
+@@ -102,7 +102,6 @@ obj-$(CONFIG_SCx200_GPIO)	+= scx200_gpio
+ obj-$(CONFIG_PC8736x_GPIO)	+= pc8736x_gpio.o
+ obj-$(CONFIG_NSC_GPIO)		+= nsc_gpio.o
+ obj-$(CONFIG_CS5535_GPIO)	+= cs5535_gpio.o
+-obj-$(CONFIG_GPIO_DEVICE)	+= gpio_dev.o
+ obj-$(CONFIG_GPIO_VR41XX)	+= vr41xx_giu.o
+ obj-$(CONFIG_TANBAC_TB0219)	+= tb0219.o
+ obj-$(CONFIG_TELCLOCK)		+= tlclk.o
+x-rt288x/linux-2.6.21/drivers/char/i2c_drv.c b/drivers/char/i2c_drv.c
+--- a/linux-2.6.21/drivers/char/i2c_drv.c	2013-11-14 17:05:17.830024920 -0800
++++ b/drivers/char/i2c_drv.c	2012-05-09 06:02:08.000000000 -0700
+@@ -355,8 +355,13 @@ void i2c_read_config(char *data, unsigne
+ 	i2c_eeprom_read(0, data, len);
+ }
+ 
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
++int i2cdrv_ioctl(struct file *filp, unsigned int cmd,
++		unsigned long arg)
++#else
+ int i2cdrv_ioctl(struct inode *inode, struct file *filp, \
+                      unsigned int cmd, unsigned long arg)
++#endif
+ {
+ 	//unsigned char w_byte[4];
+ 	unsigned int address, size;
+@@ -369,7 +374,7 @@ int i2cdrv_ioctl(struct inode *inode, st
+ 		address = (unsigned int)arg;
+ 		i2c_master_init();
+ 		i2c_eeprom_read(address, (unsigned char*)&value, 4);
+-		printk("0x%04x : 0x%08x\n", address, value);
++		printk("0x%04x : 0x%08x\n", address, (unsigned int)value);
+ 		break;
+ 	case RT2880_I2C_WRITE:
+ 		i2c_write = (I2C_WRITE*)arg;
+@@ -407,11 +412,19 @@ int i2cdrv_ioctl(struct inode *inode, st
+ }
+ 
+ struct file_operations i2cdrv_fops = {
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
++	unlocked_ioctl: i2cdrv_ioctl,
++#else
+ 	ioctl:	i2cdrv_ioctl,
++#endif
+ };
+ 
+ static int i2cdrv_init(void)
+ {
++#if !defined (CONFIG_DEVFS_FS)
++	int result=0;
++#endif
++
+ 	/* configure i2c to normal mode */
+ 	RT2880_REG(RALINK_SYSCTL_BASE + 0x60) &= ~1;
+ 
+@@ -424,7 +437,6 @@ static int i2cdrv_init(void)
+ 	devfs_handle = devfs_register(NULL, I2C_DEV_NAME, DEVFS_FL_DEFAULT, i2cdrv_major, 0, \
+ 			S_IFCHR | S_IRUGO | S_IWUGO, &i2cdrv_fops, NULL);
+ #else
+-	int result=0;
+ 	result = register_chrdev(i2cdrv_major, I2C_DEV_NAME, &i2cdrv_fops);
+ 	if (result < 0) {
+ 		printk(KERN_WARNING "i2c_drv: can't get major %d\n",i2cdrv_major);
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/char/watchdog/Makefile b/drivers/char/watchdog/Makefile
+--- a/linux-2.6.21/drivers/char/watchdog/Makefile	2013-11-18 18:29:16.126741981 -0800
++++ b/drivers/char/watchdog/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -75,6 +75,7 @@ obj-$(CONFIG_WATCHDOG_RTAS) += wdrtas.o
+ obj-$(CONFIG_INDYDOG) += indydog.o
+ obj-$(CONFIG_WDT_RM9K_GPI) += rm9k_wdt.o
+ obj-$(CONFIG_RALINK_WATCHDOG) += ralink_wdt.o
++#obj-$(CONFIG_RALINK_WATCHDOG) += ralink_period.o
+ 
+ # S390 Architecture
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/mtd/chips/cfi_cmdset_0001.c b/drivers/mtd/chips/cfi_cmdset_0001.c
+--- a/linux-2.6.21/drivers/mtd/chips/cfi_cmdset_0001.c	2013-11-18 18:29:15.533408068 -0800
++++ b/drivers/mtd/chips/cfi_cmdset_0001.c	2012-05-09 06:02:08.000000000 -0700
+@@ -919,7 +919,7 @@ static void __xipram xip_enable(struct m
+ 
+ static int __xipram xip_wait_for_operation(
+ 		struct map_info *map, struct flchip *chip,
+-		unsigned long adr, int *chip_op_time )
++		unsigned long adr, unsigned int chip_op_time )
+ {
+ 	struct cfi_private *cfi = map->fldrv_priv;
+ 	struct cfi_pri_intelext *cfip = cfi->cmdset_priv;
+@@ -928,7 +928,7 @@ static int __xipram xip_wait_for_operati
+ 	flstate_t oldstate, newstate;
+ 
+        	start = xip_currtime();
+-	usec = *chip_op_time * 8;
++	usec = chip_op_time * 8;
+ 	if (usec == 0)
+ 		usec = 500000;
+ 	done = 0;
+@@ -1038,8 +1038,8 @@ static int __xipram xip_wait_for_operati
+ #define XIP_INVAL_CACHED_RANGE(map, from, size)  \
+ 	INVALIDATE_CACHED_RANGE(map, from, size)
+ 
+-#define INVAL_CACHE_AND_WAIT(map, chip, cmd_adr, inval_adr, inval_len, p_usec) \
+-	xip_wait_for_operation(map, chip, cmd_adr, p_usec)
++#define INVAL_CACHE_AND_WAIT(map, chip, cmd_adr, inval_adr, inval_len, usec) \
++	xip_wait_for_operation(map, chip, cmd_adr, usec)
+ 
+ #else
+ 
+@@ -1051,64 +1051,64 @@ static int __xipram xip_wait_for_operati
+ static int inval_cache_and_wait_for_operation(
+ 		struct map_info *map, struct flchip *chip,
+ 		unsigned long cmd_adr, unsigned long inval_adr, int inval_len,
+-		int *chip_op_time )
++		unsigned int chip_op_time)
+ {
+ 	struct cfi_private *cfi = map->fldrv_priv;
+ 	map_word status, status_OK = CMD(0x80);
+-	int z, chip_state = chip->state;
+-	unsigned long timeo;
++	int chip_state = chip->state;
++	unsigned int timeo, sleep_time;
+ 
+ 	spin_unlock(chip->mutex);
+ 	if (inval_len)
+ 		INVALIDATE_CACHED_RANGE(map, inval_adr, inval_len);
+-	if (*chip_op_time)
+-		cfi_udelay(*chip_op_time);
+ 	spin_lock(chip->mutex);
+ 
+-	timeo = *chip_op_time * 8 * HZ / 1000000;
+-	if (timeo < HZ/2)
+-		timeo = HZ/2;
+-	timeo += jiffies;
++	/* set our timeout to 8 times the expected delay */
++	timeo = chip_op_time * 8;
++	if (!timeo)
++		timeo = 500000;
++	sleep_time = chip_op_time / 2;
+ 
+-	z = 0;
+ 	for (;;) {
+-		if (chip->state != chip_state) {
+-			/* Someone's suspended the operation: sleep */
+-			DECLARE_WAITQUEUE(wait, current);
+-
+-			set_current_state(TASK_UNINTERRUPTIBLE);
+-			add_wait_queue(&chip->wq, &wait);
+-			spin_unlock(chip->mutex);
+-			schedule();
+-			remove_wait_queue(&chip->wq, &wait);
+-			timeo = jiffies + (HZ / 2); /* FIXME */
+-			spin_lock(chip->mutex);
+-			continue;
+-		}
+-
+ 		status = map_read(map, cmd_adr);
+ 		if (map_word_andequal(map, status, status_OK, status_OK))
+ 			break;
+ 
+-		/* OK Still waiting */
+-		if (time_after(jiffies, timeo)) {
++		if (!timeo) {
+ 			map_write(map, CMD(0x70), cmd_adr);
+ 			chip->state = FL_STATUS;
+ 			return -ETIME;
+ 		}
+ 
+-		/* Latency issues. Drop the lock, wait a while and retry */
+-		z++;
++		/* OK Still waiting. Drop the lock, wait a while and retry. */
+ 		spin_unlock(chip->mutex);
+-		cfi_udelay(1);
+-		spin_lock(chip->mutex);
++		if (sleep_time >= 1000000/HZ) {
++			/*
++			 * Half of the normal delay still remaining
++			 * can be performed with a sleeping delay instead
++			 * of busy waiting.
++			 */
++			msleep(sleep_time/1000);
++			timeo -= sleep_time;
++			sleep_time = 1000000/HZ;
++		} else {
++			udelay(1);
++			cond_resched();
++			timeo--;
+ 	}
++		spin_lock(chip->mutex);
+ 
+-	if (!z) {
+-		if (!--(*chip_op_time))
+-			*chip_op_time = 1;
+-	} else if (z > 1)
+-		++(*chip_op_time);
++		while (chip->state != chip_state) {
++			/* Someone's suspended the operation: sleep */
++			DECLARE_WAITQUEUE(wait, current);
++			set_current_state(TASK_UNINTERRUPTIBLE);
++			add_wait_queue(&chip->wq, &wait);
++			spin_unlock(chip->mutex);
++			schedule();
++			remove_wait_queue(&chip->wq, &wait);
++			spin_lock(chip->mutex);
++		}
++	}
+ 
+ 	/* Done and happy. */
+  	chip->state = FL_STATUS;
+@@ -1118,8 +1118,7 @@ static int inval_cache_and_wait_for_oper
+ #endif
+ 
+ #define WAIT_TIMEOUT(map, chip, adr, udelay) \
+-	({ int __udelay = (udelay); \
+-	   INVAL_CACHE_AND_WAIT(map, chip, adr, 0, 0, &__udelay); })
++	INVAL_CACHE_AND_WAIT(map, chip, adr, 0, 0, udelay);
+ 
+ 
+ static int do_point_onechip (struct map_info *map, struct flchip *chip, loff_t adr, size_t len)
+@@ -1343,7 +1342,7 @@ static int __xipram do_write_oneword(str
+ 
+ 	ret = INVAL_CACHE_AND_WAIT(map, chip, adr,
+ 				   adr, map_bankwidth(map),
+-				   &chip->word_write_time);
++				   chip->word_write_time);
+ 	if (ret) {
+ 		xip_enable(map, chip, adr);
+ 		printk(KERN_ERR "%s: word write error (status timeout)\n", map->name);
+@@ -1580,7 +1579,7 @@ static int __xipram do_write_buffer(stru
+ 
+ 	ret = INVAL_CACHE_AND_WAIT(map, chip, cmd_adr,
+ 				   adr, len,
+-				   &chip->buffer_write_time);
++				   chip->buffer_write_time);
+ 	if (ret) {
+ 		map_write(map, CMD(0x70), cmd_adr);
+ 		chip->state = FL_STATUS;
+@@ -1715,7 +1714,7 @@ static int __xipram do_erase_oneblock(st
+ 
+ 	ret = INVAL_CACHE_AND_WAIT(map, chip, adr,
+ 				   adr, len,
+-				   &chip->erase_time);
++				   chip->erase_time);
+ 	if (ret) {
+ 		map_write(map, CMD(0x70), adr);
+ 		chip->state = FL_STATUS;
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/mtd/maps/ralink-flash.c b/drivers/mtd/maps/ralink-flash.c
+--- a/linux-2.6.21/drivers/mtd/maps/ralink-flash.c	2013-11-14 17:05:17.866691533 -0800
++++ b/drivers/mtd/maps/ralink-flash.c	2012-05-09 06:02:08.000000000 -0700
+@@ -250,6 +250,8 @@ int ra_check_flash_type(void)
+ 	boot_from = BOOT_FROM_SPI;
+     }else if(strcmp(Id,"RT2880")==0) {
+ 	boot_from = BOOT_FROM_NOR;
++    }else if(strcmp(Id,"RT6855")==0) {
++	boot_from = BOOT_FROM_SPI;
+     } else {
+ 	printk("%s: %s is not supported\n",__FUNCTION__, Id);
+     }
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/net/wireless/Makefile b/drivers/net/wireless/Makefile
+--- a/linux-2.6.21/drivers/net/wireless/Makefile	2013-11-18 18:29:16.136741991 -0800
++++ b/drivers/net/wireless/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -46,10 +46,29 @@ obj-$(CONFIG_USB_ZD1201)	+= zd1201.o
+ 
+ obj-$(CONFIG_RT2860V2_AP)       += rt2860v2_ap/
+ obj-$(CONFIG_RT2860V2_STA)      += rt2860v2_sta/
++#endif
++ifneq ($(CONFIG_RT3090_AP),)
+ obj-$(CONFIG_RT3090_AP)      	+= RT3090_ap/
++endif
++ifneq ($(CONFIG_RT5392_AP),)
++obj-$(CONFIG_RT5392_AP)      	+= RT5392_ap/
++endif
++ifneq ($(CONFIG_RT3572_AP),)
+ obj-$(CONFIG_RT3572_AP)      	+= RT3572_ap/
++endif
++ifneq ($(CONFIG_RT5572_AP),)
++obj-$(CONFIG_RT5572_AP)      	+= RT5572_ap/
++endif
++ifneq ($(CONFIG_RT305x_INIC_MII),)
+ obj-$(CONFIG_RT2880v2_INIC_MII) += iNIC/mii/
++endif
++ifneq ($(CONFIG_RT305x_INIC_MII),)
+ obj-$(CONFIG_RT2880v2_INIC_PCI) += iNIC/pci/
++endif
+ 
++ifneq ($(CONFIG_RT305x_INIC_MII),)
+ obj-$(CONFIG_RT305x_INIC_MII) += iNIC_RT305x/mii/
++endif
++ifneq ($(CONFIG_RT305x_INIC_USB),)
+ obj-$(CONFIG_RT305x_INIC_USB) += iNIC_RT305x/usb/
++endif
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/serial/8250.c b/drivers/serial/8250.c
+--- a/linux-2.6.21/drivers/serial/8250.c	2013-11-18 18:29:16.136741991 -0800
++++ b/drivers/serial/8250.c	2012-05-09 06:02:08.000000000 -0700
+@@ -331,6 +331,7 @@ static unsigned int serial_in(struct uar
+     defined (CONFIG_RALINK_RT3883) || \
+     defined (CONFIG_RALINK_RT3352) || \
+     defined (CONFIG_RALINK_RT5350) || \
++    defined (CONFIG_RALINK_RT6855) || \
+     defined (CONFIG_RALINK_RT3052)
+ 		return (*(int*)(up->port.iobase + offset));
+ #else
+@@ -374,6 +375,7 @@ serial_out(struct uart_8250_port *up, in
+     defined (CONFIG_RALINK_RT3883) || \
+     defined (CONFIG_RALINK_RT3352) || \
+     defined (CONFIG_RALINK_RT5350) || \
++    defined (CONFIG_RALINK_RT6855) || \
+     defined (CONFIG_RALINK_RT3052)
+ 		*(int*)(up->port.iobase + offset) = value;
+ #else
+@@ -426,6 +428,7 @@ static inline void _serial_dl_write(stru
+     defined (CONFIG_RALINK_RT3883) || \
+     defined (CONFIG_RALINK_RT3352) || \
+     defined (CONFIG_RALINK_RT5350) || \
++    defined (CONFIG_RALINK_RT6855) || \
+     defined (CONFIG_RALINK_RT3052)
+ /* Ralink haven't got a standard divisor latch */
+ static int serial_dl_read(struct uart_8250_port *up)
+@@ -617,6 +620,7 @@ static unsigned int autoconfig_read_divi
+     defined (CONFIG_RALINK_RT3883) || \
+     defined (CONFIG_RALINK_RT3352) || \
+     defined (CONFIG_RALINK_RT5350) || \
++    defined (CONFIG_RALINK_RT6855) || \
+     defined (CONFIG_RALINK_RT3052)
+ 	unsigned short old_dl;
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/serial/8250_early.c b/drivers/serial/8250_early.c
+--- a/linux-2.6.21/drivers/serial/8250_early.c	2013-11-18 18:29:16.136741991 -0800
++++ b/drivers/serial/8250_early.c	2012-05-09 06:02:08.000000000 -0700
+@@ -108,6 +108,7 @@ static unsigned int __init probe_baud(st
+     defined (CONFIG_RALINK_RT3883) || \
+     defined (CONFIG_RALINK_RT3352) || \
+     defined (CONFIG_RALINK_RT5350) || \
++    defined (CONFIG_RALINK_RT6855) || \
+     defined (CONFIG_RALINK_RT3052)
+ 	quot= serial_in(port, UART_DLL);
+ #else
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_driver.c b/drivers/usb/dwc_otg/dwc_otg_driver.c
+--- a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_driver.c	2013-11-14 17:05:18.920023319 -0800
++++ b/drivers/usb/dwc_otg/dwc_otg_driver.c	2012-05-09 06:02:08.000000000 -0700
+@@ -770,8 +770,13 @@ static int dwc_otg_driver_probe(struct l
+ 	 */
+ 	DWC_DEBUGPL(DBG_CIL, "registering (common) handler for irq%d\n",
+ 		    lmdev->irq);
++#if defined(IRQF_SHARED)
++	retval = request_irq(lmdev->irq, dwc_otg_common_irq,
++			     IRQF_SHARED, "dwc_otg", dwc_otg_device);
++#else
+ 	retval = request_irq(lmdev->irq, dwc_otg_common_irq,
+ 			     SA_SHIRQ, "dwc_otg", dwc_otg_device);
++#endif
+ 	if (retval) {
+ 		DWC_ERROR("request of irq%d failed\n", lmdev->irq);
+ 		retval = -EBUSY;
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_hcd.c b/drivers/usb/dwc_otg/dwc_otg_hcd.c
+--- a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_hcd.c	2013-11-14 17:05:18.960023260 -0800
++++ b/drivers/usb/dwc_otg/dwc_otg_hcd.c	2012-05-09 06:02:08.000000000 -0700
+@@ -58,6 +58,24 @@
+ #include "dwc_otg_hcd.h"
+ #include "dwc_otg_regs.h"
+ 
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
++#define USB_PORT_FEAT_CONNECTION        0
++#define USB_PORT_FEAT_ENABLE            1
++#define USB_PORT_FEAT_SUSPEND           2
++#define USB_PORT_FEAT_OVER_CURRENT      3
++#define USB_PORT_FEAT_RESET             4
++#define USB_PORT_FEAT_POWER             8
++#define USB_PORT_FEAT_LOWSPEED          9
++#define USB_PORT_FEAT_HIGHSPEED         10
++#define USB_PORT_FEAT_C_CONNECTION      16
++#define USB_PORT_FEAT_C_ENABLE          17
++#define USB_PORT_FEAT_C_SUSPEND         18
++#define USB_PORT_FEAT_C_OVER_CURRENT    19
++#define USB_PORT_FEAT_C_RESET           20
++#define USB_PORT_FEAT_TEST              21
++#define USB_PORT_FEAT_INDICATOR         22
++#endif
++
+ static const char dwc_otg_hcd_name[] = "dwc_otg_hcd";
+ 
+ static const struct hc_driver dwc_otg_hc_driver = {
+@@ -450,7 +468,11 @@ int dwc_otg_hcd_init(struct lm_device *l
+ 	 * Allocate memory for the base HCD plus the DWC OTG HCD.
+ 	 * Initialize the base HCD.
+ 	 */
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
++	hcd = usb_create_hcd(&dwc_otg_hc_driver, &lmdev->dev, dev_name(&lmdev->dev));
++#else
+ 	hcd = usb_create_hcd(&dwc_otg_hc_driver, &lmdev->dev, lmdev->dev.bus_id);
++#endif
+ 	if (!hcd) {
+ 		retval = -ENOMEM;
+ 		goto error1;
+@@ -534,7 +556,11 @@ int dwc_otg_hcd_init(struct lm_device *l
+ 	 * allocates the DMA buffer pool, registers the USB bus, requests the
+ 	 * IRQ line, and calls dwc_otg_hcd_start method.
+ 	 */
++#if defined(IRQF_SHARED)
++	retval = usb_add_hcd(hcd, lmdev->irq, IRQF_SHARED);
++#else
+ 	retval = usb_add_hcd(hcd, lmdev->irq, SA_SHIRQ);
++#endif
+ 	if (retval < 0) {
+ 		goto error2;
+ 	}
+@@ -563,8 +589,13 @@ int dwc_otg_hcd_init(struct lm_device *l
+ 
+ 	dwc_otg_hcd->otg_dev = otg_dev;
+ 
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
++	DWC_DEBUGPL(DBG_HCD, "DWC OTG HCD Initialized HCD, bus=%s, usbbus=%d\n",
++		    dev_name(&lmdev->dev), hcd->self.busnum);
++#else
+ 	DWC_DEBUGPL(DBG_HCD, "DWC OTG HCD Initialized HCD, bus=%s, usbbus=%d\n",
+ 		    lmdev->dev.bus_id, hcd->self.busnum);
++#endif
+ 
+ 	return 0;
+ 
+@@ -926,7 +957,9 @@ static void dump_channel_info(dwc_otg_hc
+  * (URB). mem_flags indicates the type of memory allocation to use while
+  * processing this URB. */
+ int dwc_otg_hcd_urb_enqueue(struct usb_hcd *hcd,
++#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36)
+ 			    struct usb_host_endpoint *ep,
++#endif
+ 			    struct urb *urb,
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
+ 			    int mem_flags
+@@ -971,7 +1004,11 @@ int dwc_otg_hcd_urb_dequeue(struct usb_h
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
+ 			    struct usb_host_endpoint *ep,
+ #endif
++#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36)
+ 			    struct urb *urb)
++#else
++			    struct urb *urb, int status)
++#endif
+ {
+ 	unsigned long flags;
+ 	dwc_otg_hcd_t *dwc_otg_hcd;
+@@ -1043,7 +1080,7 @@ int dwc_otg_hcd_urb_dequeue(struct usb_h
+ 	urb->hcpriv = NULL;
+ 
+ 	/* Higher layer software sets URB status. */
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,20)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,20) && LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36)
+ 	usb_hcd_giveback_urb(hcd, urb);
+ #else
+ 	usb_hcd_giveback_urb(hcd, urb, NULL);
+@@ -1957,7 +1994,7 @@ int dwc_otg_hcd_hub_control(struct usb_h
+ 			t = (wIndex >> 8); /* MSB wIndex USB */
+ 			DWC_DEBUGPL(DBG_HCD, "DWC OTG HCD HUB CONTROL - "
+ 				    "SetPortFeature - USB_PORT_FEAT_TEST %d\n", t);
+-			warn("USB_PORT_FEAT_TEST %d\n", t);
++			DWC_WARN("USB_PORT_FEAT_TEST %d\n", t);
+ 			if (t < 6) {
+ 				hprt0.d32 = dwc_otg_read_hprt0(core_if);
+ 				hprt0.b.prttstctl = t;
+@@ -2670,7 +2707,7 @@ void dwc_otg_hcd_complete_urb(dwc_otg_hc
+ 
+ 	urb->status = status;
+ 	urb->hcpriv = NULL;
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,20)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,20) && LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36)
+ 	usb_hcd_giveback_urb(dwc_otg_hcd_to_hcd(hcd), urb);
+ #else
+ 	usb_hcd_giveback_urb(dwc_otg_hcd_to_hcd(hcd), urb, NULL);
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_hcd.h b/drivers/usb/dwc_otg/dwc_otg_hcd.h
+--- a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_hcd.h	2013-11-14 17:05:18.916689990 -0800
++++ b/drivers/usb/dwc_otg/dwc_otg_hcd.h	2012-05-09 06:02:08.000000000 -0700
+@@ -37,7 +37,11 @@
+ #include <linux/list.h>
+ #include <linux/usb.h>
+ #include <linux/version.h>
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,36)
++#include <linux/usb/hcd.h>
++#else
+ #include <../drivers/usb/core/hcd.h>
++#endif
+ 
+ struct lm_device;
+ struct dwc_otg_device;
+@@ -421,7 +425,9 @@ extern void dwc_otg_hcd_stop(struct usb_
+ extern int dwc_otg_hcd_get_frame_number(struct usb_hcd *hcd);
+ extern void dwc_otg_hcd_free(struct usb_hcd *hcd);
+ extern int dwc_otg_hcd_urb_enqueue(struct usb_hcd *hcd,
++#if LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,35)
+ 				   struct usb_host_endpoint *ep,
++#endif
+ 				   struct urb *urb,
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
+ 				   int mem_flags
+@@ -433,7 +439,12 @@ extern int dwc_otg_hcd_urb_dequeue(struc
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
+ 				   struct usb_host_endpoint *ep,
+ #endif
++#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36)
+ 				   struct urb *urb);
++#else
++				   struct urb *urb, int status);
++#endif
++
+ extern void dwc_otg_hcd_endpoint_disable(struct usb_hcd *hcd,
+ 					 struct usb_host_endpoint *ep);
+ extern irqreturn_t dwc_otg_hcd_irq(struct usb_hcd *hcd
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_pcd.c b/drivers/usb/dwc_otg/dwc_otg_pcd.c
+--- a/linux-2.6.21/drivers/usb/dwc_otg/dwc_otg_pcd.c	2013-11-14 17:05:18.930023304 -0800
++++ b/drivers/usb/dwc_otg/dwc_otg_pcd.c	2012-05-09 06:02:08.000000000 -0700
+@@ -2208,8 +2208,11 @@ int dwc_otg_pcd_init(struct lm_device *l
+ 	otg_dev->pcd = pcd;
+ 	s_pcd = pcd;
+ 	pcd->gadget.name = pcd_name;
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
++	strcpy(dev_name(&pcd->gadget.dev), "gadget");
++#else
+ 	strcpy(pcd->gadget.dev.bus_id, "gadget");
+-
++#endif
+ 	pcd->otg_dev = lm_get_drvdata(lmdev);
+ 
+ 	pcd->gadget.dev.parent = &lmdev->dev;
+@@ -2282,8 +2285,13 @@ int dwc_otg_pcd_init(struct lm_device *l
+ 	 * Setup interupt handler
+ 	 */
+ 	DWC_DEBUGPL(DBG_ANY, "registering handler for irq%d\n", lmdev->irq);
++#if defined(IRQF_SHARED)
++	retval = request_irq(lmdev->irq, dwc_otg_pcd_irq,
++				IRQF_SHARED, pcd->gadget.name, pcd);
++#else
+ 	retval = request_irq(lmdev->irq, dwc_otg_pcd_irq,
+ 				SA_SHIRQ, pcd->gadget.name, pcd);
++#endif
+ 	if (retval != 0) {
+ 		DWC_ERROR("request of irq%d failed\n", lmdev->irq);
+ 		device_unregister(&pcd->gadget.dev);
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+--- a/linux-2.6.21/drivers/usb/gadget/Kconfig	2013-11-18 18:29:16.140075327 -0800
++++ b/drivers/usb/gadget/Kconfig	2012-05-09 06:02:08.000000000 -0700
+@@ -205,6 +205,22 @@ config USB_AT91
+ 	depends on USB_GADGET_AT91
+ 	default USB_GADGET
+ 
++config USB_GADGET_RT
++	boolean "Ralink USB Device Port"
++	depends on RALINK_RT3883 ||  RALINK_RT3352 || RALINK_RT5350 || RALINK_RT6855
++	select USB_GADGET_SELECTED
++	select USB_GADGET_DUALSPEED
++	help
++	   Say "y" to link the driver statically, or "m" to build a
++	   dynamically linked module called "at91_udc" and force all
++	   gadget drivers to also be dynamically linked.
++
++config USB_RT
++	tristate
++	depends on USB_GADGET_RT
++	default USB_GADGET
++
++
+ config USB_GADGET_DUMMY_HCD
+ 	boolean "Dummy HCD (DEVELOPMENT)"
+ 	depends on (USB=y || (USB=m && USB_GADGET=m)) && EXPERIMENTAL
+@@ -249,7 +265,7 @@ config USB_GADGET_DUALSPEED
+ 
+ config USB_GADGET_SNPS_DWC_OTG
+ 	boolean "Synopsys Driver for DWC_otg Controller"
+-	depends on USB && EXPERIMENTAL
++	depends on USB && EXPERIMENTAL && RALINK_RT3052
+ 	select USB_OTG
+ 	select USB_GADGET_DUALSPEED
+ 	help
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/gadget/Makefile b/drivers/usb/gadget/Makefile
+--- a/linux-2.6.21/drivers/usb/gadget/Makefile	2013-11-18 18:29:16.140075327 -0800
++++ b/drivers/usb/gadget/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -11,6 +11,7 @@ obj-$(CONFIG_USB_GOKU)		+= goku_udc.o
+ obj-$(CONFIG_USB_OMAP)		+= omap_udc.o
+ obj-$(CONFIG_USB_LH7A40X)	+= lh7a40x_udc.o
+ obj-$(CONFIG_USB_AT91)		+= at91_udc.o
++obj-$(CONFIG_USB_RT)		+= rt_udc.o
+ 
+ #
+ # USB gadget drivers
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/gadget/ether.c b/drivers/usb/gadget/ether.c
+--- a/linux-2.6.21/drivers/usb/gadget/ether.c	2013-11-18 18:29:16.143408664 -0800
++++ b/drivers/usb/gadget/ether.c	2012-05-09 06:02:08.000000000 -0700
+@@ -338,7 +338,7 @@ static inline int rndis_active(struct et
+ #ifdef CONFIG_USB_GADGET_DUALSPEED
+ #define	DEVSPEED	USB_SPEED_HIGH
+ 
+-static unsigned qmult = 5;
++static unsigned qmult = 100;
+ module_param (qmult, uint, S_IRUGO|S_IWUSR);
+ 
+ 
+@@ -2020,6 +2020,7 @@ static int eth_start_xmit (struct sk_buf
+ 	skb->data = new_addr;
+     #endif
+ 
++
+ 	req->buf = skb->data;
+ 	req->context = skb;
+ 	req->complete = tx_complete;
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/gadget/gadget_chips.h b/drivers/usb/gadget/gadget_chips.h
+--- a/linux-2.6.21/drivers/usb/gadget/gadget_chips.h	2013-11-18 18:29:16.143408664 -0800
++++ b/drivers/usb/gadget/gadget_chips.h	2012-05-09 06:02:08.000000000 -0700
+@@ -18,6 +18,12 @@
+ #define gadget_is_dwc_otg(g)	0
+ #endif
+ 
++#ifdef CONFIG_USB_GADGET_RT
++#define gadget_is_rt(g)		!strcmp("rt_udc", (g)->name)
++#else
++#define gadget_is_rt(g)		0
++#endif
++
+ #ifdef CONFIG_USB_GADGET_NET2280
+ #define	gadget_is_net2280(g)	!strcmp("net2280", (g)->name)
+ #else
+@@ -194,9 +200,11 @@ static inline int usb_gadget_controller_
+ 		return 0x18;
+ 
+ //by kaiker ,for RT3052 USB OTG device mode
+-
+ 	else if (gadget_is_dwc_otg(gadget))
+ 		return 0x19;
++//for RT3883 USB device controller
++	else if (gadget_is_rt(gadget))
++ 		return 0x20;
+ 
+ 	return -ENOENT;
+ }
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/host/ehci-rt3xxx.c b/drivers/usb/host/ehci-rt3xxx.c
+--- a/linux-2.6.21/drivers/usb/host/ehci-rt3xxx.c	2013-11-14 17:05:18.873356721 -0800
++++ b/drivers/usb/host/ehci-rt3xxx.c	2012-05-09 06:02:08.000000000 -0700
+@@ -39,6 +39,9 @@
+ 	// host mode
+ 	val |= USB0_HOST_MODE;
+ 	rt_writel(val, SYSCFG1);
++	//WNC_Roger 20141016 patch from MTK
++	mdelay(100);
++	//WNC
+ }
+ 
+ static int rt_usbhost_reset(void)
+@@ -164,8 +167,20 @@
+ 	// wake up usb module from power saving mode...
+ 	try_wake_up();
+ 
++#ifdef CONFIG_USB_GADGET_RT
++#warning	"*********************************************************"
++#ifdef CONFIG_RALINK_RT5350
++#error		"*    EHCI won't have any USB port to run!               *"
++#else
++#warning	"*    EHCI will yield USB port0 to device controller!    *"
++#endif /* CONFIG_RALINK_RT5350 */
++#warning	"*********************************************************"
++#else
+ 	// change port0 to host mode
++	//WNC_Roger 20141016 patch from MTK
+ 	rt_set_host();
++	//WNC
++#endif
+ 
+ 	retval = usb_add_hcd(hcd, irq, IRQF_DISABLED | IRQF_SHARED);
+ 	if (retval)
+diff -u a/drivers/usb/net/usbnet.c b/drivers/usb/net/usbnet.c
+--- a/drivers/usb/net/usbnet.c	2007-04-26 10:08:32.000000000 +0700
++++ b/drivers/usb/net/usbnet.c	2014-09-17 10:57:14.628959188 +0700
+@@ -43,6 +43,11 @@
+ #include <linux/usb.h>
+ 
+ #include "usbnet.h"
++#if defined (CONFIG_RA_HW_NAT) || defined (CONFIG_RA_HW_NAT_MODULE)
++#include "../../../net/nat/hw_nat/ra_nat.h"
++extern int (*ra_sw_nat_hook_rx)(struct sk_buff *skb);
++extern int (*ra_sw_nat_hook_tx)(struct sk_buff *skb, int gmac_no);
++#endif
+ 
+ #define DRIVER_VERSION		"22-Aug-2005"
+ 
+@@ -212,9 +217,31 @@
+ 		devdbg (dev, "< rx, len %zu, type 0x%x",
+ 			skb->len + sizeof (struct ethhdr), skb->protocol);
+ 	memset (skb->cb, 0, sizeof (struct skb_data));
++
++#if defined (CONFIG_RA_HW_NAT) || defined (CONFIG_RA_HW_NAT_MODULE)
++	 /* ra_sw_nat_hook_rx return 1 --> continue
++	  * ra_sw_nat_hook_rx return 0 --> FWD & without netif_rx
++	  */
++	FOE_MAGIC_TAG(skb)= FOE_MAGIC_PCI;
++	FOE_AI(skb)=UN_HIT;
++	if(ra_sw_nat_hook_rx!= NULL)
++	{
++		if(ra_sw_nat_hook_rx(skb)) {
++			status = netif_rx (skb);
++			if (status != NET_RX_SUCCESS && netif_msg_rx_err (dev))
++				devdbg (dev, "netif_rx status %d", status);
++		}
++	} else  {
++		status = netif_rx (skb);
++		if (status != NET_RX_SUCCESS && netif_msg_rx_err (dev))
++			devdbg (dev, "netif_rx status %d", status);
++	}
++	
++#else
+ 	status = netif_rx (skb);
+ 	if (status != NET_RX_SUCCESS && netif_msg_rx_err (dev))
+ 		devdbg (dev, "netif_rx status %d", status);
++#endif
+ }
+ EXPORT_SYMBOL_GPL(usbnet_skb_return);
+ 
+@@ -304,14 +331,22 @@
+ 	unsigned long		lockflags;
+ 	size_t			size = dev->rx_urb_size;
+ 
++#if defined (CONFIG_RA_HW_NAT) || defined (CONFIG_RA_HW_NAT_MODULE)
++	if ((skb = alloc_skb (size + NET_IP_ALIGN + FOE_INFO_LEN, flags)) == NULL) {
++#else
+ 	if ((skb = alloc_skb (size + NET_IP_ALIGN, flags)) == NULL) {
++#endif
+ 		if (netif_msg_rx_err (dev))
+ 			devdbg (dev, "no rx skb");
+ 		usbnet_defer_kevent (dev, EVENT_RX_MEMORY);
+ 		usb_free_urb (urb);
+ 		return;
+ 	}
++#if defined (CONFIG_RA_HW_NAT) || defined (CONFIG_RA_HW_NAT_MODULE)
++	skb_reserve (skb, NET_IP_ALIGN + FOE_INFO_LEN);
++#else
+ 	skb_reserve (skb, NET_IP_ALIGN);
++#endif
+ 
+ 	entry = (struct skb_data *) skb->cb;
+ 	entry->urb = urb;
+@@ -924,6 +959,7 @@
+ 	struct skb_data		*entry;
+ 	struct driver_info	*info = dev->driver_info;
+ 	unsigned long		flags;
++	
+ 
+ 	// some devices want funky USB-level framing, for
+ 	// win32 driver (usually) and/or hardware quirks
+@@ -943,6 +979,15 @@
+ 		goto drop;
+ 	}
+ 
++#if defined (CONFIG_RA_HW_NAT) || defined (CONFIG_RA_HW_NAT_MODULE)
++        /* add tx hook point*/
++        if(ra_sw_nat_hook_tx != NULL) {
++                skb->data += 4; //pointer to DA
++                ra_sw_nat_hook_tx(skb, 1);
++                skb->data -= 4;
++        }
++#endif
++
+ 	entry = (struct skb_data *) skb->cb;
+ 	entry->urb = urb;
+ 	entry->dev = dev;
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+--- a/linux-2.6.21/drivers/usb/serial/option.c	2013-11-18 18:29:16.146742001 -0800
++++ b/drivers/usb/serial/option.c	2012-05-09 06:02:08.000000000 -0700
+@@ -134,6 +134,10 @@ static int  option_send_setup(struct usb
+ #define ALCATEL_VENDOR_ID			0x05c6
+ #define ALCATEL_PRODUCT_C820			0x00a0
+ 
++#define MOBILEPEAK_VENDOR_ID			0xfeed
++#define MOBILEPEAK_PRODUCT_TITAN		0x0001
++
++
+ #define DLINK_VENDOR_ID				0x1186
+ #define DLINK_PRODUCT_DWM652			0x3e04
+ 
+@@ -301,6 +305,7 @@ static struct usb_device_id option_ids[]
+ 	{ USB_DEVICE(BANDLUXE_VENDOR_ID, BANDLUXE_PRODUCT_C270) },
+ 	{ USB_DEVICE(DATANG_VENDOR_ID, DATANG_PRODUCT_M5731) },
+ 	{ USB_DEVICE(ALCATEL_VENDOR_ID, ALCATEL_PRODUCT_C820) },
++	{ USB_DEVICE(MOBILEPEAK_VENDOR_ID, MOBILEPEAK_PRODUCT_TITAN) },
+ 	{ USB_DEVICE(MU_VENDOR_ID, MU_PRODUCT_Q101) },
+ 	{ USB_DEVICE(DLINK_VENDOR_ID, DLINK_PRODUCT_DWM652) },
+ 	{ USB_DEVICE(MU_VENDOR_ID, MU_PRODUCT_Q101_MODEM) },
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/fs/Makefile b/fs/Makefile
+--- a/linux-2.6.21/fs/Makefile	2013-11-18 18:29:16.150075337 -0800
++++ b/fs/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -70,7 +70,8 @@ obj-$(CONFIG_JBD)		+= jbd/
+ obj-$(CONFIG_JBD2)		+= jbd2/
+ obj-$(CONFIG_EXT2_FS)		+= ext2/
+ obj-$(CONFIG_CRAMFS)		+= cramfs/
+-obj-$(CONFIG_SQUASHFS)		+= squashfs/
++obj-$(CONFIG_SQUASHFS)		+= squashfs/  #3.2-r2
++#obj-$(CONFIG_SQUASHFS)		+= squashfsLzma/  #3.4
+ obj-$(CONFIG_RAMFS)		+= ramfs/
+ obj-$(CONFIG_HUGETLBFS)		+= hugetlbfs/
+ obj-$(CONFIG_CODA_FS)		+= coda/
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/include/linux/if_tunnel.h b/include/linux/if_tunnel.h
+--- a/linux-2.6.21/include/linux/if_tunnel.h	2007-04-25 20:08:32.000000000 -0700
++++ b/include/linux/if_tunnel.h	2012-05-09 06:02:08.000000000 -0700
+@@ -3,11 +3,20 @@
+ 
+ #include <linux/types.h>
+ 
++#ifdef __KERNEL__
++#include <linux/in6.h>
++#endif
++
+ #define SIOCGETTUNNEL   (SIOCDEVPRIVATE + 0)
+ #define SIOCADDTUNNEL   (SIOCDEVPRIVATE + 1)
+ #define SIOCDELTUNNEL   (SIOCDEVPRIVATE + 2)
+ #define SIOCCHGTUNNEL   (SIOCDEVPRIVATE + 3)
+ 
++#define SIOCGET6RD      (SIOCDEVPRIVATE + 8)
++#define SIOCADD6RD      (SIOCDEVPRIVATE + 9)
++#define SIOCDEL6RD      (SIOCDEVPRIVATE + 10)
++#define SIOCCHG6RD      (SIOCDEVPRIVATE + 11)
++
+ #define GRE_CSUM	__constant_htons(0x8000)
+ #define GRE_ROUTING	__constant_htons(0x4000)
+ #define GRE_KEY		__constant_htons(0x2000)
+@@ -17,6 +26,7 @@
+ #define GRE_FLAGS	__constant_htons(0x00F8)
+ #define GRE_VERSION	__constant_htons(0x0007)
+ 
++
+ struct ip_tunnel_parm
+ {
+ 	char			name[IFNAMSIZ];
+@@ -28,4 +38,11 @@ struct ip_tunnel_parm
+ 	struct iphdr		iph;
+ };
+ 
++struct ip_tunnel_6rd {
++	struct in6_addr		prefix;
++	__be32			relay_prefix;
++	__u16			prefixlen;
++	__u16			relay_prefixlen;
++};
++
+ #endif /* _IF_TUNNEL_H_ */
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/include/linux/ipv6.h b/include/linux/ipv6.h
+--- a/linux-2.6.21/include/linux/ipv6.h	2007-04-25 20:08:32.000000000 -0700
++++ b/include/linux/ipv6.h	2012-05-09 06:02:08.000000000 -0700
+@@ -178,6 +178,14 @@ struct ipv6_devconf {
+ #endif
+ 	__s32		proxy_ndp;
+ 	__s32		accept_source_route;
++/*
++#ifdef CONFIG_IPV6_MROUTE
++	__s32		mc_forwarding;
++#endif
++*/
++	__s32           disable_ipv6;
++	__s32           accept_dad;
++
+ 	void		*sysctl;
+ };
+ 
+@@ -208,6 +216,9 @@ enum {
+ 	DEVCONF_PROXY_NDP,
+ 	__DEVCONF_OPTIMISTIC_DAD,
+ 	DEVCONF_ACCEPT_SOURCE_ROUTE,
++	DEVCONF_MC_FORWARDING,
++	DEVCONF_DISABLE_IPV6,
++	DEVCONF_ACCEPT_DAD,
+ 	DEVCONF_MAX
+ };
+ 
+@@ -239,6 +250,7 @@ struct inet6_skb_parm {
+ #endif
+ 
+ #define IP6SKB_XFRM_TRANSFORMED	1
++#define IP6SKB_FORWARDED	2
+ };
+ 
+ #define IP6CB(skb)	((struct inet6_skb_parm*)((skb)->cb))
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/include/linux/serial_reg.h b/include/linux/serial_reg.h
+--- a/linux-2.6.21/include/linux/serial_reg.h	2013-11-18 18:29:16.166742020 -0800
++++ b/include/linux/serial_reg.h	2012-05-09 06:02:08.000000000 -0700
+@@ -15,7 +15,8 @@
+ #define _LINUX_SERIAL_REG_H
+ 
+ #if defined (CONFIG_RALINK_RT2880) || defined (CONFIG_RALINK_RT3052) || defined (CONFIG_RALINK_RT3352) || \
+-    defined (CONFIG_RALINK_RT2883) || defined (CONFIG_RALINK_RT3883) || defined (CONFIG_RALINK_RT5350)
++    defined (CONFIG_RALINK_RT2883) || defined (CONFIG_RALINK_RT3883) || defined (CONFIG_RALINK_RT5350) || \
++    defined (CONFIG_RALINK_RT6855)
+ 
+ #define UART_RX		0	/* In:  Receive buffer (DLAB=0) */
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/include/linux/skbuff.h b/include/linux/skbuff.h
+--- a/linux-2.6.21/include/linux/skbuff.h	2013-11-18 18:29:16.166742020 -0800
++++ b/include/linux/skbuff.h	2012-05-09 06:02:08.000000000 -0700
+@@ -38,9 +38,11 @@
+ 
+ #define SKB_DATA_ALIGN(X)	(((X) + (SMP_CACHE_BYTES - 1)) & \
+ 				 ~(SMP_CACHE_BYTES - 1))
+-#define SKB_MAX_ORDER(X, ORDER)	(((PAGE_SIZE << (ORDER)) - (X) - \
+-				  sizeof(struct skb_shared_info)) & \
++#define SKB_WITH_OVERHEAD(X)	\
++	(((X) - sizeof(struct skb_shared_info)) & \
+ 				  ~(SMP_CACHE_BYTES - 1))
++#define SKB_MAX_ORDER(X, ORDER) \
++	SKB_WITH_OVERHEAD((PAGE_SIZE << (ORDER)) - (X))
+ #define SKB_MAX_HEAD(X)		(SKB_MAX_ORDER((X), 0))
+ #define SKB_MAX_ALLOC		(SKB_MAX_ORDER(0, 2))
+ 
+@@ -289,6 +291,9 @@ struct sk_buff {
+ 	__be16			protocol;
+ 
+ 	void			(*destructor)(struct sk_buff *skb);
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++	int			(*skb_recycling_callback)(struct sk_buff *skb);
++#endif
+ #ifdef CONFIG_NETFILTER
+ 	struct nf_conntrack	*nfct;
+ #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
+@@ -826,6 +831,21 @@ static inline void skb_fill_page_desc(st
+ #define SKB_FRAG_ASSERT(skb) 	BUG_ON(skb_shinfo(skb)->frag_list)
+ #define SKB_LINEAR_ASSERT(skb)  BUG_ON(skb_is_nonlinear(skb))
+ 
++static inline unsigned char *skb_tail_pointer(const struct sk_buff *skb)
++{
++	return skb->tail;
++}
++
++static inline void skb_reset_tail_pointer(struct sk_buff *skb)
++{
++	skb->tail = skb->data;
++}
++
++static inline void skb_set_tail_pointer(struct sk_buff *skb, const int offset)
++{
++	skb->tail = skb->data + offset;
++}
++
+ /*
+  *	Add data to an sk_buff
+  */
+@@ -1500,5 +1510,30 @@ static inline int skb_is_gso(const struc
+ 	return skb_shinfo(skb)->gso_size;
+ }
+ 
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++struct sk_buff *skbmgr_alloc_skb2k(void);
++int skbmgr_recycling_callback(struct sk_buff *skb);
++
++static inline struct sk_buff *skbmgr_dev_alloc_skb2k(void)
++{
++	struct sk_buff *skb = skbmgr_alloc_skb2k();
++	if (likely(skb))
++		skb_reserve(skb, NET_SKB_PAD);
++	return skb;
++}
++
++struct sk_buff *skbmgr_alloc_skb4k(void);
++int skbmgr_4k_recycling_callback(struct sk_buff *skb);
++
++static inline struct sk_buff *skbmgr_dev_alloc_skb4k(void)
++{
++	struct sk_buff *skb = skbmgr_alloc_skb4k();
++	if (likely(skb))
++		skb_reserve(skb, NET_SKB_PAD);
++	return skb;
++}
++
++#endif
++
+ #endif	/* __KERNEL__ */
+ #endif	/* _LINUX_SKBUFF_H */
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/include/net/ipip.h b/include/net/ipip.h
+--- a/linux-2.6.21/include/net/ipip.h	2007-04-25 20:08:32.000000000 -0700
++++ b/include/net/ipip.h	2012-05-09 06:02:08.000000000 -0700
+@@ -6,6 +6,15 @@
+ /* Keep error state on tunnel for 30 sec */
+ #define IPTUNNEL_ERR_TIMEO	(30*HZ)
+ 
++/* 6rd prefix/relay information */
++struct ip_tunnel_6rd_parm {
++	struct in6_addr		prefix;
++	__be32			relay_prefix;
++	u16			prefixlen;
++	u16			relay_prefixlen;
++};
++
++
+ struct ip_tunnel
+ {
+ 	struct ip_tunnel	*next;
+@@ -23,6 +32,10 @@ struct ip_tunnel
+ 	int			mlink;
+ 
+ 	struct ip_tunnel_parm	parms;
++#ifdef CONFIG_IPV6_SIT_6RD
++	struct ip_tunnel_6rd_parm	ip6rd;
++#endif
++
+ };
+ 
+ #define IPTUNNEL_XMIT() do {						\
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/include/net/ipv6.h b/include/net/ipv6.h
+--- a/linux-2.6.21/include/net/ipv6.h	2007-04-25 20:08:32.000000000 -0700
++++ b/include/net/ipv6.h	2012-05-09 06:02:08.000000000 -0700
+@@ -388,6 +388,11 @@ static inline int ipv6_addr_any(const st
+ 		 a->s6_addr32[2] | a->s6_addr32[3] ) == 0); 
+ }
+ 
++static inline int ipv6_addr_loopback(const struct in6_addr *a)
++{
++	return ((a->s6_addr32[0] | a->s6_addr32[1] | a->s6_addr32[2] | (a->s6_addr32[3] ^ htonl(1))) == 0);
++}
++
+ /*
+  * find the first different bit between two addresses
+  * length of address must be a multiple of 32bits
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/kernel/irq/manage.c b/kernel/irq/manage.c
+--- a/linux-2.6.21/kernel/irq/manage.c	2007-04-25 20:08:32.000000000 -0700
++++ b/kernel/irq/manage.c	2012-05-09 06:02:08.000000000 -0700
+@@ -560,4 +560,5 @@ int request_irq(unsigned int irq, irq_ha
+ 
+ 	return retval;
+ }
++EXPORT_SYMBOL(setup_irq);
+ EXPORT_SYMBOL(request_irq);
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/8021q/vlan.c b/net/8021q/vlan.c
+--- a/linux-2.6.21/net/8021q/vlan.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/8021q/vlan.c	2012-05-09 06:02:08.000000000 -0700
+@@ -494,6 +494,11 @@ static struct net_device *register_vlan_
+ 	 */
+ 	new_dev->mtu = real_dev->mtu;
+ 
++#if defined (CONFIG_RAETH_TSO)
++	/* make pseudo interface has same capacity like real interface */
++	new_dev->features = real_dev->features;
++#endif
++
+ 	/* TODO: maybe just assign it to be ETHERNET? */
+ 	new_dev->type = real_dev->type;
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/Makefile b/net/Makefile
+--- a/linux-2.6.21/net/Makefile	2013-11-18 18:29:16.180075366 -0800
++++ b/net/Makefile	2012-05-09 06:02:08.000000000 -0700
+@@ -59,17 +59,7 @@ endif
+ 
+ obj-$(CONFIG_RA_HW_NAT)         += nat/hw_nat/
+ 
+-#obj-$(CONFIG_RA_CLASSIFIER)     += ra_classifier/cls/
++obj-$(CONFIG_RA_CLASSIFIER)     += ra_classifier/
+ ifneq ($(CONFIG_RA_CLASSIFIER),)
+-#obj-y 							+= ra_classifier/cls_hook/
+-obj-y 							+= ra_classifier/hook.obj 
++obj-y 							+= ra_classifier/cls_hook/
+ endif
+-
+-ifeq ($(CONFIG_RA_CLASSIFIER), y)
+-obj-y += ra_classifier/
+-endif
+-ifeq ($(CONFIG_RA_CLASSIFIER), m)
+-obj-m += ra_classifier/
+-endif
+-
+-
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/bridge/Kconfig b/net/bridge/Kconfig
+--- a/linux-2.6.21/net/bridge/Kconfig	2013-11-18 18:29:16.180075366 -0800
++++ b/net/bridge/Kconfig	2012-05-09 06:02:08.000000000 -0700
+@@ -37,3 +37,9 @@ config BRIDGE_2WAYS_FDB
+ 	---help---
+ 	  prevent ARP flooding attack (memory protection code)
+ 
++config BRIDGE_IGMP_REPORT_NO_FLOODING
++	bool "IGMP report packets to CPU only(No flooding)"
++	depends on BRIDGE
++	---help---
++	  prevent IGMP report packet flooding to all NICs.
++
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/bridge/br_input.c b/net/bridge/br_input.c
+--- a/linux-2.6.21/net/bridge/br_input.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/bridge/br_input.c	2012-05-09 06:02:08.000000000 -0700
+@@ -65,7 +66,37 @@ int br_handle_frame_finish(struct sk_buf
+ 		}
+ 	}
+ 
++
+ 	if (is_multicast_ether_addr(dest)) {
++#ifdef CONFIG_BRIDGE_IGMP_REPORT_NO_FLOODING
++		#include <linux/ip.h>
++		#include <linux/igmp.h>
++		struct ethhdr *eth = eth_hdr(skb);
++		struct iphdr *ih;
++		struct igmphdr *igmph;
++
++		if(dest[0] != 0x01 || dest[1] != 0x00 || dest[2] != 0x5e || (dest[3] > 0x7f))
++			goto out_igmp;
++
++		if(eth->h_proto == htons(ETH_P_IP)){
++			if(skb->len < (sizeof(struct iphdr) + sizeof(struct igmphdr)))
++				goto out_igmp;
++
++			ih = (struct iphdr *)skb->h.raw;
++			if(ih->protocol != IPPROTO_IGMP)
++				goto out_igmp;
++
++			igmph = (struct igmphdr *)((unsigned char *)skb->h.raw + (ih->ihl<<2)  );
++			if(	igmph->type == IGMP_HOST_MEMBERSHIP_REPORT ||
++				igmph->type == IGMPV2_HOST_MEMBERSHIP_REPORT ||
++				igmph->type == IGMPV3_HOST_MEMBERSHIP_REPORT){
++				if(!passedup)
++					br_pass_frame_up(br, skb);
++				goto out;
++			}
++		}
++out_igmp:
++#endif
+ 		br->statistics.multicast++;
+ 		br_flood_forward(br, skb, !passedup);
+ 		if (!passedup)
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/core/skbuff.c b/net/core/skbuff.c
+--- a/linux-2.6.21/net/core/skbuff.c	2013-11-18 18:29:16.183408703 -0800
++++ b/net/core/skbuff.c	2012-05-09 06:02:08.000000000 -0700
+@@ -56,6 +56,10 @@
+ #include <linux/rtnetlink.h>
+ #include <linux/init.h>
+ 
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++#include <linux/proc_fs.h>
++#endif
++
+ #include <net/protocol.h>
+ #include <net/dst.h>
+ #include <net/sock.h>
+@@ -337,6 +341,13 @@ void __kfree_skb(struct sk_buff *skb)
+ 	skb->tc_verd = 0;
+ #endif
+ #endif
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++	if (skb->skb_recycling_callback) {
++		if ((*skb->skb_recycling_callback)(skb))
++			return;
++	}
++	skb->skb_recycling_callback = NULL;
++#endif
+ 
+ 	kfree_skbmem(skb);
+ }
+@@ -421,6 +432,10 @@ struct sk_buff *skb_clone(struct sk_buff
+ #endif
+ 	C(protocol);
+ 	n->destructor = NULL;
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++	n->skb_recycling_callback = NULL;
++	skb->skb_recycling_callback = NULL;
++#endif
+ 	C(mark);
+ #ifdef CONFIG_NETFILTER
+ 	C(nfct);
+@@ -486,6 +501,9 @@ static void copy_skb_header(struct sk_bu
+ 	new->pkt_type	= old->pkt_type;
+ 	new->tstamp	= old->tstamp;
+ 	new->destructor = NULL;
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++	new->skb_recycling_callback = NULL;
++#endif
+ 	new->mark	= old->mark;
+ #ifdef CONFIG_NETFILTER
+ 	new->nfct	= old->nfct;
+@@ -663,6 +681,10 @@ int pskb_expand_head(struct sk_buff *skb
+ 	if (skb_shinfo(skb)->frag_list)
+ 		skb_clone_fraglist(skb);
+ 
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++	skb->skb_recycling_callback = NULL;
++#endif
++
+ 	skb_release_data(skb);
+ 
+ 	off = (data + nhead) - skb->head;
+@@ -1998,8 +2020,346 @@ err:
+ 
+ EXPORT_SYMBOL_GPL(skb_segment);
+ 
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++
++#define SKBMGR_RX_BUF_LEN 			SKB_WITH_OVERHEAD(2048)
++#define SKBMGR_DEF_HOT_LIST_LEN			512
++
++int skbmgr_hot_list_len = SKBMGR_DEF_HOT_LIST_LEN;
++int skbmgr_max_list_len = 0;
++
++union {
++	struct sk_buff_head     list;
++	char                    pad[SMP_CACHE_BYTES];
++} skbmgr_pool[NR_CPUS];
++
++union {
++	struct sk_buff_head     list;
++	char                    pad[SMP_CACHE_BYTES];
++} skbmgr_4k_pool[NR_CPUS];
++
++struct sk_buff *skbmgr_alloc_skb2k(void)
++{
++	struct sk_buff_head *list = &skbmgr_pool[smp_processor_id()].list;
++	struct sk_buff *skb;
++
++	if (skb_queue_len(list)) {
++		unsigned long flags;
++		unsigned int size;
++		struct skb_shared_info *shinfo;
++		u8 *data;
++
++ 		local_irq_save(flags);
++		skb = __skb_dequeue(list);
++		local_irq_restore(flags);
++
++		if (unlikely(skb == NULL))
++			goto try_normal;
++
++		size = skb->truesize - sizeof(struct sk_buff);
++		data = skb->head;
++
++		/*
++		 * See comment in sk_buff definition, just before the 'tail' member
++		 */
++		memset(skb, 0, offsetof(struct sk_buff, tail));
++		skb->truesize = size + sizeof(struct sk_buff);
++		atomic_set(&skb->users, 1);
++		skb->head = data;
++		skb->data = data;
++		skb_reset_tail_pointer(skb);
++		skb->end = skb->tail + size;
++		/* make sure we initialize shinfo sequentially */
++		shinfo = skb_shinfo(skb);
++		atomic_set(&shinfo->dataref, 1);
++		shinfo->nr_frags  = 0;
++		shinfo->gso_size = 0;
++		shinfo->gso_segs = 0;
++		shinfo->gso_type = 0;
++		shinfo->ip6_frag_id = 0;
++		shinfo->frag_list = NULL;
++
++		skb->skb_recycling_callback = skbmgr_recycling_callback;
++
++		return skb;
++	}
++
++try_normal:
++	skb = alloc_skb(SKBMGR_RX_BUF_LEN, GFP_ATOMIC|__GFP_NOWARN);
++	if (likely(skb))
++		skb->skb_recycling_callback = skbmgr_recycling_callback;
++	return skb;
++}
++
++EXPORT_SYMBOL(skbmgr_alloc_skb2k);
++
++#define SKBMGR_4K_RX_BUF_LEN 			SKB_WITH_OVERHEAD(4096)
++#define SKBMGR_4K_DEF_HOT_LIST_LEN              128
++int skbmgr_4k_hot_list_len = SKBMGR_4K_DEF_HOT_LIST_LEN;
++int skbmgr_4k_max_list_len = 0;
++
++struct sk_buff *skbmgr_alloc_skb4k(void)
++{
++	struct sk_buff_head *list = &skbmgr_4k_pool[smp_processor_id()].list;
++	struct sk_buff *skb;
++
++	if (skb_queue_len(list)) {
++		unsigned long flags;
++		unsigned int size;
++		struct skb_shared_info *shinfo;
++		u8 *data;
++
++ 		local_irq_save(flags);
++		skb = __skb_dequeue(list);
++		local_irq_restore(flags);
++
++		if (unlikely(skb == NULL))
++			goto try_normal;
++
++		size = skb->truesize - sizeof(struct sk_buff);
++		data = skb->head;
++
++		/*
++		 * See comment in sk_buff definition, just before the 'tail' member
++		 */
++		memset(skb, 0, offsetof(struct sk_buff, tail));
++		skb->truesize = size + sizeof(struct sk_buff);
++		atomic_set(&skb->users, 1);
++		skb->head = data;
++		skb->data = data;
++		skb_reset_tail_pointer(skb);
++		skb->end = skb->tail + size;
++		/* make sure we initialize shinfo sequentially */
++		shinfo = skb_shinfo(skb);
++		atomic_set(&shinfo->dataref, 1);
++		shinfo->nr_frags  = 0;
++		shinfo->gso_size = 0;
++		shinfo->gso_segs = 0;
++		shinfo->gso_type = 0;
++		shinfo->ip6_frag_id = 0;
++		shinfo->frag_list = NULL;
++
++		skb->skb_recycling_callback = skbmgr_4k_recycling_callback;
++
++		return skb;
++	}
++
++try_normal:
++	skb = alloc_skb(SKBMGR_4K_RX_BUF_LEN, GFP_ATOMIC|__GFP_NOWARN);
++	if (likely(skb))
++		skb->skb_recycling_callback = skbmgr_4k_recycling_callback;
++	return skb;
++}
++
++EXPORT_SYMBOL(skbmgr_alloc_skb4k);
++
++int skbmgr_recycling_callback(struct sk_buff *skb)
++{
++	struct sk_buff_head *list = &skbmgr_pool[smp_processor_id()].list;
++
++	if (skb_queue_len(list) < skbmgr_hot_list_len) {
++		unsigned long flags;
++
++		if ((skb->truesize - sizeof(struct sk_buff) != SKBMGR_RX_BUF_LEN) ||
++			(skb_shinfo(skb)->nr_frags) ||
++			(skb_shinfo(skb)->frag_list)) {
++			return 0;
++		}
++
++		if (skb_queue_len(list) > skbmgr_max_list_len)
++			skbmgr_max_list_len = skb_queue_len(list) + 1;
++
++		local_irq_save(flags);
++		__skb_queue_head(list, skb);
++		local_irq_restore(flags);
++
++		return 1;
++	}
++
++	return 0;
++}
++
++EXPORT_SYMBOL(skbmgr_recycling_callback);
++
++int skbmgr_4k_recycling_callback(struct sk_buff *skb)
++{
++	struct sk_buff_head *list = &skbmgr_4k_pool[smp_processor_id()].list;
++
++	if (skb_queue_len(list) < skbmgr_4k_hot_list_len) {
++		unsigned long flags;
++
++		if ((skb->truesize - sizeof(struct sk_buff) != SKBMGR_RX_BUF_LEN) ||
++			(skb_shinfo(skb)->nr_frags) ||
++			(skb_shinfo(skb)->frag_list)) {
++			return 0;
++		}
++
++		if (skb_queue_len(list) > skbmgr_4k_max_list_len)
++			skbmgr_4k_max_list_len = skb_queue_len(list) + 1;
++
++		local_irq_save(flags);
++		__skb_queue_head(list, skb);
++		local_irq_restore(flags);
++
++		return 1;
++	}
++
++	return 0;
++}
++
++EXPORT_SYMBOL(skbmgr_4k_recycling_callback);
++
++void skbmgr_free_all_skbs(void)
++{
++	struct sk_buff_head *list;
++	struct sk_buff *skb;
++	int i;
++
++	for (i=0; i<NR_CPUS; i++) {
++		list = &skbmgr_pool[i].list;
++		while ((skb = skb_dequeue(list)) != NULL) {
++			skb->skb_recycling_callback = NULL;
++			kfree_skbmem(skb);
++		}
++	}
++
++	for (i=0; i<NR_CPUS; i++) {
++		list = &skbmgr_4k_pool[i].list;
++		while ((skb = skb_dequeue(list)) != NULL) {
++			skb->skb_recycling_callback = NULL;
++			kfree_skbmem(skb);
++		}
++	}
++}
++
++#ifdef CONFIG_PROC_FS
++
++static int hot_list_len_read(char *page, char **start, off_t offset,
++			    int count, int *eof, void *data)
++{
++	char *out = page;
++	int len;
++
++	out += sprintf(out, "skbmgr_hot_list_len %d skbmgr_4k_hot_list_len %d\n", skbmgr_hot_list_len,skbmgr_4k_hot_list_len);
++
++
++	len = out - page;
++	len -= offset;
++	if (len < count) {
++		*eof = 1;
++		if (len <= 0)
++			return 0;
++	} else
++		len = count;
++
++	*start = page + offset;
++	return len;
++}
++
++static int hot_list_len_write(struct file *file, const char __user * buffer,
++			     unsigned long count, void *data)
++{
++	char buf[64];
++	int val;
++
++	if (count > 64)
++		return -EINVAL;
++
++	if (copy_from_user(buf, buffer, count))
++		return -EFAULT;
++
++	val = simple_strtoul(buf, NULL, 10);
++
++	skbmgr_hot_list_len = val;
++	if (skbmgr_hot_list_len == 0) {
++		skbmgr_free_all_skbs();
++		skbmgr_max_list_len = 0;
++	}
++
++	return count;
++}
++
++static int skbmgr_info_read(char *page, char **start, off_t offset,
++			    int count, int *eof, void *data)
++{
++	char *out = page;
++	int len;
++	struct sk_buff_head *list;
++	int i;
++
++	out += sprintf(out, "skbmgr_max_list_len = %d\n", skbmgr_max_list_len);
++	out += sprintf(out, "skbmgr_4k_max_list_len = %d\n", skbmgr_4k_max_list_len);
++
++	for (i=0; i<NR_CPUS; i++) {
++		list = &skbmgr_pool[i].list;
++		out += sprintf(out, "skbmgr_queue_len CPU%d = %d\n", i, skb_queue_len(list));
++	}
++
++	for (i=0; i<NR_CPUS; i++) {
++		list = &skbmgr_4k_pool[i].list;
++		out += sprintf(out, "skbmgr_4k_queue_len CPU%d = %d\n", i, skb_queue_len(list));
++	}
++
++	len = out - page;
++	len -= offset;
++	if (len < count) {
++		*eof = 1;
++		if (len <= 0)
++			return 0;
++	} else
++		len = count;
++
++	*start = page + offset;
++	return len;
++}
++
++static int register_proc_skbmgr(void)
++{
++	struct proc_dir_entry *p;
++
++	p = create_proc_entry("skbmgr_hot_list_len", 0644, proc_net);
++	if (!p)
++		return 0;
++
++	p->owner = THIS_MODULE;
++	p->read_proc = hot_list_len_read;
++	p->write_proc = hot_list_len_write;
++
++	p = create_proc_read_entry("skbmgr_info", 0, proc_net, skbmgr_info_read, NULL);
++	if (!p)
++		return 0;
++
++	return 1;
++}
++
++static void unregister_proc_skbmgr(void)
++{
++	remove_proc_entry("skbmgr_hot_list_len", proc_net);
++	remove_proc_entry("skbmgr_info", proc_net);
++}
++
++#endif
++
++#endif
++
+ void __init skb_init(void)
+ {
++#if defined(CONFIG_RAETH_SKB_RECYCLE_2K)
++	int i;
++
++	for (i=0; i<NR_CPUS; i++) {
++		skb_queue_head_init(&skbmgr_pool[i].list);
++	}
++
++	for (i=0; i<NR_CPUS; i++) {
++		skb_queue_head_init(&skbmgr_4k_pool[i].list);
++	}
++
++#ifdef CONFIG_PROC_FS
++	register_proc_skbmgr();
++#endif
++#endif
++
+ 	skbuff_head_cache = kmem_cache_create("skbuff_head_cache",
+ 					      sizeof(struct sk_buff),
+ 					      0,
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
+--- a/linux-2.6.21/net/ipv4/ip_output.c	2013-11-18 18:29:16.186742040 -0800
++++ b/net/ipv4/ip_output.c	2012-05-09 06:02:08.000000000 -0700
+@@ -83,6 +83,11 @@
+ #include <linux/netlink.h>
+ #include <linux/tcp.h>
+ 
++#if  defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
++#include "../../net/nat/hw_nat/ra_nat.h"
++#include "../../net/nat/hw_nat/frame_engine.h"
++#endif
++
+ int sysctl_ip_default_ttl __read_mostly = IPDEFTTL;
+ 
+ /* Generate a checksum for an outgoing IP datagram. */
+@@ -153,6 +158,10 @@ int ip_build_and_send_pkt(struct sk_buff
+ 
+ 	skb->priority = sk->sk_priority;
+ 
++#if  defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
++	        FOE_AI(skb) = UN_HIT;
++#endif
++
+ 	/* Send it out. */
+ 	return NF_HOOK(PF_INET, NF_IP_LOCAL_OUT, skb, NULL, rt->u.dst.dev,
+ 		       dst_output);
+@@ -247,9 +256,8 @@ int ip_mc_output(struct sk_buff *skb)
+ 		}
+ 
+ 		/* Multicasts with ttl 0 must not go beyond the host */
+-  //Gemtek Modify
+-	//	if (skb->nh.iph->ttl == 0) {
+-	if (skb->nh.iph->ttl < 0) {
++
++		if (skb->nh.iph->ttl == 0) {
+ 			kfree_skb(skb);
+ 			return 0;
+ 		}
+@@ -360,6 +368,9 @@ packet_routed:
+ 	ip_send_check(iph);
+ 
+ 	skb->priority = sk->sk_priority;
++#if  defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
++	        FOE_AI(skb) = UN_HIT;
++#endif
+ 
+ 	return NF_HOOK(PF_INET, NF_IP_LOCAL_OUT, skb, NULL, rt->u.dst.dev,
+ 		       dst_output);
+@@ -1255,6 +1266,9 @@ int ip_push_pending_frames(struct sock *
+ 
+ 	skb->priority = sk->sk_priority;
+ 	skb->dst = dst_clone(&rt->u.dst);
++#if  defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
++	        FOE_AI(skb) = UN_HIT;
++#endif
+ 
+ 	/* Netfilter gets whole the not fragmented skb. */
+ 	err = NF_HOOK(PF_INET, NF_IP_LOCAL_OUT, skb, NULL,
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv4/ipmr.c b/net/ipv4/ipmr.c
+--- a/linux-2.6.21/net/ipv4/ipmr.c	2013-11-18 18:29:16.186742040 -0800
++++ b/net/ipv4/ipmr.c	2012-05-09 06:02:08.000000000 -0700
+@@ -463,15 +463,11 @@ static int vif_add(struct vifctl *vifc,
+ 
+ static struct mfc_cache *ipmr_cache_find(__be32 origin, __be32 mcastgrp)
+ {
+-//Gemtek Modify
+-//	int line=MFC_HASH(mcastgrp,origin);
+-  int line = MFC_HASH(mcastgrp,0x00000000);
++	int line=MFC_HASH(mcastgrp,origin);
+ 	struct mfc_cache *c;
+ 
+ 	for (c=mfc_cache_array[line]; c; c = c->next) {
+-	  //Gemtek Modify
+-		//if (c->mfc_origin==origin && c->mfc_mcastgrp==mcastgrp)
+-		 if (c->mfc_mcastgrp==mcastgrp)
++		if (c->mfc_origin==origin && c->mfc_mcastgrp==mcastgrp)
+ 			break;
+ 	}
+ 	return c;
+@@ -1305,9 +1301,7 @@ static int ip_mr_forward(struct sk_buff
+ 	 *	Forward the frame
+ 	 */
+ 	for (ct = cache->mfc_un.res.maxvif-1; ct >= cache->mfc_un.res.minvif; ct--) {
+-	//Gemtek Modify
+-  //	if (skb->nh.iph->ttl > cache->mfc_un.res.ttls[ct]) {
+-  if (skb->nh.iph->ttl >= cache->mfc_un.res.ttls[ct]) {
++		if (skb->nh.iph->ttl > cache->mfc_un.res.ttls[ct]) {
+ 			if (psend != -1) {
+ 				struct sk_buff *skb2 = skb_clone(skb, GFP_ATOMIC);
+ 				if (skb2)
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv4/netfilter/nf_conntrack_l3proto_ipv4.c b/net/ipv4/netfilter/nf_conntrack_l3proto_ipv4.c
+--- a/linux-2.6.21/net/ipv4/netfilter/nf_conntrack_l3proto_ipv4.c	2013-11-18 18:29:16.193408713 -0800
++++ b/net/ipv4/netfilter/nf_conntrack_l3proto_ipv4.c	2012-05-09 06:02:08.000000000 -0700
+@@ -44,13 +44,6 @@
+ #define DEBUGP(format, args...)
+ #endif
+ 
+-
+-#define CONFIG_PRIVILEGE_CONNTRACK 1
+-
+-#ifdef CONFIG_PRIVILEGE_CONNTRACK
+-extern int general_traffic_conntrack_max;
+-#endif
+-
+ static int ipv4_pkt_to_tuple(const struct sk_buff *skb, unsigned int nhoff,
+ 			     struct nf_conntrack_tuple *tuple)
+ {
+@@ -307,16 +300,6 @@ static ctl_table ip_ct_sysctl_table[] =
+ 		.mode		= 0644,
+ 		.proc_handler	= &proc_dointvec,
+ 	},
+-	#ifdef CONFIG_PRIVILEGE_CONNTRACK
+-	{
+-		.ctl_name	= NET_IPV4_NF_CONNTRACK_MAX+1,
+-		.procname	= "general_conntrack_max",
+-		.data		= &general_traffic_conntrack_max,
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= &proc_dointvec,
+-	},
+-#endif
+ 	{
+ 		.ctl_name	= NET_IPV4_NF_CONNTRACK_COUNT,
+ 		.procname	= "ip_conntrack_count",
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/Kconfig b/net/ipv6/Kconfig
+--- a/linux-2.6.21/net/ipv6/Kconfig	2007-04-25 20:08:32.000000000 -0700
++++ b/net/ipv6/Kconfig	2012-05-09 06:02:08.000000000 -0700
+@@ -167,6 +167,25 @@ config IPV6_SIT
+ 
+ 	  Saying M here will produce a module called sit.ko. If unsure, say Y.
+ 
++config IPV6_SIT_6RD
++    bool "IPv6: IPv6 Rapid Development (6RD) (EXPERIMENTAL)"
++    depends on IPV6_SIT && EXPERIMENTAL
++    default n
++    ---help---
++      IPv6 Rapid Deployment (6rd; draft-ietf-softwire-ipv6-6rd) builds upon
++      mechanisms of 6to4 (RFC3056) to enable a service provider to rapidly
++      deploy IPv6 unicast service to IPv4 sites to which it provides
++      customer premise equipment.  Like 6to4, it utilizes stateless IPv6 in
++      IPv4 encapsulation in order to transit IPv4-only network
++      infrastructure.  Unlike 6to4, a 6rd service provider uses an IPv6
++      prefix of its own in place of the fixed 6to4 prefix.
++
++      With this option enabled, the SIT driver offers 6rd functionality by
++      providing additional ioctl API to configure the IPv6 Prefix for in
++      stead of static 2002::/16 for 6to4.
++
++      If unsure, say N.
++
+ config IPV6_TUNNEL
+ 	tristate "IPv6: IPv6-in-IPv6 tunnel"
+ 	select INET6_TUNNEL
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+--- a/linux-2.6.21/net/ipv6/addrconf.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/ipv6/addrconf.c	2012-05-09 06:02:08.000000000 -0700
+@@ -139,6 +139,7 @@ static void ipv6_ifa_notify(int event, s
+ static void inet6_prefix_notify(int event, struct inet6_dev *idev,
+ 				struct prefix_info *pinfo);
+ static int ipv6_chk_same_addr(const struct in6_addr *addr, struct net_device *dev);
++static int ipv6_generate_eui64(u8 *eui, struct net_device *dev);
+ 
+ static ATOMIC_NOTIFIER_HEAD(inet6addr_chain);
+ 
+@@ -173,6 +174,8 @@ struct ipv6_devconf ipv6_devconf __read_
+ #endif
+ 	.proxy_ndp		= 0,
+ 	.accept_source_route	= 0,	/* we do not accept RH0 by default. */
++	.disable_ipv6           = 0,
++	.accept_dad             = 2,
+ };
+ 
+ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
+@@ -205,6 +208,8 @@ static struct ipv6_devconf ipv6_devconf_
+ #endif
+ 	.proxy_ndp		= 0,
+ 	.accept_source_route	= 0,	/* we do not accept RH0 by default. */
++	.disable_ipv6           = 0,
++	.accept_dad             = 2,
+ };
+ 
+ /* IPv6 Wildcard Address and Loopback Address defined by RFC2553 */
+@@ -324,6 +329,9 @@ static struct inet6_dev * ipv6_add_dev(s
+ 	 */
+ 	in6_dev_hold(ndev);
+ 
++	if (dev->flags & (IFF_NOARP | IFF_LOOPBACK))
++		ndev->cnf.accept_dad = -1;
++
+ #ifdef CONFIG_IPV6_PRIVACY
+ 	init_timer(&ndev->regen_timer);
+ 	ndev->regen_timer.function = ipv6_regen_rndid;
+@@ -366,7 +374,7 @@ static struct inet6_dev * ipv6_add_dev(s
+ 	return ndev;
+ }
+ 
+-static struct inet6_dev * ipv6_find_idev(struct net_device *dev)
++struct inet6_dev * ipv6_find_idev(struct net_device *dev)
+ {
+ 	struct inet6_dev *idev;
+ 
+@@ -1261,6 +1269,20 @@ static void addrconf_dad_stop(struct ine
+ 
+ void addrconf_dad_failure(struct inet6_ifaddr *ifp)
+ {
++	struct inet6_dev *idev = ifp->idev;
++	if (idev->cnf.accept_dad > 1 && !idev->cnf.disable_ipv6) {
++		struct in6_addr addr;
++
++		addr.s6_addr32[0] = htonl(0xfe800000);
++		addr.s6_addr32[1] = 0;
++		if (!ipv6_generate_eui64(addr.s6_addr + 8, idev->dev) &&
++			ipv6_addr_equal(&ifp->addr, &addr)) {
++			/* DAD failed for link-local based on MAC address */
++			idev->cnf.disable_ipv6 = 1;
++			printk("dad_failure:duplicate detected, disable ipv6 support\n");
++		}
++	}
++
+ 	if (net_ratelimit())
+ 		printk(KERN_INFO "%s: duplicate address detected!\n", ifp->idev->dev->name);
+ 	addrconf_dad_stop(ifp);
+@@ -2494,6 +2516,7 @@ static void addrconf_dad_start(struct in
+ 	spin_lock_bh(&ifp->lock);
+ 
+ 	if (dev->flags&(IFF_NOARP|IFF_LOOPBACK) ||
++	    idev->cnf.accept_dad < 1 ||
+ 	    !(ifp->flags&IFA_F_TENTATIVE) ||
+ 	    ifp->flags & IFA_F_NODAD) {
+ 		ifp->flags &= ~IFA_F_TENTATIVE;
+@@ -2534,6 +2557,13 @@ static void addrconf_dad_timer(unsigned
+ 		read_unlock_bh(&idev->lock);
+ 		goto out;
+ 	}
++
++	if (idev->cnf.accept_dad > 1 && idev->cnf.disable_ipv6) {
++		read_unlock_bh(&idev->lock);
++		addrconf_dad_failure(ifp);
++		return;
++	}
++
+ 	spin_lock_bh(&ifp->lock);
+ 	if (ifp->probes == 0) {
+ 		/*
+@@ -3359,6 +3389,13 @@ static inline void ipv6_store_devconf(st
+ #endif
+ 	array[DEVCONF_PROXY_NDP] = cnf->proxy_ndp;
+ 	array[DEVCONF_ACCEPT_SOURCE_ROUTE] = cnf->accept_source_route;
++/*
++#ifdef CONFIG_IPV6_MROUTE
++	array[DEVCONF_MC_FORWARDING] = cnf->mc_forwarding;
++#endif
++*/
++	array[DEVCONF_DISABLE_IPV6] = cnf->disable_ipv6;
++	array[DEVCONF_ACCEPT_DAD] = cnf->accept_dad;
+ }
+ 
+ static inline size_t inet6_if_nlmsg_size(void)
+@@ -3894,6 +3931,34 @@ static struct addrconf_sysctl_table
+ 			.mode		=	0644,
+ 			.proc_handler	=	&proc_dointvec,
+ 		},
++/*
++#ifdef CONFIG_IPV6_MROUTE
++		{
++			.ctl_name       =       CTL_UNNUMBERED,
++			.procname       =       "mc_forwarding",
++			.data           =       &ipv6_devconf.mc_forwarding,
++			.maxlen         =       sizeof(int),
++			.mode           =       0644,
++			.proc_handler   =       &proc_dointvec,
++		},
++#endif
++*/
++		{
++			.ctl_name       =       CTL_UNNUMBERED,
++			.procname       =       "disable_ipv6",
++			.data           =       &ipv6_devconf.disable_ipv6,
++			.maxlen         =       sizeof(int),
++			.mode           =       0644,
++			.proc_handler   =       &proc_dointvec,
++		},
++		{
++			.ctl_name       =       CTL_UNNUMBERED,
++			.procname       =       "accept_dad",
++			.data           =       &ipv6_devconf.accept_dad,
++			.maxlen         =       sizeof(int),
++			.mode           =       0644,
++			.proc_handler   =       &proc_dointvec,
++		},
+ 		{
+ 			.ctl_name	=	0,	/* sentinel */
+ 		}
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/exthdrs.c b/net/ipv6/exthdrs.c
+--- a/linux-2.6.21/net/ipv6/exthdrs.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/ipv6/exthdrs.c	2012-05-09 06:02:08.000000000 -0700
+@@ -394,6 +394,8 @@ static int ipv6_rthdr_rcv(struct sk_buff
+ 
+ 	hdr = (struct ipv6_rt_hdr *) skb->h.raw;
+ 
++/*  Ralink, for IPv6 ready logo. Test item: spec #63, #64  (from 2.6.36) */
++#if 0
+ 	switch (hdr->type) {
+ #ifdef CONFIG_IPV6_MIP6
+ 		break;
+@@ -409,6 +411,7 @@ static int ipv6_rthdr_rcv(struct sk_buff
+ 		icmpv6_param_prob(skb, ICMPV6_HDR_FIELD, (&hdr->type) - skb->nh.raw);
+ 		return -1;
+ 	}
++#endif
+ 
+ 	if (ipv6_addr_is_multicast(&skb->nh.ipv6h->daddr) ||
+ 	    skb->pkt_type != PACKET_HOST) {
+@@ -448,6 +451,8 @@ looped_back:
+ 	}
+ 
+ 	switch (hdr->type) {
++/*  Ralink, for IPv6 ready logo. Test item: spec #65, #66  (from 2.6.36) */
++#if 0
+ 	case IPV6_SRCRT_TYPE_0:
+ 		if (hdr->hdrlen & 0x01) {
+ 			IP6_INC_STATS_BH(ip6_dst_idev(skb->dst),
+@@ -456,6 +461,13 @@ looped_back:
+ 			return -1;
+ 		}
+ 		break;
++#endif
++        /*  Ralink, for IPv6 ready logo. Test item: spec #65, #66  (from 2.6.36) */
++        default:
++		IP6_INC_STATS_BH(ip6_dst_idev(skb->dst), IPSTATS_MIB_INHDRERRORS);
++		icmpv6_param_prob(skb, ICMPV6_HDR_FIELD, (&hdr->type) - skb->nh.raw);
++		return -1;
++
+ #ifdef CONFIG_IPV6_MIP6
+ 	case IPV6_SRCRT_TYPE_2:
+ 		/* Silently discard invalid RTH type 2 */
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/ip6_input.c b/net/ipv6/ip6_input.c
+--- a/linux-2.6.21/net/ipv6/ip6_input.c	2013-11-18 18:29:16.193408713 -0800
++++ b/net/ipv6/ip6_input.c	2012-05-09 06:02:08.000000000 -0700
+@@ -77,10 +77,12 @@ int ipv6_rcv(struct sk_buff *skb, struct
+ 
+ 	IP6_INC_STATS_BH(idev, IPSTATS_MIB_INRECEIVES);
+ 
+-	if ((skb = skb_share_check(skb, GFP_ATOMIC)) == NULL) {
++	if ((skb = skb_share_check(skb, GFP_ATOMIC)) == NULL || !idev || unlikely(idev->cnf.disable_ipv6)) {
+ 		IP6_INC_STATS_BH(idev, IPSTATS_MIB_INDISCARDS);
+ 		rcu_read_unlock();
+-		goto out;
++//		goto out;
++		kfree_skb(skb);
++		return 0;
+ 	}
+ 
+ 	memset(IP6CB(skb), 0, sizeof(struct inet6_skb_parm));
+@@ -106,6 +108,14 @@ int ipv6_rcv(struct sk_buff *skb, struct
+ 	if (hdr->version != 6)
+ 		goto err;
+ 
++	/*
++	 * RFC4291 2.5.3
++	 * A packet received on an interface with a destination address
++	 * of loopback must be dropped.
++	 */
++	if (!(dev->flags & IFF_LOOPBACK) && ipv6_addr_loopback(&hdr->daddr))
++                goto err;
++
+ 	skb->h.raw = (u8 *)(hdr + 1);
+ 	IP6CB(skb)->nhoff = offsetof(struct ipv6hdr, nexthdr);
+ 
+@@ -140,7 +150,7 @@ err:
+ drop:
+ 	rcu_read_unlock();
+ 	kfree_skb(skb);
+-out:
++//out:
+ 	return 0;
+ }
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/ip6_output.c b/net/ipv6/ip6_output.c
+--- a/linux-2.6.21/net/ipv6/ip6_output.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/ipv6/ip6_output.c	2012-05-09 06:02:08.000000000 -0700
+@@ -139,6 +139,13 @@ static int ip6_output2(struct sk_buff *s
+ 
+ int ip6_output(struct sk_buff *skb)
+ {
++	struct inet6_dev *idev = ip6_dst_idev(skb->dst);
++	if (unlikely(idev->cnf.disable_ipv6)) {
++		IP6_INC_STATS(idev, IPSTATS_MIB_OUTDISCARDS);
++		kfree_skb(skb);
++		return 0;
++	}
++
+ 	if ((skb->len > dst_mtu(skb->dst) && !skb_is_gso(skb)) ||
+ 				dst_allfrag(skb->dst))
+ 		return ip6_fragment(skb, ip6_output2);
+@@ -449,10 +456,16 @@ int ip6_forward(struct sk_buff *skb)
+ 		 */
+ 		if (xrlim_allow(dst, 1*HZ))
+ 			ndisc_send_redirect(skb, n, target);
+-	} else if (ipv6_addr_type(&hdr->saddr)&(IPV6_ADDR_MULTICAST|IPV6_ADDR_LOOPBACK
+-						|IPV6_ADDR_LINKLOCAL)) {
++	} else {
++		int addrtype = ipv6_addr_type(&hdr->saddr);
++
+ 		/* This check is security critical. */
++		if (addrtype == IPV6_ADDR_ANY || addrtype & (IPV6_ADDR_MULTICAST | IPV6_ADDR_LOOPBACK))
+ 		goto error;
++		if (addrtype & IPV6_ADDR_LINKLOCAL) {
++			icmpv6_send(skb, ICMPV6_DEST_UNREACH, ICMPV6_NOT_NEIGHBOUR, 0, skb->dev);
++			goto error;
++		}
+ 	}
+ 
+ 	if (skb->len > dst_mtu(dst)) {
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/ip6_tunnel.c b/net/ipv6/ip6_tunnel.c
+--- a/linux-2.6.21/net/ipv6/ip6_tunnel.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/ipv6/ip6_tunnel.c	2012-05-09 06:02:08.000000000 -0700
+@@ -24,6 +25,7 @@
+ #include <linux/errno.h>
+ #include <linux/types.h>
+ #include <linux/sockios.h>
++#include <linux/icmp.h>
+ #include <linux/if.h>
+ #include <linux/in.h>
+ #include <linux/ip.h>
+@@ -41,6 +43,7 @@
+ #include <asm/uaccess.h>
+ #include <asm/atomic.h>
+ 
++#include <net/icmp.h>
+ #include <net/ip.h>
+ #include <net/ipv6.h>
+ #include <net/ip6_route.h>
+@@ -51,7 +54,7 @@
+ #include <net/inet_ecn.h>
+ 
+ MODULE_AUTHOR("Ville Nuorvala");
+-MODULE_DESCRIPTION("IPv6-in-IPv6 tunnel");
++MODULE_DESCRIPTION("IPv6 tunneling device");
+ MODULE_LICENSE("GPL");
+ 
+ #define IPV6_TLV_TEL_DST_SIZE 8
+@@ -63,6 +66,7 @@ MODULE_LICENSE("GPL");
+ #endif
+ 
+ #define IPV6_TCLASS_MASK (IPV6_FLOWINFO_MASK & ~IPV6_FLOWLABEL_MASK)
++#define IPV6_TCLASS_SHIFT 20
+ 
+ #define HASH_SIZE  32
+ 
+@@ -70,12 +74,12 @@ MODULE_LICENSE("GPL");
+ 		     (addr)->s6_addr32[2] ^ (addr)->s6_addr32[3]) & \
+ 		    (HASH_SIZE - 1))
+ 
+-static int ip6ip6_fb_tnl_dev_init(struct net_device *dev);
+-static int ip6ip6_tnl_dev_init(struct net_device *dev);
+-static void ip6ip6_tnl_dev_setup(struct net_device *dev);
++static int ip6_fb_tnl_dev_init(struct net_device *dev);
++static int ip6_tnl_dev_init(struct net_device *dev);
++static void ip6_tnl_dev_setup(struct net_device *dev);
+ 
+ /* the IPv6 tunnel fallback device */
+-static struct net_device *ip6ip6_fb_tnl_dev;
++static struct net_device *ip6_fb_tnl_dev;
+ 
+ 
+ /* lists for storing tunnels in use */
+@@ -84,7 +88,7 @@ static struct ip6_tnl *tnls_wc[1];
+ static struct ip6_tnl **tnls[2] = { tnls_wc, tnls_r_l };
+ 
+ /* lock for the tunnel lists */
+-static DEFINE_RWLOCK(ip6ip6_lock);
++static DEFINE_RWLOCK(ip6_tnl_lock);
+ 
+ static inline struct dst_entry *ip6_tnl_dst_check(struct ip6_tnl *t)
+ {
+@@ -115,7 +119,7 @@ static inline void ip6_tnl_dst_store(str
+ }
+ 
+ /**
+- * ip6ip6_tnl_lookup - fetch tunnel matching the end-point addresses
++ * ip6_tnl_lookup - fetch tunnel matching the end-point addresses
+  *   @remote: the address of the tunnel exit-point
+  *   @local: the address of the tunnel entry-point
+  *
+@@ -126,7 +130,7 @@ static inline void ip6_tnl_dst_store(str
+  **/
+ 
+ static struct ip6_tnl *
+-ip6ip6_tnl_lookup(struct in6_addr *remote, struct in6_addr *local)
++ip6_tnl_lookup(struct in6_addr *remote, struct in6_addr *local)
+ {
+ 	unsigned h0 = HASH(remote);
+ 	unsigned h1 = HASH(local);
+@@ -145,18 +149,18 @@ ip6ip6_tnl_lookup(struct in6_addr *remot
+ }
+ 
+ /**
+- * ip6ip6_bucket - get head of list matching given tunnel parameters
++ * ip6_tnl_bucket - get head of list matching given tunnel parameters
+  *   @p: parameters containing tunnel end-points
+  *
+  * Description:
+- *   ip6ip6_bucket() returns the head of the list matching the
++ *   ip6_tnl_bucket() returns the head of the list matching the
+  *   &struct in6_addr entries laddr and raddr in @p.
+  *
+  * Return: head of IPv6 tunnel list
+  **/
+ 
+ static struct ip6_tnl **
+-ip6ip6_bucket(struct ip6_tnl_parm *p)
++ip6_tnl_bucket(struct ip6_tnl_parm *p)
+ {
+ 	struct in6_addr *remote = &p->raddr;
+ 	struct in6_addr *local = &p->laddr;
+@@ -171,36 +175,36 @@ ip6ip6_bucket(struct ip6_tnl_parm *p)
+ }
+ 
+ /**
+- * ip6ip6_tnl_link - add tunnel to hash table
++ * ip6_tnl_link - add tunnel to hash table
+  *   @t: tunnel to be added
+  **/
+ 
+ static void
+-ip6ip6_tnl_link(struct ip6_tnl *t)
++ip6_tnl_link(struct ip6_tnl *t)
+ {
+-	struct ip6_tnl **tp = ip6ip6_bucket(&t->parms);
++	struct ip6_tnl **tp = ip6_tnl_bucket(&t->parms);
+ 
+ 	t->next = *tp;
+-	write_lock_bh(&ip6ip6_lock);
++	write_lock_bh(&ip6_tnl_lock);
+ 	*tp = t;
+-	write_unlock_bh(&ip6ip6_lock);
++	write_unlock_bh(&ip6_tnl_lock);
+ }
+ 
+ /**
+- * ip6ip6_tnl_unlink - remove tunnel from hash table
++ * ip6_tnl_unlink - remove tunnel from hash table
+  *   @t: tunnel to be removed
+  **/
+ 
+ static void
+-ip6ip6_tnl_unlink(struct ip6_tnl *t)
++ip6_tnl_unlink(struct ip6_tnl *t)
+ {
+ 	struct ip6_tnl **tp;
+ 
+-	for (tp = ip6ip6_bucket(&t->parms); *tp; tp = &(*tp)->next) {
++	for (tp = ip6_tnl_bucket(&t->parms); *tp; tp = &(*tp)->next) {
+ 		if (t == *tp) {
+-			write_lock_bh(&ip6ip6_lock);
++			write_lock_bh(&ip6_tnl_lock);
+ 			*tp = t->next;
+-			write_unlock_bh(&ip6ip6_lock);
++			write_unlock_bh(&ip6_tnl_lock);
+ 			break;
+ 		}
+ 	}
+@@ -237,12 +241,12 @@ static struct ip6_tnl *ip6_tnl_create(st
+ 		if (i == IP6_TNL_MAX)
+ 			goto failed;
+ 	}
+-	dev = alloc_netdev(sizeof (*t), name, ip6ip6_tnl_dev_setup);
++	dev = alloc_netdev(sizeof (*t), name, ip6_tnl_dev_setup);
+ 	if (dev == NULL)
+ 		goto failed;
+ 
+ 	t = netdev_priv(dev);
+-	dev->init = ip6ip6_tnl_dev_init;
++	dev->init = ip6_tnl_dev_init;
+ 	t->parms = *p;
+ 
+ 	if ((err = register_netdevice(dev)) < 0) {
+@@ -250,19 +254,19 @@ static struct ip6_tnl *ip6_tnl_create(st
+ 		goto failed;
+ 	}
+ 	dev_hold(dev);
+-	ip6ip6_tnl_link(t);
++	ip6_tnl_link(t);
+ 	return t;
+ failed:
+ 	return NULL;
+ }
+ 
+ /**
+- * ip6ip6_tnl_locate - find or create tunnel matching given parameters
++ * ip6_tnl_locate - find or create tunnel matching given parameters
+  *   @p: tunnel parameters
+  *   @create: != 0 if allowed to create new tunnel if no match found
+  *
+  * Description:
+- *   ip6ip6_tnl_locate() first tries to locate an existing tunnel
++ *   ip6_tnl_locate() first tries to locate an existing tunnel
+  *   based on @parms. If this is unsuccessful, but @create is set a new
+  *   tunnel device is created and registered for use.
+  *
+@@ -270,13 +274,13 @@ failed:
+  *   matching tunnel or NULL
+  **/
+ 
+-static struct ip6_tnl *ip6ip6_tnl_locate(struct ip6_tnl_parm *p, int create)
++static struct ip6_tnl *ip6_tnl_locate(struct ip6_tnl_parm *p, int create)
+ {
+ 	struct in6_addr *remote = &p->raddr;
+ 	struct in6_addr *local = &p->laddr;
+ 	struct ip6_tnl *t;
+ 
+-	for (t = *ip6ip6_bucket(p); t; t = t->next) {
++	for (t = *ip6_tnl_bucket(p); t; t = t->next) {
+ 		if (ipv6_addr_equal(local, &t->parms.laddr) &&
+ 		    ipv6_addr_equal(remote, &t->parms.raddr))
+ 			return t;
+@@ -287,24 +291,24 @@ static struct ip6_tnl *ip6ip6_tnl_locate
+ }
+ 
+ /**
+- * ip6ip6_tnl_dev_uninit - tunnel device uninitializer
++ * ip6_tnl_dev_uninit - tunnel device uninitializer
+  *   @dev: the device to be destroyed
+  *
+  * Description:
+- *   ip6ip6_tnl_dev_uninit() removes tunnel from its list
++ *   ip6_tnl_dev_uninit() removes tunnel from its list
+  **/
+ 
+ static void
+-ip6ip6_tnl_dev_uninit(struct net_device *dev)
++ip6_tnl_dev_uninit(struct net_device *dev)
+ {
+ 	struct ip6_tnl *t = netdev_priv(dev);
+ 
+-	if (dev == ip6ip6_fb_tnl_dev) {
+-		write_lock_bh(&ip6ip6_lock);
++	if (dev == ip6_fb_tnl_dev) {
++		write_lock_bh(&ip6_tnl_lock);
+ 		tnls_wc[0] = NULL;
+-		write_unlock_bh(&ip6ip6_lock);
++		write_unlock_bh(&ip6_tnl_lock);
+ 	} else {
+-		ip6ip6_tnl_unlink(t);
++		ip6_tnl_unlink(t);
+ 	}
+ 	ip6_tnl_dst_reset(t);
+ 	dev_put(dev);
+@@ -372,16 +376,16 @@ parse_tlv_tnl_enc_lim(struct sk_buff *sk
+ }
+ 
+ /**
+- * ip6ip6_err - tunnel error handler
++ * ip6_tnl_err - tunnel error handler
+  *
+  * Description:
+- *   ip6ip6_err() should handle errors in the tunnel according
++ *   ip6_tnl_err() should handle errors in the tunnel according
+  *   to the specifications in RFC 2473.
+  **/
+ 
+ static int
+-ip6ip6_err(struct sk_buff *skb, struct inet6_skb_parm *opt,
+-	   int type, int code, int offset, __be32 info)
++ip6_tnl_err(struct sk_buff *skb, __u8 ipproto, struct inet6_skb_parm *opt,
++	    int *type, int *code, int *msg, __be32 *info, int offset)
+ {
+ 	struct ipv6hdr *ipv6h = (struct ipv6hdr *) skb->data;
+ 	struct ip6_tnl *t;
+@@ -396,13 +400,16 @@ ip6ip6_err(struct sk_buff *skb, struct i
+ 	   in trouble since we might need the source address for further
+ 	   processing of the error. */
+ 
+-	read_lock(&ip6ip6_lock);
+-	if ((t = ip6ip6_tnl_lookup(&ipv6h->daddr, &ipv6h->saddr)) == NULL)
++	read_lock(&ip6_tnl_lock);
++	if ((t = ip6_tnl_lookup(&ipv6h->daddr, &ipv6h->saddr)) == NULL)
++		goto out;
++
++	if (t->parms.proto != ipproto && t->parms.proto != 0)
+ 		goto out;
+ 
+ 	err = 0;
+ 
+-	switch (type) {
++	switch (*type) {
+ 		__u32 teli;
+ 		struct ipv6_tlv_tnl_enc_lim *tel;
+ 		__u32 mtu;
+@@ -414,7 +421,7 @@ ip6ip6_err(struct sk_buff *skb, struct i
+ 		rel_msg = 1;
+ 		break;
+ 	case ICMPV6_TIME_EXCEED:
+-		if (code == ICMPV6_EXC_HOPLIMIT) {
++		if ((*code) == ICMPV6_EXC_HOPLIMIT) {
+ 			if (net_ratelimit())
+ 				printk(KERN_WARNING
+ 				       "%s: Too small hop limit or "
+@@ -425,10 +432,10 @@ ip6ip6_err(struct sk_buff *skb, struct i
+ 		break;
+ 	case ICMPV6_PARAMPROB:
+ 		teli = 0;
+-		if (code == ICMPV6_HDR_FIELD)
++		if ((*code) == ICMPV6_HDR_FIELD)
+ 			teli = parse_tlv_tnl_enc_lim(skb, skb->data);
+ 
+-		if (teli && teli == ntohl(info) - 2) {
++		if (teli && teli == ntohl(*info) - 2) {
+ 			tel = (struct ipv6_tlv_tnl_enc_lim *) &skb->data[teli];
+ 			if (tel->encap_limit == 0) {
+ 				if (net_ratelimit())
+@@ -445,7 +452,7 @@ ip6ip6_err(struct sk_buff *skb, struct i
+ 		}
+ 		break;
+ 	case ICMPV6_PKT_TOOBIG:
+-		mtu = ntohl(info) - offset;
++		mtu = ntohl(*info) - offset;
+ 		if (mtu < IPV6_MIN_MTU)
+ 			mtu = IPV6_MIN_MTU;
+ 		t->dev->mtu = mtu;
+@@ -458,12 +465,136 @@ ip6ip6_err(struct sk_buff *skb, struct i
+ 		}
+ 		break;
+ 	}
+-	if (rel_msg &&  pskb_may_pull(skb, offset + sizeof (*ipv6h))) {
++
++	*type = rel_type;
++	*code = rel_code;
++	*info = rel_info;
++	*msg = rel_msg;
++
++out:
++	read_unlock(&ip6_tnl_lock);
++	return err;
++}
++
++static int
++ip4ip6_err(struct sk_buff *skb, struct inet6_skb_parm *opt,
++	   int type, int code, int offset, __u32 info)
++{
++	int rel_msg = 0;
++	int rel_type = type;
++	int rel_code = code;
++	__u32 rel_info = info;
++	int err;
++	struct sk_buff *skb2;
++	struct iphdr *eiph;
++	struct flowi fl;
++	struct rtable *rt;
++
++	err = ip6_tnl_err(skb, IPPROTO_IPIP, opt, &rel_type, &rel_code,
++			  &rel_msg, &rel_info, offset);
++	if (err < 0)
++		return err;
++
++	if (rel_msg == 0)
++		return 0;
++
++	switch (rel_type) {
++	case ICMPV6_DEST_UNREACH:
++		if (rel_code != ICMPV6_ADDR_UNREACH)
++			return 0;
++		rel_type = ICMP_DEST_UNREACH;
++		rel_code = ICMP_HOST_UNREACH;
++		break;
++	case ICMPV6_PKT_TOOBIG:
++		if (rel_code != 0)
++			return 0;
++		rel_type = ICMP_DEST_UNREACH;
++		rel_code = ICMP_FRAG_NEEDED;
++		break;
++	default:
++		return 0;
++	}
++
++	if (!pskb_may_pull(skb, offset + sizeof(struct iphdr)))
++		return 0;
++
++	skb2 = skb_clone(skb, GFP_ATOMIC);
++	if (!skb2)
++		return 0;
++
++	dst_release(skb2->dst);
++	skb2->dst = NULL;
++	skb_pull(skb2, offset);
++	skb2->nh.raw = skb2->data;
++	eiph = skb2->nh.iph;
++
++	/* Try to guess incoming interface */
++	memset(&fl, 0, sizeof(fl));
++	fl.fl4_dst = eiph->saddr;
++	fl.fl4_tos = RT_TOS(eiph->tos);
++	fl.proto = IPPROTO_IPIP;
++	if (ip_route_output_key(&rt, &fl))
++		goto out;
++
++	skb2->dev = rt->u.dst.dev;
++
++	/* route "incoming" packet */
++	if (rt->rt_flags & RTCF_LOCAL) {
++		ip_rt_put(rt);
++		rt = NULL;
++		fl.fl4_dst = eiph->daddr;
++		fl.fl4_src = eiph->saddr;
++		fl.fl4_tos = eiph->tos;
++		if (ip_route_output_key(&rt, &fl) ||
++		    rt->u.dst.dev->type != ARPHRD_TUNNEL) {
++			ip_rt_put(rt);
++			goto out;
++		}
++	} else {
++		ip_rt_put(rt);
++		if (ip_route_input(skb2, eiph->daddr, eiph->saddr, eiph->tos,
++				   skb2->dev) ||
++		    skb2->dst->dev->type != ARPHRD_TUNNEL)
++			goto out;
++	}
++
++	/* change mtu on this route */
++	if (rel_type == ICMP_DEST_UNREACH && rel_code == ICMP_FRAG_NEEDED) {
++		if (rel_info > dst_mtu(skb2->dst))
++			goto out;
++
++		skb2->dst->ops->update_pmtu(skb2->dst, rel_info);
++		rel_info = htonl(rel_info);
++	}
++
++	icmp_send(skb2, rel_type, rel_code, rel_info);
++
++out:
++	kfree_skb(skb2);
++	return 0;
++}
++
++static int
++ip6ip6_err(struct sk_buff *skb, struct inet6_skb_parm *opt,
++	   int type, int code, int offset, __u32 info)
++{
++	int rel_msg = 0;
++	int rel_type = type;
++	int rel_code = code;
++	__u32 rel_info = info;
++	int err;
++
++	err = ip6_tnl_err(skb, IPPROTO_IPV6, opt, &rel_type, &rel_code,
++			  &rel_msg, &rel_info, offset);
++	if (err < 0)
++		return err;
++
++	if (rel_msg && pskb_may_pull(skb, offset + sizeof(struct ipv6hdr))) {
+ 		struct rt6_info *rt;
+ 		struct sk_buff *skb2 = skb_clone(skb, GFP_ATOMIC);
+ 
+ 		if (!skb2)
+-			goto out;
++			return 0;
+ 
+ 		dst_release(skb2->dst);
+ 		skb2->dst = NULL;
+@@ -483,19 +614,34 @@ ip6ip6_err(struct sk_buff *skb, struct i
+ 
+ 		kfree_skb(skb2);
+ 	}
+-out:
+-	read_unlock(&ip6ip6_lock);
+-	return err;
++
++	return 0;
++}
++
++static void ip4ip6_dscp_ecn_decapsulate(struct ip6_tnl *t,
++					struct ipv6hdr *ipv6h,
++					struct sk_buff *skb)
++{
++	__u8 dsfield = ipv6_get_dsfield(ipv6h) & ~INET_ECN_MASK;
++
++	if (t->parms.flags & IP6_TNL_F_RCV_DSCP_COPY)
++		ipv4_change_dsfield(skb->nh.iph, INET_ECN_MASK, dsfield);
++
++	if (INET_ECN_is_ce(dsfield))
++		IP_ECN_set_ce(skb->nh.iph);
+ }
+ 
+-static inline void ip6ip6_ecn_decapsulate(struct ipv6hdr *outer_iph,
++static void ip6ip6_dscp_ecn_decapsulate(struct ip6_tnl *t,
++					struct ipv6hdr *ipv6h,
+ 					  struct sk_buff *skb)
+ {
+-	struct ipv6hdr *inner_iph = skb->nh.ipv6h;
++	if (t->parms.flags & IP6_TNL_F_RCV_DSCP_COPY)
++		ipv6_copy_dscp(ipv6h, skb->nh.ipv6h);
+ 
+-	if (INET_ECN_is_ce(ipv6_get_dsfield(outer_iph)))
+-		IP6_ECN_set_ce(inner_iph);
++	if (INET_ECN_is_ce(ipv6_get_dsfield(ipv6h)))
++		IP6_ECN_set_ce(skb->nh.ipv6h);
+ }
++
+ static inline int ip6_tnl_rcv_ctl(struct ip6_tnl *t)
+ {
+ 	struct ip6_tnl_parm *p = &t->parms;
+@@ -519,53 +665,63 @@ static inline int ip6_tnl_rcv_ctl(struct
+ }
+ 
+ /**
+- * ip6ip6_rcv - decapsulate IPv6 packet and retransmit it locally
++ * ip6_tnl_rcv - decapsulate IPv6 packet and retransmit it locally
+  *   @skb: received socket buffer
++ *   @protocol: ethernet protocol ID
++ *   @dscp_ecn_decapsulate: the function to decapsulate DSCP code and ECN
+  *
+  * Return: 0
+  **/
+ 
+-static int
+-ip6ip6_rcv(struct sk_buff *skb)
++static int ip6_tnl_rcv(struct sk_buff *skb, __u16 protocol,
++		       __u8 ipproto,
++		       void (*dscp_ecn_decapsulate)(struct ip6_tnl *t,
++						    struct ipv6hdr *ipv6h,
++						    struct sk_buff *skb))
+ {
+ 	struct ipv6hdr *ipv6h;
+ 	struct ip6_tnl *t;
+ 
+ 	ipv6h = skb->nh.ipv6h;
+ 
+-	read_lock(&ip6ip6_lock);
++	read_lock(&ip6_tnl_lock);
++
++	if ((t = ip6_tnl_lookup(&ipv6h->saddr, &ipv6h->daddr)) != NULL) {
++		if (t->parms.proto != ipproto && t->parms.proto != 0) {
++			read_unlock(&ip6_tnl_lock);
++			goto discard;
++		}
+ 
+-	if ((t = ip6ip6_tnl_lookup(&ipv6h->saddr, &ipv6h->daddr)) != NULL) {
+ 		if (!xfrm6_policy_check(NULL, XFRM_POLICY_IN, skb)) {
+-			read_unlock(&ip6ip6_lock);
++			read_unlock(&ip6_tnl_lock);
+ 			goto discard;
+ 		}
+ 
+ 		if (!ip6_tnl_rcv_ctl(t)) {
+ 			t->stat.rx_dropped++;
+-			read_unlock(&ip6ip6_lock);
++			read_unlock(&ip6_tnl_lock);
+ 			goto discard;
+ 		}
+ 		secpath_reset(skb);
+ 		skb->mac.raw = skb->nh.raw;
+ 		skb->nh.raw = skb->data;
+-		skb->protocol = htons(ETH_P_IPV6);
++		skb->protocol = htons(protocol);
+ 		skb->pkt_type = PACKET_HOST;
+ 		memset(skb->cb, 0, sizeof(struct inet6_skb_parm));
+ 		skb->dev = t->dev;
+ 		dst_release(skb->dst);
+ 		skb->dst = NULL;
+ 		nf_reset(skb);
+-		if (t->parms.flags & IP6_TNL_F_RCV_DSCP_COPY)
+-			ipv6_copy_dscp(ipv6h, skb->nh.ipv6h);
+-		ip6ip6_ecn_decapsulate(ipv6h, skb);
++
++		dscp_ecn_decapsulate(t, ipv6h, skb);
++
+ 		t->stat.rx_packets++;
+ 		t->stat.rx_bytes += skb->len;
+ 		netif_rx(skb);
+-		read_unlock(&ip6ip6_lock);
++		read_unlock(&ip6_tnl_lock);
+ 		return 0;
+ 	}
+-	read_unlock(&ip6ip6_lock);
++	read_unlock(&ip6_tnl_lock);
+ 	return 1;
+ 
+ discard:
+@@ -573,6 +729,18 @@ discard:
+ 	return 0;
+ }
+ 
++static int ip4ip6_rcv(struct sk_buff *skb)
++{
++	return ip6_tnl_rcv(skb, ETH_P_IP, IPPROTO_IPIP,
++			   ip4ip6_dscp_ecn_decapsulate);
++}
++
++static int ip6ip6_rcv(struct sk_buff *skb)
++{
++	return ip6_tnl_rcv(skb, ETH_P_IPV6, IPPROTO_IPV6,
++			   ip6ip6_dscp_ecn_decapsulate);
++}
++
+ struct ipv6_tel_txoption {
+ 	struct ipv6_txoptions ops;
+ 	__u8 dst_opt[8];
+@@ -593,7 +761,7 @@ static void init_tel_txopt(struct ipv6_t
+ }
+ 
+ /**
+- * ip6ip6_tnl_addr_conflict - compare packet addresses to tunnel's own
++ * ip6_tnl_addr_conflict - compare packet addresses to tunnel's own
+  *   @t: the outgoing tunnel device
+  *   @hdr: IPv6 header from the incoming packet
+  *
+@@ -607,7 +775,7 @@ static void init_tel_txopt(struct ipv6_t
+  **/
+ 
+ static inline int
+-ip6ip6_tnl_addr_conflict(struct ip6_tnl *t, struct ipv6hdr *hdr)
++ip6_tnl_addr_conflict(struct ip6_tnl *t, struct ipv6hdr *hdr)
+ {
+ 	return ipv6_addr_equal(&t->parms.raddr, &hdr->saddr);
+ }
+@@ -641,72 +809,49 @@ static inline int ip6_tnl_xmit_ctl(struc
+ 	return ret;
+ }
+ /**
+- * ip6ip6_tnl_xmit - encapsulate packet and send
++ * ip6_tnl_xmit2 - encapsulate packet and send
+  *   @skb: the outgoing socket buffer
+  *   @dev: the outgoing tunnel device
++ *   @dsfield: dscp code for outer header
++ *   @fl: flow of tunneled packet
++ *   @encap_limit: encapsulation limit
++ *   @pmtu: Path MTU is stored if packet is too big
+  *
+  * Description:
+  *   Build new header and do some sanity checks on the packet before sending
+  *   it.
+  *
+  * Return:
+- *   0
++ *   0 on success
++ *   -1 fail
++ *   %-EMSGSIZE message too big. return mtu in this case.
+  **/
+ 
+-static int
+-ip6ip6_tnl_xmit(struct sk_buff *skb, struct net_device *dev)
++static int ip6_tnl_xmit2(struct sk_buff *skb,
++			 struct net_device *dev,
++			 __u8 dsfield,
++			 struct flowi *fl,
++			 int encap_limit,
++			 __u32 *pmtu)
+ {
+ 	struct ip6_tnl *t = netdev_priv(dev);
+ 	struct net_device_stats *stats = &t->stat;
+ 	struct ipv6hdr *ipv6h = skb->nh.ipv6h;
+-	int encap_limit = -1;
+ 	struct ipv6_tel_txoption opt;
+-	__u16 offset;
+-	struct flowi fl;
+ 	struct dst_entry *dst;
+ 	struct net_device *tdev;
+ 	int mtu;
+ 	int max_headroom = sizeof(struct ipv6hdr);
+ 	u8 proto;
+-	int err;
++	int err = -1;
+ 	int pkt_len;
+-	int dsfield;
+-
+-	if (t->recursion++) {
+-		stats->collisions++;
+-		goto tx_err;
+-	}
+-	if (skb->protocol != htons(ETH_P_IPV6) ||
+-	    !ip6_tnl_xmit_ctl(t) || ip6ip6_tnl_addr_conflict(t, ipv6h))
+-		goto tx_err;
+-
+-	if ((offset = parse_tlv_tnl_enc_lim(skb, skb->nh.raw)) > 0) {
+-		struct ipv6_tlv_tnl_enc_lim *tel;
+-		tel = (struct ipv6_tlv_tnl_enc_lim *) &skb->nh.raw[offset];
+-		if (tel->encap_limit == 0) {
+-			icmpv6_send(skb, ICMPV6_PARAMPROB,
+-				    ICMPV6_HDR_FIELD, offset + 2, skb->dev);
+-			goto tx_err;
+-		}
+-		encap_limit = tel->encap_limit - 1;
+-	} else if (!(t->parms.flags & IP6_TNL_F_IGN_ENCAP_LIMIT))
+-		encap_limit = t->parms.encap_limit;
+-
+-	memcpy(&fl, &t->fl, sizeof (fl));
+-	proto = fl.proto;
+-
+-	dsfield = ipv6_get_dsfield(ipv6h);
+-	if ((t->parms.flags & IP6_TNL_F_USE_ORIG_TCLASS))
+-		fl.fl6_flowlabel |= (*(__be32 *) ipv6h & IPV6_TCLASS_MASK);
+-	if ((t->parms.flags & IP6_TNL_F_USE_ORIG_FLOWLABEL))
+-		fl.fl6_flowlabel |= (*(__be32 *) ipv6h & IPV6_FLOWLABEL_MASK);
+ 
+ 	if ((dst = ip6_tnl_dst_check(t)) != NULL)
+ 		dst_hold(dst);
+ 	else {
+-		dst = ip6_route_output(NULL, &fl);
++		dst = ip6_route_output(NULL, fl);
+ 
+-		if (dst->error || xfrm_lookup(&dst, &fl, NULL, 0) < 0)
++		if (dst->error || xfrm_lookup(&dst, fl, NULL, 0) < 0)
+ 			goto tx_err_link_failure;
+ 	}
+ 
+@@ -730,7 +875,8 @@ ip6ip6_tnl_xmit(struct sk_buff *skb, str
+ 	if (skb->dst)
+ 		skb->dst->ops->update_pmtu(skb->dst, mtu);
+ 	if (skb->len > mtu) {
+-		icmpv6_send(skb, ICMPV6_PKT_TOOBIG, 0, mtu, dev);
++		*pmtu = mtu;
++		err = -EMSGSIZE;
+ 		goto tx_err_dst_release;
+ 	}
+ 
+@@ -756,20 +902,21 @@ ip6ip6_tnl_xmit(struct sk_buff *skb, str
+ 
+ 	skb->h.raw = skb->nh.raw;
+ 
++	proto = fl->proto;
+ 	if (encap_limit >= 0) {
+ 		init_tel_txopt(&opt, encap_limit);
+ 		ipv6_push_nfrag_opts(skb, &opt.ops, &proto, NULL);
+ 	}
+ 	skb->nh.raw = skb_push(skb, sizeof(struct ipv6hdr));
+ 	ipv6h = skb->nh.ipv6h;
+-	*(__be32*)ipv6h = fl.fl6_flowlabel | htonl(0x60000000);
++	*(__be32*)ipv6h = fl->fl6_flowlabel | htonl(0x60000000);
+ 	dsfield = INET_ECN_encapsulate(0, dsfield);
+ 	ipv6_change_dsfield(ipv6h, ~INET_ECN_MASK, dsfield);
+ 	ipv6h->payload_len = htons(skb->len - sizeof(struct ipv6hdr));
+ 	ipv6h->hop_limit = t->parms.hop_limit;
+ 	ipv6h->nexthdr = proto;
+-	ipv6_addr_copy(&ipv6h->saddr, &fl.fl6_src);
+-	ipv6_addr_copy(&ipv6h->daddr, &fl.fl6_dst);
++	ipv6_addr_copy(&ipv6h->saddr, &fl->fl6_src);
++	ipv6_addr_copy(&ipv6h->daddr, &fl->fl6_dst);
+ 	nf_reset(skb);
+ 	pkt_len = skb->len;
+ 	err = NF_HOOK(PF_INET6, NF_IP6_LOCAL_OUT, skb, NULL,
+@@ -783,13 +930,130 @@ ip6ip6_tnl_xmit(struct sk_buff *skb, str
+ 		stats->tx_aborted_errors++;
+ 	}
+ 	ip6_tnl_dst_store(t, dst);
+-	t->recursion--;
+ 	return 0;
+ tx_err_link_failure:
+ 	stats->tx_carrier_errors++;
+ 	dst_link_failure(skb);
+ tx_err_dst_release:
+ 	dst_release(dst);
++	return err;
++}
++
++static inline int
++ip4ip6_tnl_xmit(struct sk_buff *skb, struct net_device *dev)
++{
++	struct ip6_tnl *t = netdev_priv(dev);
++	struct iphdr  *iph = skb->nh.iph;
++	int encap_limit = -1;
++	struct flowi fl;
++	__u8 dsfield;
++	__u32 mtu;
++	int err;
++
++	if ((t->parms.proto != IPPROTO_IPIP && t->parms.proto != 0) ||
++	    !ip6_tnl_xmit_ctl(t))
++		return -1;
++
++	if (!(t->parms.flags & IP6_TNL_F_IGN_ENCAP_LIMIT))
++		encap_limit = t->parms.encap_limit;
++
++	memcpy(&fl, &t->fl, sizeof (fl));
++	fl.proto = IPPROTO_IPIP;
++
++	dsfield = ipv4_get_dsfield(iph);
++
++	if ((t->parms.flags & IP6_TNL_F_USE_ORIG_TCLASS))
++		fl.fl6_flowlabel |= ntohl(((__u32)iph->tos << IPV6_TCLASS_SHIFT)
++					  & IPV6_TCLASS_MASK);
++
++	err = ip6_tnl_xmit2(skb, dev, dsfield, &fl, encap_limit, &mtu);
++	if (err != 0) {
++		/* XXX: send ICMP error even if DF is not set. */
++		if (err == -EMSGSIZE)
++			icmp_send(skb, ICMP_DEST_UNREACH, ICMP_FRAG_NEEDED,
++				  htonl(mtu));
++		return -1;
++	}
++
++	return 0;
++}
++
++static inline int
++ip6ip6_tnl_xmit(struct sk_buff *skb, struct net_device *dev)
++{
++	struct ip6_tnl *t = netdev_priv(dev);
++	struct ipv6hdr *ipv6h = skb->nh.ipv6h;
++	int encap_limit = -1;
++	__u16 offset;
++	struct flowi fl;
++	__u8 dsfield;
++	__u32 mtu;
++	int err;
++
++	if ((t->parms.proto != IPPROTO_IPV6 && t->parms.proto != 0) ||
++	    !ip6_tnl_xmit_ctl(t) || ip6_tnl_addr_conflict(t, ipv6h))
++		return -1;
++
++	if ((offset = parse_tlv_tnl_enc_lim(skb, skb->nh.raw)) > 0) {
++		struct ipv6_tlv_tnl_enc_lim *tel;
++		tel = (struct ipv6_tlv_tnl_enc_lim *) &skb->nh.raw[offset];
++		if (tel->encap_limit == 0) {
++			icmpv6_send(skb, ICMPV6_PARAMPROB,
++				    ICMPV6_HDR_FIELD, offset + 2, skb->dev);
++			return -1;
++		}
++		encap_limit = tel->encap_limit - 1;
++	} else if (!(t->parms.flags & IP6_TNL_F_IGN_ENCAP_LIMIT))
++		encap_limit = t->parms.encap_limit;
++
++	memcpy(&fl, &t->fl, sizeof (fl));
++	fl.proto = IPPROTO_IPV6;
++
++	dsfield = ipv6_get_dsfield(ipv6h);
++	if ((t->parms.flags & IP6_TNL_F_USE_ORIG_TCLASS))
++		fl.fl6_flowlabel |= (*(__be32 *) ipv6h & IPV6_TCLASS_MASK);
++	if ((t->parms.flags & IP6_TNL_F_USE_ORIG_FLOWLABEL))
++		fl.fl6_flowlabel |= (*(__be32 *) ipv6h & IPV6_FLOWLABEL_MASK);
++
++	err = ip6_tnl_xmit2(skb, dev, dsfield, &fl, encap_limit, &mtu);
++	if (err != 0) {
++		if (err == -EMSGSIZE)
++			icmpv6_send(skb, ICMPV6_PKT_TOOBIG, 0, mtu, dev);
++		return -1;
++	}
++
++	return 0;
++}
++
++static int
++ip6_tnl_xmit(struct sk_buff *skb, struct net_device *dev)
++{
++	struct ip6_tnl *t = netdev_priv(dev);
++	struct net_device_stats *stats = &t->stat;
++	int ret;
++
++	if (t->recursion++) {
++		t->stat.collisions++;
++		goto tx_err;
++	}
++
++	switch (skb->protocol) {
++	case __constant_htons(ETH_P_IP):
++		ret = ip4ip6_tnl_xmit(skb, dev);
++		break;
++	case __constant_htons(ETH_P_IPV6):
++		ret = ip6ip6_tnl_xmit(skb, dev);
++		break;
++	default:
++		goto tx_err;
++	}
++
++	if (ret < 0)
++		goto tx_err;
++
++	t->recursion--;
++	return 0;
++
+ tx_err:
+ 	stats->tx_errors++;
+ 	stats->tx_dropped++;
+@@ -817,7 +1081,7 @@ static void ip6_tnl_set_cap(struct ip6_t
+ 	}
+ }
+ 
+-static void ip6ip6_tnl_link_config(struct ip6_tnl *t)
++static void ip6_tnl_link_config(struct ip6_tnl *t)
+ {
+ 	struct net_device *dev = t->dev;
+ 	struct ip6_tnl_parm *p = &t->parms;
+@@ -870,17 +1134,17 @@ static void ip6ip6_tnl_link_config(struc
+ }
+ 
+ /**
+- * ip6ip6_tnl_change - update the tunnel parameters
++ * ip6_tnl_change - update the tunnel parameters
+  *   @t: tunnel to be changed
+  *   @p: tunnel configuration parameters
+  *   @active: != 0 if tunnel is ready for use
+  *
+  * Description:
+- *   ip6ip6_tnl_change() updates the tunnel parameters
++ *   ip6_tnl_change() updates the tunnel parameters
+  **/
+ 
+ static int
+-ip6ip6_tnl_change(struct ip6_tnl *t, struct ip6_tnl_parm *p)
++ip6_tnl_change(struct ip6_tnl *t, struct ip6_tnl_parm *p)
+ {
+ 	ipv6_addr_copy(&t->parms.laddr, &p->laddr);
+ 	ipv6_addr_copy(&t->parms.raddr, &p->raddr);
+@@ -889,19 +1153,20 @@ ip6ip6_tnl_change(struct ip6_tnl *t, str
+ 	t->parms.encap_limit = p->encap_limit;
+ 	t->parms.flowinfo = p->flowinfo;
+ 	t->parms.link = p->link;
++	t->parms.proto = p->proto;
+ 	ip6_tnl_dst_reset(t);
+-	ip6ip6_tnl_link_config(t);
++	ip6_tnl_link_config(t);
+ 	return 0;
+ }
+ 
+ /**
+- * ip6ip6_tnl_ioctl - configure ipv6 tunnels from userspace
++ * ip6_tnl_ioctl - configure ipv6 tunnels from userspace
+  *   @dev: virtual device associated with tunnel
+  *   @ifr: parameters passed from userspace
+  *   @cmd: command to be performed
+  *
+  * Description:
+- *   ip6ip6_tnl_ioctl() is used for managing IPv6 tunnels
++ *   ip6_tnl_ioctl() is used for managing IPv6 tunnels
+  *   from userspace.
+  *
+  *   The possible commands are the following:
+@@ -923,7 +1188,7 @@ ip6ip6_tnl_change(struct ip6_tnl *t, str
+  **/
+ 
+ static int
+-ip6ip6_tnl_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++ip6_tnl_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ {
+ 	int err = 0;
+ 	struct ip6_tnl_parm p;
+@@ -931,12 +1196,12 @@ ip6ip6_tnl_ioctl(struct net_device *dev,
+ 
+ 	switch (cmd) {
+ 	case SIOCGETTUNNEL:
+-		if (dev == ip6ip6_fb_tnl_dev) {
++		if (dev == ip6_fb_tnl_dev) {
+ 			if (copy_from_user(&p, ifr->ifr_ifru.ifru_data, sizeof (p))) {
+ 				err = -EFAULT;
+ 				break;
+ 			}
+-			t = ip6ip6_tnl_locate(&p, 0);
++			t = ip6_tnl_locate(&p, 0);
+ 		}
+ 		if (t == NULL)
+ 			t = netdev_priv(dev);
+@@ -954,10 +1219,11 @@ ip6ip6_tnl_ioctl(struct net_device *dev,
+ 		if (copy_from_user(&p, ifr->ifr_ifru.ifru_data, sizeof (p)))
+ 			break;
+ 		err = -EINVAL;
+-		if (p.proto != IPPROTO_IPV6)
++		if (p.proto != IPPROTO_IPV6 && p.proto != IPPROTO_IPIP &&
++		    p.proto != 0)
+ 			break;
+-		t = ip6ip6_tnl_locate(&p, cmd == SIOCADDTUNNEL);
+-		if (dev != ip6ip6_fb_tnl_dev && cmd == SIOCCHGTUNNEL) {
++		t = ip6_tnl_locate(&p, cmd == SIOCADDTUNNEL);
++		if (dev != ip6_fb_tnl_dev && cmd == SIOCCHGTUNNEL) {
+ 			if (t != NULL) {
+ 				if (t->dev != dev) {
+ 					err = -EEXIST;
+@@ -966,9 +1232,9 @@ ip6ip6_tnl_ioctl(struct net_device *dev,
+ 			} else
+ 				t = netdev_priv(dev);
+ 
+-			ip6ip6_tnl_unlink(t);
+-			err = ip6ip6_tnl_change(t, &p);
+-			ip6ip6_tnl_link(t);
++			ip6_tnl_unlink(t);
++			err = ip6_tnl_change(t, &p);
++			ip6_tnl_link(t);
+ 			netdev_state_change(dev);
+ 		}
+ 		if (t) {
+@@ -984,15 +1250,15 @@ ip6ip6_tnl_ioctl(struct net_device *dev,
+ 		if (!capable(CAP_NET_ADMIN))
+ 			break;
+ 
+-		if (dev == ip6ip6_fb_tnl_dev) {
++		if (dev == ip6_fb_tnl_dev) {
+ 			err = -EFAULT;
+ 			if (copy_from_user(&p, ifr->ifr_ifru.ifru_data, sizeof (p)))
+ 				break;
+ 			err = -ENOENT;
+-			if ((t = ip6ip6_tnl_locate(&p, 0)) == NULL)
++			if ((t = ip6_tnl_locate(&p, 0)) == NULL)
+ 				break;
+ 			err = -EPERM;
+-			if (t->dev == ip6ip6_fb_tnl_dev)
++			if (t->dev == ip6_fb_tnl_dev)
+ 				break;
+ 			dev = t->dev;
+ 		}
+@@ -1006,20 +1272,20 @@ ip6ip6_tnl_ioctl(struct net_device *dev,
+ }
+ 
+ /**
+- * ip6ip6_tnl_get_stats - return the stats for tunnel device
++ * ip6_tnl_get_stats - return the stats for tunnel device
+  *   @dev: virtual device associated with tunnel
+  *
+  * Return: stats for device
+  **/
+ 
+ static struct net_device_stats *
+-ip6ip6_tnl_get_stats(struct net_device *dev)
++ip6_tnl_get_stats(struct net_device *dev)
+ {
+ 	return &(((struct ip6_tnl *)netdev_priv(dev))->stat);
+ }
+ 
+ /**
+- * ip6ip6_tnl_change_mtu - change mtu manually for tunnel device
++ * ip6_tnl_change_mtu - change mtu manually for tunnel device
+  *   @dev: virtual device associated with tunnel
+  *   @new_mtu: the new mtu
+  *
+@@ -1029,7 +1295,7 @@ ip6ip6_tnl_get_stats(struct net_device *
+  **/
+ 
+ static int
+-ip6ip6_tnl_change_mtu(struct net_device *dev, int new_mtu)
++ip6_tnl_change_mtu(struct net_device *dev, int new_mtu)
+ {
+ 	if (new_mtu < IPV6_MIN_MTU) {
+ 		return -EINVAL;
+@@ -1039,22 +1305,22 @@ ip6ip6_tnl_change_mtu(struct net_device
+ }
+ 
+ /**
+- * ip6ip6_tnl_dev_setup - setup virtual tunnel device
++ * ip6_tnl_dev_setup - setup virtual tunnel device
+  *   @dev: virtual device associated with tunnel
+  *
+  * Description:
+  *   Initialize function pointers and device parameters
+  **/
+ 
+-static void ip6ip6_tnl_dev_setup(struct net_device *dev)
++static void ip6_tnl_dev_setup(struct net_device *dev)
+ {
+ 	SET_MODULE_OWNER(dev);
+-	dev->uninit = ip6ip6_tnl_dev_uninit;
++	dev->uninit = ip6_tnl_dev_uninit;
+ 	dev->destructor = free_netdev;
+-	dev->hard_start_xmit = ip6ip6_tnl_xmit;
+-	dev->get_stats = ip6ip6_tnl_get_stats;
+-	dev->do_ioctl = ip6ip6_tnl_ioctl;
+-	dev->change_mtu = ip6ip6_tnl_change_mtu;
++	dev->hard_start_xmit = ip6_tnl_xmit;
++	dev->get_stats = ip6_tnl_get_stats;
++	dev->do_ioctl = ip6_tnl_ioctl;
++	dev->change_mtu = ip6_tnl_change_mtu;
+ 
+ 	dev->type = ARPHRD_TUNNEL6;
+ 	dev->hard_header_len = LL_MAX_HEADER + sizeof (struct ipv6hdr);
+@@ -1065,50 +1331,56 @@ static void ip6ip6_tnl_dev_setup(struct
+ 
+ 
+ /**
+- * ip6ip6_tnl_dev_init_gen - general initializer for all tunnel devices
++ * ip6_tnl_dev_init_gen - general initializer for all tunnel devices
+  *   @dev: virtual device associated with tunnel
+  **/
+ 
+ static inline void
+-ip6ip6_tnl_dev_init_gen(struct net_device *dev)
++ip6_tnl_dev_init_gen(struct net_device *dev)
+ {
+ 	struct ip6_tnl *t = netdev_priv(dev);
+-	t->fl.proto = IPPROTO_IPV6;
+ 	t->dev = dev;
+ 	strcpy(t->parms.name, dev->name);
+ }
+ 
+ /**
+- * ip6ip6_tnl_dev_init - initializer for all non fallback tunnel devices
++ * ip6_tnl_dev_init - initializer for all non fallback tunnel devices
+  *   @dev: virtual device associated with tunnel
+  **/
+ 
+ static int
+-ip6ip6_tnl_dev_init(struct net_device *dev)
++ip6_tnl_dev_init(struct net_device *dev)
+ {
+ 	struct ip6_tnl *t = netdev_priv(dev);
+-	ip6ip6_tnl_dev_init_gen(dev);
+-	ip6ip6_tnl_link_config(t);
++	ip6_tnl_dev_init_gen(dev);
++	ip6_tnl_link_config(t);
+ 	return 0;
+ }
+ 
+ /**
+- * ip6ip6_fb_tnl_dev_init - initializer for fallback tunnel device
++ * ip6_fb_tnl_dev_init - initializer for fallback tunnel device
+  *   @dev: fallback device
+  *
+  * Return: 0
+  **/
+ 
+ static int
+-ip6ip6_fb_tnl_dev_init(struct net_device *dev)
++ip6_fb_tnl_dev_init(struct net_device *dev)
+ {
+ 	struct ip6_tnl *t = netdev_priv(dev);
+-	ip6ip6_tnl_dev_init_gen(dev);
++	ip6_tnl_dev_init_gen(dev);
++	t->parms.proto = IPPROTO_IPV6;
+ 	dev_hold(dev);
+ 	tnls_wc[0] = t;
+ 	return 0;
+ }
+ 
++static struct xfrm6_tunnel ip4ip6_handler = {
++	.handler	= ip4ip6_rcv,
++	.err_handler	= ip4ip6_err,
++	.priority	=	1,
++};
++
+ static struct xfrm6_tunnel ip6ip6_handler = {
+ 	.handler	= ip6ip6_rcv,
+ 	.err_handler	= ip6ip6_err,
+@@ -1125,30 +1397,40 @@ static int __init ip6_tunnel_init(void)
+ {
+ 	int  err;
+ 
++	if (xfrm6_tunnel_register(&ip4ip6_handler, AF_INET)) {
++		printk(KERN_ERR "ip6_tunnel init: can't register ip4ip6\n");
++		err = -EAGAIN;
++		goto out;
++	}
++
+ 	if (xfrm6_tunnel_register(&ip6ip6_handler, AF_INET6)) {
+-		printk(KERN_ERR "ip6ip6 init: can't register tunnel\n");
+-		return -EAGAIN;
++		printk(KERN_ERR "ip6_tunnel init: can't register ip6ip6\n");
++		err = -EAGAIN;
++		goto unreg_ip4ip6;
+ 	}
+-	ip6ip6_fb_tnl_dev = alloc_netdev(sizeof(struct ip6_tnl), "ip6tnl0",
+-					 ip6ip6_tnl_dev_setup);
++	ip6_fb_tnl_dev = alloc_netdev(sizeof(struct ip6_tnl), "ip6tnl0",
++				      ip6_tnl_dev_setup);
+ 
+-	if (!ip6ip6_fb_tnl_dev) {
++	if (!ip6_fb_tnl_dev) {
+ 		err = -ENOMEM;
+ 		goto fail;
+ 	}
+-	ip6ip6_fb_tnl_dev->init = ip6ip6_fb_tnl_dev_init;
++	ip6_fb_tnl_dev->init = ip6_fb_tnl_dev_init;
+ 
+-	if ((err = register_netdev(ip6ip6_fb_tnl_dev))) {
+-		free_netdev(ip6ip6_fb_tnl_dev);
++	if ((err = register_netdev(ip6_fb_tnl_dev))) {
++		free_netdev(ip6_fb_tnl_dev);
+ 		goto fail;
+ 	}
+ 	return 0;
+ fail:
+ 	xfrm6_tunnel_deregister(&ip6ip6_handler, AF_INET6);
++unreg_ip4ip6:
++	xfrm6_tunnel_deregister(&ip4ip6_handler, AF_INET);
++out:
+ 	return err;
+ }
+ 
+-static void __exit ip6ip6_destroy_tunnels(void)
++static void __exit ip6_tnl_destroy_tunnels(void)
+ {
+ 	int h;
+ 	struct ip6_tnl *t;
+@@ -1168,11 +1450,14 @@ static void __exit ip6ip6_destroy_tunnel
+ 
+ static void __exit ip6_tunnel_cleanup(void)
+ {
++	if (xfrm6_tunnel_deregister(&ip4ip6_handler, AF_INET))
++		printk(KERN_INFO "ip6_tunnel close: can't deregister ip4ip6\n");
++
+ 	if (xfrm6_tunnel_deregister(&ip6ip6_handler, AF_INET6))
+-		printk(KERN_INFO "ip6ip6 close: can't deregister tunnel\n");
++		printk(KERN_INFO "ip6_tunnel close: can't deregister ip6ip6\n");
+ 
+ 	rtnl_lock();
+-	ip6ip6_destroy_tunnels();
++	ip6_tnl_destroy_tunnels();
+ 	rtnl_unlock();
+ }
+ 
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/ipv6/sit.c b/net/ipv6/sit.c
+--- a/linux-2.6.21/net/ipv6/sit.c	2007-04-25 20:08:32.000000000 -0700
++++ b/net/ipv6/sit.c	2012-05-09 06:02:08.000000000 -0700
+@@ -141,6 +141,24 @@ static void ipip6_tunnel_link(struct ip_
+ 	write_unlock_bh(&ipip6_lock);
+ }
+ 
++static void ipip6_tunnel_clone_6rd(struct net_device *dev)
++{
++#ifdef CONFIG_IPV6_SIT_6RD
++	struct ip_tunnel *t = netdev_priv(dev);
++
++	if (t->dev == ipip6_fb_tunnel_dev) {
++		ipv6_addr_set(&t->ip6rd.prefix, htonl(0x20020000), 0, 0, 0);
++		t->ip6rd.relay_prefix = 0;
++		t->ip6rd.prefixlen = 16;
++		t->ip6rd.relay_prefixlen = 0;
++	} else {
++		struct ip_tunnel *t0 = netdev_priv(ipip6_fb_tunnel_dev);
++		memcpy(&t->ip6rd, &t0->ip6rd, sizeof(t->ip6rd));
++	}
++#endif
++}
++
++
+ static struct ip_tunnel * ipip6_tunnel_locate(struct ip_tunnel_parm *parms, int create)
+ {
+ 	__be32 remote = parms->iph.daddr;
+@@ -406,17 +424,42 @@ out:
+ 	return 0;
+ }
+ 
+-/* Returns the embedded IPv4 address if the IPv6 address
+-   comes from 6to4 (RFC 3056) addr space */
+ 
+-static inline __be32 try_6to4(struct in6_addr *v6dst)
++/*
++ * Returns the embedded IPv4 address if the IPv6 address
++ * comes from 6rd / 6to4 (RFC 3056) addr space.
++ */
++static inline
++__be32 try_6rd(struct in6_addr *v6dst, struct ip_tunnel *tunnel)
+ {
+ 	__be32 dst = 0;
+ 
++#ifdef CONFIG_IPV6_SIT_6RD
++	if (ipv6_prefix_equal(v6dst, &tunnel->ip6rd.prefix,
++			      tunnel->ip6rd.prefixlen)) {
++		unsigned pbw0, pbi0;
++		int pbi1;
++		u32 d;
++
++		pbw0 = tunnel->ip6rd.prefixlen >> 5;
++		pbi0 = tunnel->ip6rd.prefixlen & 0x1f;
++
++		d = (ntohl(v6dst->s6_addr32[pbw0]) << pbi0) >>
++		    tunnel->ip6rd.relay_prefixlen;
++
++		pbi1 = pbi0 - tunnel->ip6rd.relay_prefixlen;
++		if (pbi1 > 0)
++			d |= ntohl(v6dst->s6_addr32[pbw0 + 1]) >>
++			     (32 - pbi1);
++
++		dst = tunnel->ip6rd.relay_prefix | htonl(d);
++	}
++#else
+ 	if (v6dst->s6_addr16[0] == htons(0x2002)) {
+ 		/* 6to4 v6 addr has 16 bits prefix, 32 v4addr, 16 SLA, ... */
+ 		memcpy(&dst, &v6dst->s6_addr16[1], 4);
+ 	}
++#endif
+ 	return dst;
+ }
+ 
+@@ -450,7 +493,7 @@ static int ipip6_tunnel_xmit(struct sk_b
+ 		goto tx_error;
+ 
+ 	if (!dst)
+-		dst = try_6to4(&iph6->daddr);
++		dst = try_6rd(&iph6->daddr, tunnel);
+ 
+ 	if (!dst) {
+ 		struct neighbour *neigh = NULL;
+@@ -601,9 +644,15 @@ ipip6_tunnel_ioctl (struct net_device *d
+ 	int err = 0;
+ 	struct ip_tunnel_parm p;
+ 	struct ip_tunnel *t;
++#ifdef CONFIG_IPV6_SIT_6RD
++	struct ip_tunnel_6rd ip6rd;
++#endif
+ 
+ 	switch (cmd) {
+ 	case SIOCGETTUNNEL:
++#ifdef CONFIG_IPV6_SIT_6RD
++	case SIOCGET6RD:
++#endif
+ 		t = NULL;
+ 		if (dev == ipip6_fb_tunnel_dev) {
+ 			if (copy_from_user(&p, ifr->ifr_ifru.ifru_data, sizeof(p))) {
+@@ -614,9 +663,24 @@ ipip6_tunnel_ioctl (struct net_device *d
+ 		}
+ 		if (t == NULL)
+ 			t = netdev_priv(dev);
++
++		err = -EFAULT;
++		if (cmd == SIOCGETTUNNEL) {
+ 		memcpy(&p, &t->parms, sizeof(p));
+ 		if (copy_to_user(ifr->ifr_ifru.ifru_data, &p, sizeof(p)))
+-			err = -EFAULT;
++				goto done;
++#ifdef CONFIG_IPV6_SIT_6RD
++		} else {
++			ipv6_addr_copy(&ip6rd.prefix, &t->ip6rd.prefix);
++			ip6rd.relay_prefix = t->ip6rd.relay_prefix;
++			ip6rd.prefixlen = t->ip6rd.prefixlen;
++			ip6rd.relay_prefixlen = t->ip6rd.relay_prefixlen;
++			if (copy_to_user(ifr->ifr_ifru.ifru_data, &ip6rd,
++					 sizeof(ip6rd)))
++				goto done;
++#endif
++		}
++		err = 0;
+ 		break;
+ 
+ 	case SIOCADDTUNNEL:
+@@ -694,6 +758,55 @@ ipip6_tunnel_ioctl (struct net_device *d
+ 		err = 0;
+ 		break;
+ 
++#ifdef CONFIG_IPV6_SIT_6RD
++	case SIOCADD6RD:
++	case SIOCCHG6RD:
++	case SIOCDEL6RD:
++		err = -EPERM;
++		if (!capable(CAP_NET_ADMIN))
++			goto done;
++
++		err = -EFAULT;
++		if (copy_from_user(&ip6rd, ifr->ifr_ifru.ifru_data,
++				   sizeof(ip6rd)))
++			goto done;
++
++		t = netdev_priv(dev);
++
++		if (cmd != SIOCDEL6RD) {
++			struct in6_addr prefix;
++			__be32 relay_prefix;
++
++			err = -EINVAL;
++			if (ip6rd.relay_prefixlen > 32 ||
++			    ip6rd.prefixlen + (32 - ip6rd.relay_prefixlen) > 64)
++				goto done;
++
++			ipv6_addr_prefix(&prefix, &ip6rd.prefix,
++					 ip6rd.prefixlen);
++			if (!ipv6_addr_equal(&prefix, &ip6rd.prefix))
++				goto done;
++			if (ip6rd.relay_prefixlen)
++				relay_prefix = ip6rd.relay_prefix &
++					       htonl(0xffffffffUL <<
++						     (32 - ip6rd.relay_prefixlen));
++			else
++				relay_prefix = 0;
++			if (relay_prefix != ip6rd.relay_prefix)
++				goto done;
++
++			ipv6_addr_copy(&t->ip6rd.prefix, &prefix);
++			t->ip6rd.relay_prefix = relay_prefix;
++			t->ip6rd.prefixlen = ip6rd.prefixlen;
++			t->ip6rd.relay_prefixlen = ip6rd.relay_prefixlen;
++		} else
++			ipip6_tunnel_clone_6rd(dev);
++
++		err = 0;
++		break;
++#endif
++
++
+ 	default:
+ 		err = -EINVAL;
+ 	}
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/net/netfilter/Kconfig b/net/netfilter/Kconfig
+--- a/linux-2.6.21/net/netfilter/Kconfig	2013-11-18 18:29:16.196742050 -0800
++++ b/net/netfilter/Kconfig	2012-05-09 06:02:08.000000000 -0700
+@@ -186,7 +186,7 @@ config NF_CONNTRACK_FTP
+ 
+ config NF_CONNTRACK_H323
+ 	tristate "H.323 protocol support (EXPERIMENTAL)"
+-	depends on EXPERIMENTAL && NF_CONNTRACK
++	depends on EXPERIMENTAL && NF_CONNTRACK && (IPV6 || IPV6=n)
+ 	help
+ 	  H.323 is a VoIP signalling protocol from ITU-T. As one of the most
+ 	  important VoIP protocols, it is widely used by voice hardware and
+@@ -421,7 +421,7 @@ config NETFILTER_XT_TARGET_CONNSECMARK
+ 
+ config NETFILTER_XT_TARGET_TCPMSS
+ 	tristate '"TCPMSS" target support'
+-	depends on NETFILTER_XTABLES
++	depends on NETFILTER_XTABLES && (IPV6 || IPV6=n)
+ 	---help---
+ 	  This option adds a `TCPMSS' target, which allows you to alter the
+ 	  MSS value of TCP SYN packets, to control the maximum size for that
+diff -urpwN --exclude-from ../linux-2.6.21/Documentation/dontdiff a/linux-2.6.21/scripts/gen_initramfs_list.sh b/scripts/gen_initramfs_list.sh
+--- a/linux-2.6.21/scripts/gen_initramfs_list.sh	2013-11-18 18:29:16.200075386 -0800
++++ b/scripts/gen_initramfs_list.sh	2012-05-09 06:02:08.000000000 -0700
+@@ -125,7 +125,7 @@ parse() {
+ 			str="${ftype} ${name} ${location} ${str}"
+ 			;;
+ 		"nod")
+-			local dev=`LC_ALL=C ls -l --time-style=locale "${location}"`
++			local dev=`LC_ALL=C ls -l "${location}"`
+ 			local maj=`field 5 ${dev}`
+ 			local min=`field 6 ${dev}`
+ 			maj=${maj%,}
+@@ -135,7 +135,7 @@ parse() {
+ 			str="${ftype} ${name} ${str} ${dev} ${maj} ${min}"
+ 			;;
+ 		"slink")
+-			local target=`field 11 $(LC_ALL=C ls -l --time-style=locale "${location}")`
++			local target=`field 11 $(LC_ALL=C ls -l "${location}")`
+ 			str="${ftype} ${name} ${target} ${str}"
+ 			;;
+ 		*)

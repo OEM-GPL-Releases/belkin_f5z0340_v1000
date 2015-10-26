@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740
+END
+gpio.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/gpio.c
+END
+time.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/time.c
+END
+Kconfig
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/Kconfig
+END
+clock.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/clock.h
+END
+setup.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/setup.c
+END
+dma.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/dma.c
+END
+clock-debugfs.c
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/clock-debugfs.c
+END
+pm.c
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/pm.c
+END
+prom.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/prom.c
+END
+board-n516.c
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/board-n516.c
+END
+board-n526.c
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/board-n526.c
+END
+board-qi_lb60.c
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/board-qi_lb60.c
+END
+board-n516-display.c
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/board-n516-display.c
+END
+reset.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/reset.c
+END
+platform.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/platform.c
+END
+irq.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/irq.c
+END
+clock.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/clock.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/jz4740/Makefile
+END

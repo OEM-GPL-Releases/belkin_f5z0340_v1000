@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/files/arch/mips/bcm47xx/include
+END
+nvram.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/files/arch/mips/bcm47xx/include/nvram.h
+END

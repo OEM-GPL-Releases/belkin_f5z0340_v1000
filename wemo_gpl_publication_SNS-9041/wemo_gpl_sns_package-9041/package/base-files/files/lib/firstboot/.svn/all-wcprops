@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot
+END
+30_no_fo_pivot
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/30_no_fo_pivot
+END
+10_determine_parts
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/10_determine_parts
+END
+99_10_with_fo_cleanup
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/99_10_with_fo_cleanup
+END
+99_10_no_fo_cleanup
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/99_10_no_fo_cleanup
+END
+30_reset_copy_rom
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/30_reset_copy_rom
+END
+20_no_fo_mount_jffs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/20_no_fo_mount_jffs
+END
+40_no_fo_copy_ramoverlay
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/40_no_fo_copy_ramoverlay
+END
+20_reset_clear_jffs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/20_reset_clear_jffs
+END
+30_is_rootfs_mounted
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/30_is_rootfs_mounted
+END
+50_pivot
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/50_pivot
+END
+05_firstboot_skip
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/05_firstboot_skip
+END
+10_no_fo_clear_overlay
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/10_no_fo_clear_overlay
+END
+20_has_mini_fo
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/20_has_mini_fo
+END
+10_reset_has_mini_fo
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/10_reset_has_mini_fo
+END
+40_copy_ramoverlay
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/firstboot/40_copy_ramoverlay
+END

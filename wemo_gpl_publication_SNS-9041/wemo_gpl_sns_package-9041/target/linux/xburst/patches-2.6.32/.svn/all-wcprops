@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32
+END
+800-n5x6-lpc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/800-n5x6-lpc.patch
+END
+050-nand.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/050-nand.patch
+END
+001-core.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/001-core.patch
+END
+900-add-openwrt-logo.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/900-add-openwrt-logo.patch
+END
+220-add-2gb-nand-support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/220-add-2gb-nand-support.patch
+END
+051-fb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/051-fb.patch
+END
+105-sound.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/105-sound.patch
+END
+104-usb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/104-usb.patch
+END
+053-adc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/053-adc.patch
+END
+052-rtc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/052-rtc.patch
+END
+300-jffs2-summery-vmalloc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/300-jffs2-summery-vmalloc.patch
+END
+100-battery.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/100-battery.patch
+END
+500-modifier-keys.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/500-modifier-keys.patch
+END
+106-gpio-charger.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/106-gpio-charger.patch
+END
+101-mmc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/101-mmc.patch
+END
+103-lcm.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/103-lcm.patch
+END
+420-fb-notifier-pre-post.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/420-fb-notifier-pre-post.patch
+END
+400-spi-gpio-3wire.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/400-spi-gpio-3wire.patch
+END
+103-serial.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/patches-2.6.32/103-serial.patch
+END

@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit
+END
+10_essential_fs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/10_essential_fs
+END
+90_restore_config
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/90_restore_config
+END
+99_10_mount_no_mtd
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/99_10_mount_no_mtd
+END
+10_check_for_mtd
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/10_check_for_mtd
+END
+40_mount_devpts
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/40_mount_devpts
+END
+20_check_jffs2_ready
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/20_check_jffs2_ready
+END
+05_mount_skip
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/05_mount_skip
+END
+90_init_console
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/90_init_console
+END
+50_indicate_regular_preinit
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/50_indicate_regular_preinit
+END
+40_mount_jffs2
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/40_mount_jffs2
+END
+30_device_fs_daemons
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/30_device_fs_daemons
+END
+90_mount_no_jffs2
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/90_mount_no_jffs2
+END
+70_initramfs_test
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/70_initramfs_test
+END
+70_pivot_jffs2_root
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/70_pivot_jffs2_root
+END
+50_choose_console
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/50_choose_console
+END
+99_10_run_init
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/99_10_run_init
+END
+60_init_hotplug
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/60_init_hotplug
+END
+20_device_fs_mount
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/20_device_fs_mount
+END
+10_indicate_preinit
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/10_indicate_preinit
+END
+80_mount_root
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/80_mount_root
+END
+40_init_shm
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/base-files/files/lib/preinit/40_init_shm
+END

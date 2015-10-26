@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src
+END
+ifxmips_atm_danube.c
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_danube.c
+END
+ifxmips_mei_interface.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_mei_interface.h
+END
+ifxmips_atm_fw_danube.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_fw_danube.h
+END
+ifxmips_atm_fw_regs_danube.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_fw_regs_danube.h
+END
+ifxmips_atm_ppe_common.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_ppe_common.h
+END
+ifxmips_atm.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm.h
+END
+ifxmips_atm_ppe_danube.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_ppe_danube.h
+END
+ifxmips_atm_core.c
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_core.c
+END
+ifxmips_atm_fw_regs_common.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_fw_regs_common.h
+END
+ifxmips_mei.c
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_mei.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/Makefile
+END
+ifx_atm.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifx_atm.h
+END
+ifxmips_atm_core.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ifxmips-dsl-api/src/ifxmips_atm_core.h
+END

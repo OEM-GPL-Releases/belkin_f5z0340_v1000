@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpjnath/files
+END
+ip_helper_generic.c
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpjnath/files/ip_helper_generic.c
+END
+user.mak.HDv1
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpjnath/files/user.mak.HDv1
+END
+user.mak.HDv2
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpjnath/files/user.mak.HDv2
+END
+os_core_unix.c
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libpjnath/files/os_core_unix.c
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uhttpd/files
+END
+download.cgi
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uhttpd/files/download.cgi
+END
+uhttpd.init
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uhttpd/files/uhttpd.init
+END
+sysinfo.cgi
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uhttpd/files/sysinfo.cgi
+END
+uhttpd.config
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uhttpd/files/uhttpd.config
+END

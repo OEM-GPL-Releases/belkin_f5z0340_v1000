@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libipfix/patches
+END
+100-openimp_sync.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libipfix/patches/100-openimp_sync.patch
+END
+110-wprobe_ie.patch
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libipfix/patches/110-wprobe_ie.patch
+END

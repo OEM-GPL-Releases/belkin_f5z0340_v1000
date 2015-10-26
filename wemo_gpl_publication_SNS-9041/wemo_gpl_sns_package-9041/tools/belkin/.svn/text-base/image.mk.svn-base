@@ -1,0 +1,102 @@
+include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/kernel.mk
+include $(INCLUDE_DIR)/util.mk
+
+KNOWN_SUFFIXES := _diag _prod
+
+# Create SKU from CONFIG_BUILD_SUFFIX by stripping off any of the
+# known suffixes that might have been be part of CONFIG_BUILD_SUFFIX
+SKU := $(CONFIG_BUILD_SUFFIX)
+$(call desuffix,SKU,$(KNOWN_SUFFIXES))
+# Create image suffix from CONFIG_BUILD_SUFFIX.  Note that
+# CONFIG_BUILD_SUFFIX includes quotes, which we remove
+IMG_SUFFIX := $(subst ",,$(subst $(SKU),,$(CONFIG_BUILD_SUFFIX)))
+# " <-- Help editor resync quote matching
+
+FW_REV := $(shell $(TOPDIR)/scripts/revision.sh)
+KEYS := $(TOPDIR)/package/fw_update/keys
+
+ifeq ($(CONFIG_BUILD_SUFFIX),"$(SKU)_prod")
+	FIRMWARE_TYPE := PVT
+else
+	ifeq ($(SKU), insight)
+		FIRMWARE_TYPE := EVT
+	else
+		FIRMWARE_TYPE := DVT
+	endif
+endif
+ifeq ($(SKU),sns)
+	SKU_IN_FILENAME := SNS
+endif	
+ifeq ($(SKU), light)
+	SKU_IN_FILENAME := Light
+endif	
+ifeq ($(SKU), insight)
+	SKU_IN_FILENAME := Insight
+endif	
+ifeq ($(SKU), link)
+	SKU_IN_FILENAME := LED_Light
+endif	
+ifeq ($(SKU), insightCR)
+	SKU_IN_FILENAME := InsightCR
+endif
+
+# Reapply possible suffix only for non-production images
+ifneq ($(IMG_SUFFIX),_prod)
+SKU_IN_FILENAME := $(SKU_IN_FILENAME)$(IMG_SUFFIX)
+endif
+
+BELKIN_TOOL := $(STAGING_DIR_HOST)/bin/belkin
+KERNEL_FILE := $(KERNEL_BUILD_DIR)/uImage
+RFS_FILE := $(KERNEL_BUILD_DIR)/root.squashfs
+OWRT_OUTPUT := $(BIN_DIR)/openwrt-rt288x-squashfs.img
+BELKIN_OUTPUT := $(TOPDIR)/output
+BELKIN_BIN := $(BELKIN_OUTPUT)/firmware_2.00.$(FW_REV).OWRT.$(FIRMWARE_TYPE)_$(SKU_IN_FILENAME).bin
+BELKIN_FIRMWARE := $(BELKIN_OUTPUT)/WeMo_WW_2.00.$(FW_REV).OWRT.$(FIRMWARE_TYPE)_$(SKU_IN_FILENAME)
+
+all: 
+	mkdir -p $(BELKIN_OUTPUT)
+	cp -f $(OWRT_OUTPUT) $(BELKIN_BIN)
+	mkdir -p $(BELKIN_OUTPUT)/libraries
+	cd $(STAGING_DIR_ROOT);	 cp -rf ../usr/lib/*so*  sbin/* $(BELKIN_OUTPUT)/libraries/ ; cd $(BELKIN_OUTPUT) ; tar -czf binaries_$(FW_REV)_$(FIRMWARE_TYPE)_$(SKU_IN_FILENAME).tgz libraries/; rm -fr libraries/
+	echo -ne '\xde\xad\xc0\xde' >> $(BELKIN_BIN)
+	@echo " "
+	@echo "=== Making Belkin OpenWRT Firmware ==="
+	$(BELKIN_TOOL)/makeImage $(BIN_DIR) $(KERNEL_FILE) $(RFS_FILE) $(BELKIN_BIN) $(BELKIN_FIRMWARE).bin WeMo_$(SKU)
+	gpg --homedir $(KEYS) -o $(BELKIN_FIRMWARE).bin.gpg.out -s $(BELKIN_FIRMWARE).bin 
+	mv $(BELKIN_FIRMWARE).bin.gpg.out $(BELKIN_FIRMWARE).bin.dev.gpg
+ifeq ($(CONFIG_TARGET_rt288x_WemoInsightCR),)
+#	@echo " "
+#	@echo "=== Making TRANSITION OpenWRT Firmware ==="
+#	$(BELKIN_TOOL)/fw_crc_hdr $(BELKIN_FIRMWARE).bin $(BELKIN_FIRMWARE)-trans.bin
+#	gpg --homedir $(KEYS) -o $(BELKIN_FIRMWARE)-trans.bin.gpg.out -s $(BELKIN_FIRMWARE)-trans.bin 
+#	mv $(BELKIN_FIRMWARE)-trans.bin.gpg.out $(BELKIN_FIRMWARE)-trans.bin.dev.gpg
+endif
+	@echo " "
+	@echo "============================================================================"
+	@echo "0. RAW Image:" 
+	@echo " $(BELKIN_BIN)" 
+	@echo "============================================================================"
+	@echo "Belkin OpenWRT Wemo_$(SKU_IN_FILENAME) firmware for Gemtek Hardware are here:"
+	@echo "----------------------------------------------------------------------------"
+	@echo "1. With Belkin ImageInfo:" 
+	@echo " $(BELKIN_FIRMWARE).bin" 
+	@echo "2. Signed by Belkin Development key: can be used OpenWRT-to-OpenWRT update"
+	@echo " $(BELKIN_FIRMWARE).bin.dev.gpg"
+	@echo "============================================================================"
+ifeq ($(CONFIG_TARGET_rt288x_WemoInsightCR),)
+#	@echo "Belkin TRANSITION OpenWRT Wemo_$(SKU_IN_FILENAME) firmware for Gemtek Hardware are here:"
+#	@echo "----------------------------------------------------------------------------"
+#	@echo "1. With Gemtek CRC-Header:" 
+#	@echo " $(BELKIN_FIRMWARE)-trans.bin" 
+#	@echo "2. Signed by Belkin Development key: can be used OpenWRT-to-OpenWRT update"
+#	@echo " $(BELKIN_FIRMWARE)-trans.bin.dev.gpg"
+#	@echo "============================================================================"
+endif
+	@echo "[[[[NOTE]]]]"
+	@echo " To sign production firmware,"
+	@echo " Please send email to image-sign-support@belkin.com with #1 url above."
+	@echo " We used same Belkin Production key to sign all of WeMo production firmware."
+	@echo "============================================================================"
+	@echo " "
+

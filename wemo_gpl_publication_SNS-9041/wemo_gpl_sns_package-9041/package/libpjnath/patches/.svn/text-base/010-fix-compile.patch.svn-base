@@ -1,0 +1,58 @@
+Index: pjproject-1.8.10/build/rules.mak
+===================================================================
+--- pjproject-1.8.10.orig/build/rules.mak	2012-04-16 15:28:48.674269927 -0700
++++ pjproject-1.8.10/build/rules.mak	2012-04-16 15:00:17.180270000 -0700
+@@ -79,7 +79,7 @@
+ 
+ $(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
+ 	if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
+-	$(AR) $(LIB) $(OBJS)
++	$(AR) rv $(LIB) $(OBJS)
+ 	$(RANLIB) $(LIB)
+ 
+ $(EXE): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
+Index: pjproject-1.8.10/pjlib-util/build/Makefile
+===================================================================
+--- pjproject-1.8.10.orig/pjlib-util/build/Makefile	2012-04-16 15:29:28.502294632 -0700
++++ pjproject-1.8.10/pjlib-util/build/Makefile	2012-04-16 15:16:00.000000000 -0700
+@@ -13,9 +13,9 @@
+ ###############################################################################
+ # Gather all flags.
+ #
+-export _CFLAGS 	:= $(CC_CFLAGS) $(OS_CFLAGS) $(HOST_CFLAGS) $(M_CFLAGS) \
++export _CFLAGS 	:= -c $(CC_CFLAGS) $(OS_CFLAGS) $(HOST_CFLAGS) $(M_CFLAGS) \
+ 		   $(CFLAGS) $(CC_INC)../include $(CC_INC)../../pjlib/include
+-export _CXXFLAGS:= $(_CFLAGS) $(CC_CXXFLAGS) $(OS_CXXFLAGS) $(M_CXXFLAGS) \
++export _CXXFLAGS:= -c $(_CFLAGS) $(CC_CXXFLAGS) $(OS_CXXFLAGS) $(M_CXXFLAGS) \
+ 		   $(HOST_CXXFLAGS) $(CXXFLAGS)
+ export _LDFLAGS := $(subst /,$(HOST_PSEP),$(PJLIB_UTIL_LIB)) \
+ 		   $(subst /,$(HOST_PSEP),$(PJLIB_LIB)) \
+Index: pjproject-1.8.10/pjlib/build/Makefile
+===================================================================
+--- pjproject-1.8.10.orig/pjlib/build/Makefile	2012-04-16 15:29:11.002294491 -0700
++++ pjproject-1.8.10/pjlib/build/Makefile	2012-04-16 15:11:36.000000000 -0700
+@@ -9,9 +9,9 @@
+ ###############################################################################
+ # Gather all flags.
+ #
+-export _CFLAGS 	:= $(CC_CFLAGS) $(OS_CFLAGS) $(HOST_CFLAGS) $(M_CFLAGS) \
++export _CFLAGS 	:= -c $(CC_CFLAGS) $(OS_CFLAGS) $(HOST_CFLAGS) $(M_CFLAGS) \
+ 		   $(CFLAGS) $(CC_INC)../include
+-export _CXXFLAGS:= $(_CFLAGS) $(CC_CXXFLAGS) $(OS_CXXFLAGS) $(M_CXXFLAGS) \
++export _CXXFLAGS:= -c $(_CFLAGS) $(CC_CXXFLAGS) $(OS_CXXFLAGS) $(M_CXXFLAGS) \
+ 		   $(HOST_CXXFLAGS) $(CXXFLAGS)
+ export _LDFLAGS := $(subst /,$(HOST_PSEP),$(PJLIB_LIB)) \
+ 		   $(CC_LDFLAGS) $(OS_LDFLAGS) $(M_LDFLAGS) $(HOST_LDFLAGS) \
+Index: pjproject-1.8.10/pjnath/build/Makefile
+===================================================================
+--- pjproject-1.8.10.orig/pjnath/build/Makefile	2012-04-16 15:29:53.606516474 -0700
++++ pjproject-1.8.10/pjnath/build/Makefile	2012-04-16 15:17:30.000000000 -0700
+@@ -14,7 +14,7 @@
+ ###############################################################################
+ # Gather all flags.
+ #
+-export _CFLAGS 	:= $(CC_CFLAGS) $(OS_CFLAGS) $(HOST_CFLAGS) $(M_CFLAGS) \
++export _CFLAGS 	:= -c $(CC_CFLAGS) $(OS_CFLAGS) $(HOST_CFLAGS) $(M_CFLAGS) \
+ 		   $(CFLAGS) $(CC_INC)../include $(CC_INC)../../pjlib/include \
+ 		   $(CC_INC)../../pjlib-util/include
+ export _CXXFLAGS:= $(_CFLAGS) $(CC_CXXFLAGS) $(OS_CXXFLAGS) $(M_CXXFLAGS) \

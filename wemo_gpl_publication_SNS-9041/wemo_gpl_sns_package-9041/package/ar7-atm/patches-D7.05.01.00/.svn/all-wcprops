@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00
+END
+110-interrupt_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/110-interrupt_fix.patch
+END
+120-no_dumb_inline.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/120-no_dumb_inline.patch
+END
+180-git_headers_include.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/180-git_headers_include.patch
+END
+130-powercutback.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/130-powercutback.patch
+END
+160-module-params.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/160-module-params.patch
+END
+100-compile_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/100-compile_fix.patch
+END
+140-debug_mode.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/140-debug_mode.patch
+END
+150-tasklet_mode.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/150-tasklet_mode.patch
+END
+170-bus_id_removal.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/170-bus_id_removal.patch
+END
+190-2.6.32_proc_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ar7-atm/patches-D7.05.01.00/190-2.6.32_proc_fixes.patch
+END

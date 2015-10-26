@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches
+END
+005-imq.patch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches/005-imq.patch
+END
+020-iptables-disable-modprobe.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches/020-iptables-disable-modprobe.patch
+END
+002-layer7_2.17.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches/002-layer7_2.17.patch
+END
+009-table-alignment.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches/009-table-alignment.patch
+END
+008-netfilter_include_linux_type_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches/008-netfilter_include_linux_type_h.patch
+END
+010-multiport-linux-2.4-compat.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/iptables/patches/010-multiport-linux-2.4-compat.patch
+END

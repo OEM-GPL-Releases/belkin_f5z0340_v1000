@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches
+END
+406-ath9k-set-AH_USE_EEPROM-only-if-no-platform-data-present.patch
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/406-ath9k-set-AH_USE_EEPROM-only-if-no-platform-data-present.patch
+END
+010-no_pcmcia.patch
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/010-no_pcmcia.patch
+END
+014-add_iw_handler.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/014-add_iw_handler.patch
+END
+015-remove-rt2x00-options.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/015-remove-rt2x00-options.patch
+END
+404-ath_regd_optional.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/404-ath_regd_optional.patch
+END
+011-no_sdio.patch
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/011-no_sdio.patch
+END
+005-disable_ssb_build.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/005-disable_ssb_build.patch
+END
+009-remove_mac80211_module_dependence.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/009-remove_mac80211_module_dependence.patch
+END
+500-ath9k_debugfs_chainmask.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/500-ath9k_debugfs_chainmask.patch
+END
+405-ath9k-read-eeprom-data-from-platform-data-on-pci-bus.patch
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/405-ath9k-read-eeprom-data-from-platform-data-on-pci-bus.patch
+END
+550-ath9k_bb_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/550-ath9k_bb_fix.patch
+END
+510-ath9k_debugfs_regaccess.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/510-ath9k_debugfs_regaccess.patch
+END
+002-disable_rfkill.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/002-disable_rfkill.patch
+END
+007-remove_misc_drivers.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/007-remove_misc_drivers.patch
+END
+013-disable_b43_nphy.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/013-disable_b43_nphy.patch
+END
+520-cfg80211_get_freq.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/520-cfg80211_get_freq.patch
+END
+408-ath9k_tweak_rx_intr_mitigation.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/408-ath9k_tweak_rx_intr_mitigation.patch
+END
+410-ath9k-wndr3700-led-pin-fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/410-ath9k-wndr3700-led-pin-fix.patch
+END
+401-ath9k-dont-register-leds-on-ar9100.patch
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/401-ath9k-dont-register-leds-on-ar9100.patch
+END
+407-ath9k-override-mac-address-from-platform-data.patch
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/407-ath9k-override-mac-address-from-platform-data.patch
+END
+601-rt2x00-lib-use-rt2x00dev-irq.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/601-rt2x00-lib-use-rt2x00dev-irq.patch
+END
+003-disable_bt.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/003-disable_bt.patch
+END
+530-minstrel_ht.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/530-minstrel_ht.patch
+END
+403-ath9k-fix-invalid-mac-address-handling.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/403-ath9k-fix-invalid-mac-address-handling.patch
+END
+012-remove_rfkill.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/012-remove_rfkill.patch
+END
+602-rt2x00-remove-mcu-requests-for-soc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/602-rt2x00-remove-mcu-requests-for-soc.patch
+END
+201-ath5k-WAR-for-AR71xx-PCI-bug.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/201-ath5k-WAR-for-AR71xx-PCI-bug.patch
+END
+600-rt2x00-disable-pci-code-if-CONFIG_PCI-not-defined.patch
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/600-rt2x00-disable-pci-code-if-CONFIG_PCI-not-defined.patch
+END
+409-ath9k-add-wndr3700-antenna-initialization.patch
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/409-ath9k-add-wndr3700-antenna-initialization.patch
+END
+001-disable_b44.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/001-disable_b44.patch
+END
+110-disable_usb_compat.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/110-disable_usb_compat.patch
+END
+540-ath9k_use_minstrel.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/540-ath9k_use_minstrel.patch
+END
+100-disable_pcmcia_compat.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/100-disable_pcmcia_compat.patch
+END
+300-fix-mesh.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/mac80211/patches/300-fix-mesh.patch
+END

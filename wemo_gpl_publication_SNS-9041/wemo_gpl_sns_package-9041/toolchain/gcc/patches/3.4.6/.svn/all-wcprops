@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6
+END
+100-uclibc-conf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/100-uclibc-conf.patch
+END
+602-sdk-libstdc++-includes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/602-sdk-libstdc++-includes.patch
+END
+800-arm-bigendian.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/800-arm-bigendian.patch
+END
+810-arm-bigendian-uclibc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/810-arm-bigendian-uclibc.patch
+END
+300-libstdc++-pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/300-libstdc++-pic.patch
+END
+910-mbsd_multi.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/910-mbsd_multi.patch
+END
+200-uclibc-locale.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/200-uclibc-locale.patch
+END
+700-pr15068-fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/700-pr15068-fix.patch
+END
+601-gcc34-arm-ldm.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/601-gcc34-arm-ldm.patch
+END
+820-i386_inhibit_libc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/820-i386_inhibit_libc.patch
+END
+arm-softfloat.patch.conditional
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/3.4.6/arm-softfloat.patch.conditional
+END

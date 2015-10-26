@@ -1,0 +1,27 @@
+#!/bin/sh /etc/rc.common
+
+START=70
+
+start() {
+   saveCurrentChannel
+   # create startup flag file.  wemoApp must delete this file
+   # when it has determined that it is running correctly.
+   # this is used as a flag by the firmware update subsystem
+   # to determine if an roll back is needed or not.
+   touch /tmp/wemoApp.starting
+   mknod /dev/gpio c 252 1
+   fw_printenv boot_A_args > /tmp/bootArgs
+
+   killall -9 udhcpc
+   sync; echo 3 > /proc/sys/vm/drop_caches
+
+   sh /sbin/startWemo.sh &
+}
+
+stop() {
+   wemoPid=`ps | awk '/sbin\/startWemo/ {print $1}'`
+   kill -9 $wemoPid
+   killall wemoApp
+   #Magic Close of watchdog after App stops to prevent system reboot due to watchdog.
+   echo "V" >/dev/watchdog
+}

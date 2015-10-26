@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles
+END
+010-Generic.mk
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/010-Generic.mk
+END
+Compex.mk
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/Compex.mk
+END
+Motorola.mk
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/Motorola.mk
+END
+Osbridge.mk
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/Osbridge.mk
+END
+RB1xx.mk
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/RB1xx.mk
+END
+Infineon.mk
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/Infineon.mk
+END
+Cellvision.mk
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/Cellvision.mk
+END
+Edimax.mk
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/router_le/profiles/Edimax.mk
+END

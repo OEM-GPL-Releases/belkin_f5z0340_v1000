@@ -1,0 +1,40 @@
+Index: libupnp-1.6.19/upnp/src/genlib/miniserver/miniserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/miniserver/miniserver.c
++++ libupnp-1.6.19/upnp/src/genlib/miniserver/miniserver.c
+@@ -99,6 +99,7 @@ static MiniServerCallback gGetCallback =
+ static MiniServerCallback gSoapCallback = NULL;
+ static MiniServerCallback gGenaCallback = NULL;
+ int gMiniServerHealth = 0;
++extern unsigned int gLocalDataBytes;
+ 
+ void SetHTTPGetCallback(MiniServerCallback callback)
+ {
+@@ -360,6 +361,7 @@ static int receive_from_stopSock(SOCKET
+ 		byteReceived = recvfrom(ssock, requestBuf,
+ 			(size_t)25, 0, (struct sockaddr *)&clientAddr, &clientLen);
+ 		if (byteReceived > 0) {
++			gLocalDataBytes = byteReceived;
+ 			requestBuf[byteReceived] = '\0';
+ 			inet_ntop(AF_INET,
+ 				&((struct sockaddr_in*)&clientAddr)->sin_addr,
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_server.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+@@ -87,6 +87,7 @@ struct SSDPSockArray {
+ };
+ 
+ extern char gDevUdn[];
++extern unsigned int gLocalDataBytes;
+ 
+ #ifdef INCLUDE_DEVICE_APIS
+ static const char SERVICELIST_STR[] = "serviceList";
+@@ -881,6 +882,7 @@ void readFromSSDPSocket(SOCKET socket)
+ 	byteReceived = recvfrom(socket, requestBuf, BUFSIZE - (size_t)1, 0,
+ 				(struct sockaddr *)&__ss, &socklen);
+ 	if (byteReceived > 0) {
++		gLocalDataBytes = byteReceived;
+ 		requestBuf[byteReceived] = '\0';
+ 		switch (__ss.ss_family) {
+ 			case AF_INET:

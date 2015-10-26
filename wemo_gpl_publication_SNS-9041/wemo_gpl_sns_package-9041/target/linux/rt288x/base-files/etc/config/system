@@ -1,0 +1,7 @@
+config system
+        option hostname OpenWrt
+        option timezone UTC
+
+config rdate
+        option synctime 24
+        list server time.stdtime.gov.tw

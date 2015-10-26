@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom
+END
+generic.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom/generic.h
+END
+myloader.h
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom/myloader.h
+END
+cfe.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom/cfe.h
+END
+zynos.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom/zynos.h
+END
+routerboot.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom/routerboot.h
+END
+admboot.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/include/asm/mach-adm5120/prom/admboot.h
+END

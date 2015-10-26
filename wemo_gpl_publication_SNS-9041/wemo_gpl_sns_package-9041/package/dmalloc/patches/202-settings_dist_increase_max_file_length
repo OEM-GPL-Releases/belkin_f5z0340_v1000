@@ -1,0 +1,12 @@
+--- a/settings.dist	2014-08-13 22:36:13.152751168 +0000
++++ b/settings.dist	2014-08-13 22:37:09.088751813 +0000
+@@ -125,7 +125,7 @@
+  * it will need to be changed too.
+  */
+ #define MIN_FILE_LENGTH		    3
+-#define MAX_FILE_LENGTH		  100
+-#define MAX_LINE_NUMBER		30000
++#define MAX_FILE_LENGTH		 1000
++#define MAX_LINE_NUMBER		50000
+ 
+ /*

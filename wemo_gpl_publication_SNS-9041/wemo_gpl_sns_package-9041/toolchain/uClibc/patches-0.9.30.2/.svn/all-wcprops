@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2
+END
+700-mips_nptl_dl_find_hash_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/700-mips_nptl_dl_find_hash_fix.patch
+END
+140-math_decl.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/140-math_decl.patch
+END
+120-adjtimex.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/120-adjtimex.patch
+END
+600-ubicom32-uClibc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/600-ubicom32-uClibc.patch
+END
+110-compat_macros.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/110-compat_macros.patch
+END
+410-llvm_workaround.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/410-llvm_workaround.patch
+END
+130-pthread_weak_binding.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/130-pthread_weak_binding.patch
+END
+170-math_finite.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/170-math_finite.patch
+END
+450-powerpc_copysignl.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/450-powerpc_copysignl.patch
+END
+902-Fix-use-after-free-bug-in-__dns_lookup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/uClibc/patches-0.9.30.2/902-Fix-use-after-free-bug-in-__dns_lookup.patch
+END

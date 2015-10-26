@@ -1,0 +1,19 @@
+K 13
+svn:mergeinfo
+V 956
+/branches/backfire_sdk/package/libpjnath:3817-3992
+/branches/backfire_smart/package/libpjnath:4406-4552,6574-6601
+/branches/backfire_smart_memtrack/package/libpjnath:6229-6599
+/branches/backfire_smart_netcam/package/libpjnath:7056-7552
+/branches/wemo_dev_pro_RC_1_10/package/libpjnath:7258-7549
+/branches/wemo_dev_pro_RC_1_10_WEMO-31028/package/libpjnath:7400-7511
+/branches/wemo_dev_pro_RC_1_11/package/libpjnath:7593-7957
+/branches/wemo_dev_pro_RC_1_12_RBH/package/libpjnath:8080-8250
+/branches/wemo_dev_pro_RC_1_12_gpl_merge/package/libpjnath:8093-8129
+/branches/wemo_dev_smart_RC_1_12/package/libpjnath:8215
+/trunk/embedded-WeMo_2_0/openwrt/package/libpjnath:1955-3578
+/trunk/embedded-WeMo_2_0_Jarden_Merge/openwrt/package/libpjnath:3840-4058
+/trunk/embedded-WeMo_2_0_Smart/openwrt/package/libpjnath:3862-4301
+/trunk/embedded-WeMo_2_0_netcam/openwrt/package/libpjnath:3580-7112
+/trunk/embedded-WeMo_2_0_netcam_maintenance/openwrt/package/libpjnath:3579
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/uci-defaults
+END
+rb750
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/uci-defaults/rb750
+END
+tl-wr1043nd
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/uci-defaults/tl-wr1043nd
+END
+wndr3700
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/uci-defaults/wndr3700
+END
+wrt160nl
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/ar71xx/base-files/etc/uci-defaults/wrt160nl
+END

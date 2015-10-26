@@ -1,0 +1,3121 @@
+Index: libupnp-1.6.19/threadutil/src/ThreadPool.c
+===================================================================
+--- libupnp-1.6.19.orig/threadutil/src/ThreadPool.c
++++ libupnp-1.6.19/threadutil/src/ThreadPool.c
+@@ -46,6 +46,44 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <string.h>	/* for memset()*/
++#include <sys/syscall.h>
++#include <syslog.h>
++#include <stdarg.h>
++//#include "config.h"
++
++extern int gUPnPLogEnable;
++
++void printlog(int logLevel, const char *FmtStr, ...)
++{
++	char	buff[256];
++	char	nbuff[512];
++	char cTime[32] = {};
++	struct timeval tv;
++	struct tm *now;
++
++	va_list ArgList;
++	va_start(ArgList, FmtStr);
++
++	memset(buff, 0, sizeof(buff));
++	memset(nbuff, 0, sizeof(nbuff));
++
++	vsnprintf(buff, sizeof (buff), FmtStr, ArgList);
++	va_end(ArgList);
++
++	gettimeofday(&tv,NULL);
++	now=localtime(&tv.tv_sec);
++
++	snprintf((char*)cTime,sizeof(cTime),"[%04d-%02d-%02d][%02d:%02d:%02d.%06d]",now->tm_year+1900,now->tm_mon+1,now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, (int)tv.tv_usec);
++	strncat(nbuff, (char*)cTime, sizeof(nbuff));
++	strncat(nbuff, (char*)buff, sizeof(nbuff));
++
++	if((logLevel == LOG_DEBUG) && (gUPnPLogEnable == 1))
++		syslog(logLevel, "LIBUPNP[%d]:%s", (int)syscall(SYS_gettid), nbuff);
++	else if((logLevel == LOG_INFO) && (gUPnPLogEnable == 2))
++		syslog(logLevel, "LIBUPNP[%d]:%s", (int)syscall(SYS_gettid), nbuff);
++	else if(gUPnPLogEnable == 3)
++		syslog(logLevel, "LIBUPNP[%d]:%s", (int)syscall(SYS_gettid), nbuff);
++}
+ 
+ /*!
+  * \brief Returns the difference in milliseconds between two timeval structures.
+@@ -54,7 +92,7 @@
+  *
+  * \return The difference in milliseconds, time1-time2.
+  */
+-static long DiffMillis(
++long DiffMillis(
+ 	/*! . */
+ 	struct timeval *time1,
+ 	/*! . */
+@@ -370,7 +408,8 @@ static void BumpPriority(
+ 		if (tp->lowJobQ.size) {
+ 			tempJob = (ThreadPoolJob *)tp->lowJobQ.head.next->item;
+ 			diffTime = DiffMillis(&now, &tempJob->requestTime);
+-			if (diffTime >= tp->attr.maxIdleTime) {
++			//if (diffTime >= tp->attr.maxIdleTime) {
++            		if( diffTime >= tp->attr.starvationTime ) {
+ 				/* If job has waited longer than the starvation time
+ 				 * bump priority (add to higher priority Q) */
+ 				StatsAccountLQ(tp, diffTime);
+@@ -468,6 +507,7 @@ static void *WorkerThread(
+ 
+ 	SetSeed();
+ 	StatsTime(&start);
++	printlog(LOG_DEBUG, "Worker thread started in thread-pool[%p]", tp);
+ 	while (1) {
+ 		ithread_mutex_lock(&tp->mutex);
+ 		if (job) {
+@@ -573,6 +613,7 @@ static void *WorkerThread(
+ 		} else {
+ 		}
+ 		/* run the job */
++		printlog(LOG_DEBUG, "Job: %d of tp: %p to be executed", job->jobId, tp);
+ 		job->func(job->arg);
+ 		/* return to Normal */
+ 		SetPriority(DEFAULT_PRIORITY);
+@@ -651,6 +692,7 @@ static int CreateWorker(
+ 	rc = ithread_create(&temp, &attr, WorkerThread, tp);
+ 	ithread_attr_destroy(&attr);
+ 	if (rc == 0) {
++		printlog(LOG_DEBUG, "######################################Job queue thread pool created a new thread###################");
+ 		rc = ithread_detach(temp);
+ 		/* ithread_detach will return EINVAL if thread has been
+ 		 successfully detached by ithread_create */
+@@ -813,6 +855,90 @@ exit_function:
+ 	return ret;
+ }
+ 
++void DumpThreadPool(ThreadPool *tp)
++{
++	
++	int dumpedCount = 0x00;
++	
++	if (!tp)
++	{
++		printlog(LOG_DEBUG, "###### NULL job queue, can not dump");
++		return;
++	}
++
++	
++	ListNode *head = NULL;
++	ThreadPoolJob *temp = NULL;
++	
++	if( tp == NULL ) 
++	{
++		return;
++	}
++	
++	while( tp->highJobQ.size ) 
++	{
++		head = ListHead( &tp->highJobQ );
++		temp = ( ThreadPoolJob *) head->item;
++		if( temp->free_func ) {
++			temp->free_func( temp->arg );
++		}
++		FreeThreadPoolJob( tp, temp );
++		ListDelNode( &tp->highJobQ, head, 0 );
++		dumpedCount++;
++	}
++	ListDestroy( &tp->highJobQ, 0 );
++	tp->highJobQ.size = 0x00;
++
++	// clean up med priority jobs
++	while( tp->medJobQ.size ) 
++	{
++		head = ListHead( &tp->medJobQ );
++		temp = ( ThreadPoolJob *) head->item;
++		if( temp->free_func ) {
++			temp->free_func( temp->arg );
++		}
++		FreeThreadPoolJob( tp, temp );
++		ListDelNode( &tp->medJobQ, head, 0 );
++		dumpedCount++;
++	}
++
++	ListDestroy( &tp->medJobQ, 0 );
++	tp->medJobQ.size = 0x00;
++	
++	while( tp->lowJobQ.size ) 
++	{
++		head = ListHead( &tp->lowJobQ );
++		temp = ( ThreadPoolJob *) head->item;
++		if( temp->free_func ) 
++		{
++			temp->free_func( temp->arg );
++		}
++		FreeThreadPoolJob( tp, temp );
++		ListDelNode( &tp->lowJobQ, head, 0 );
++		dumpedCount++;
++	}
++
++	ListDestroy( &tp->lowJobQ, 0 );
++	tp->lowJobQ.size = 0x00;
++
++	/*
++	if( tp->persistentJob ) 
++	{
++			temp = tp->persistentJob;
++			if( temp->free_func ) 
++			{
++				temp->free_func( temp->arg );
++			}
++			FreeThreadPoolJob( tp, temp );
++			tp->persistentJob = NULL;
++	}*/
++	
++	printlog(LOG_DEBUG, "###### total: %d messages dumped, job threads: %d", dumpedCount, tp->totalThreads);
++	
++}
++
++
++
+ int ThreadPoolAdd(ThreadPool *tp, ThreadPoolJob *job, int *jobId)
+ {
+ 	int rc = EOUTOFMEM;
+@@ -827,8 +953,10 @@ int ThreadPoolAdd(ThreadPool *tp, Thread
+ 
+ 	totalJobs = tp->highJobQ.size + tp->lowJobQ.size + tp->medJobQ.size;
+ 	if (totalJobs >= tp->attr.maxJobsTotal) {
+-		fprintf(stderr, "total jobs = %ld, too many jobs", totalJobs);
+-		goto exit_function;
++		printlog(LOG_DEBUG, "#######total jobs = %d, too many jobs, to dump junk messages", (int)totalJobs);
++		ithread_mutex_unlock(&tp->mutex);
++		exit(0);
++		//goto exit_function;
+ 	}
+ 	if (!jobId)
+ 		jobId = &tempId;
+@@ -860,6 +988,7 @@ int ThreadPoolAdd(ThreadPool *tp, Thread
+ 
+ exit_function:
+ 	ithread_mutex_unlock(&tp->mutex);
++	printlog(LOG_DEBUG, "after ThreadPoolAdd job: %d in tp: %p", *jobId, tp);
+ 
+ 	return rc;
+ }
+@@ -1176,26 +1305,80 @@ int TPAttrSetMaxJobsTotal(ThreadPoolAttr
+ 	return 0;
+ }
+ 
++int robust_mutex_init (pthread_mutex_t *mutex,
++			       __const pthread_mutexattr_t *mutexattr)
++{
++	pthread_mutexattr_t attr, *ptrattr;
++	int errorCode;
++
++	if(mutexattr)
++		ptrattr = mutexattr;
++	else
++	{
++		pthread_mutexattr_init(&attr);
++		ptrattr = &attr;
++	}
++
++	if((errorCode = pthread_mutexattr_setrobust(ptrattr, PTHREAD_MUTEX_ROBUST)))
++	{
++	    printlog(LOG_DEBUG, "pthread_mutexattr_setrobust failed [%d]!!!", errorCode);
++	    return errorCode;
++	}
++
++	errorCode=pthread_mutex_init(mutex, ptrattr);
++	
++	//printlog(LOG_DEBUG, "retval: %d", errorCode);
++	return errorCode;
++}
++
++int robust_mutex_lock(pthread_mutex_t *mutex)
++{
++	int errorCode;
++	errorCode=pthread_mutex_lock(mutex);
++	if(EOWNERDEAD == errorCode)
++	{
++
++	    if(gUPnPLogEnable)
++	    	printlog(LOG_DEBUG, "EOWNERDEAD, making mutex consistent");
++	    else
++	    	syslog(LOG_DEBUG, "EOWNERDEAD, making mutex consistent");
++
++	    if((errorCode = pthread_mutex_consistent(mutex)))
++	    {
++	    	if(gUPnPLogEnable)
++			printlog(LOG_DEBUG, "pthread_mutexattr_consistent failed [%d]!!!", errorCode);
++		else
++			syslog(LOG_DEBUG, "pthread_mutexattr_consistent failed [%d]!!!", errorCode);
++
++		return errorCode;
++	    }
++
++	}
++	return errorCode;
++}
++
+ #ifdef STATS
+ void ThreadPoolPrintStats(ThreadPoolStats *stats)
+ {
+ 	if (!stats)
+ 		return;
+ 	/* some OSses time_t length may depending on platform, promote it to long for safety */
+-	printf("ThreadPoolStats at Time: %ld\n", (long)StatsTime(NULL));
+-	printf("High Jobs pending: %d\n", stats->currentJobsHQ);
+-	printf("Med Jobs Pending: %d\n", stats->currentJobsMQ);
+-	printf("Low Jobs Pending: %d\n", stats->currentJobsLQ);
+-	printf("Average Wait in High Priority Q in milliseconds: %f\n", stats->avgWaitHQ);
+-	printf("Average Wait in Med Priority Q in milliseconds: %f\n", stats->avgWaitMQ);
+-	printf("Averate Wait in Low Priority Q in milliseconds: %f\n", stats->avgWaitLQ);
+-	printf("Max Threads Active: %d\n", stats->maxThreads);
+-	printf("Current Worker Threads: %d\n", stats->workerThreads);
+-	printf("Current Persistent Threads: %d\n", stats->persistentThreads);
+-	printf("Current Idle Threads: %d\n", stats->idleThreads);
+-	printf("Total Threads : %d\n", stats->totalThreads);
+-	printf("Total Time spent Working in seconds: %f\n", stats->totalWorkTime);
+-	printf("Total Time spent Idle in seconds : %f\n", stats->totalIdleTime);
++	printlog(LOG_DEBUG, "ThreadPoolStats at Time: %ld", (long)StatsTime(NULL));
++	printlog(LOG_DEBUG, "High Jobs pending: %d", stats->currentJobsHQ);
++	printlog(LOG_DEBUG, "Med Jobs Pending: %d", stats->currentJobsMQ);
++	printlog(LOG_DEBUG, "Low Jobs Pending: %d", stats->currentJobsLQ);
++	printlog(LOG_DEBUG, "Average Wait in High Priority Q in milliseconds: %f", stats->avgWaitHQ);
++	printlog(LOG_DEBUG, "Average Wait in Med Priority Q in milliseconds: %f", stats->avgWaitMQ);
++	printlog(LOG_DEBUG, "Averate Wait in Low Priority Q in milliseconds: %f", stats->avgWaitLQ);
++	printlog(LOG_DEBUG, "Max Threads Active: %d", stats->maxThreads);
++
++	printlog(LOG_DEBUG, "Current Worker Threads: %d", stats->workerThreads);
++	printlog(LOG_DEBUG, "Current Persistent Threads: %d", stats->persistentThreads);
++	printlog(LOG_DEBUG, "Current Idle Threads: %d", stats->idleThreads);
++	printlog(LOG_DEBUG, "Total Threads : %d", stats->totalThreads);
++	printlog(LOG_DEBUG, "Total Time spent Working in seconds: %f", stats->totalWorkTime);
++
++	printlog(LOG_DEBUG, "Total Time spent Idle in seconds : %f", stats->totalIdleTime);
+ }
+ 
+ int ThreadPoolGetStats(ThreadPool *tp, ThreadPoolStats *stats)
+Index: libupnp-1.6.19/upnp/inc/config.h
+===================================================================
+--- /dev/null
++++ libupnp-1.6.19/upnp/inc/config.h
+@@ -0,0 +1,502 @@
++/**************************************************************************
++ *
++ * Copyright (c) 2000-2003 Intel Corporation
++ * All rights reserved.
++ * Copyright (c) 2012 France Telecom All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * - Redistributions of source code must retain the above copyright notice,
++ * this list of conditions and the following disclaimer.
++ * - Redistributions in binary form must reproduce the above copyright notice,
++ * this list of conditions and the following disclaimer in the documentation
++ * and/or other materials provided with the distribution.
++ * - Neither name of Intel Corporation nor the names of its contributors
++ * may be used to endorse or promote products derived from this software
++ * without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL INTEL OR
++ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
++ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ *
++ **************************************************************************/
++
++#ifndef INTERNAL_CONFIG_H
++#define INTERNAL_CONFIG_H 
++
++
++#include "autoconfig.h"
++
++
++/*!
++ *  \name Compile time configuration options
++ *
++ *  The Linux SDK for UPnP Devices contains some compile-time parameters 
++ *  that effect the behavior of the SDK.  All configuration options are 
++ *  located in {\tt src/inc/config.h}.
++ *
++ * @{
++ */
++
++
++/*!
++ *  \name THREAD_IDLE_TIME
++ *
++ *  The {\tt THREAD_IDLE_TIME} constant determines when a thread will be
++ *  removed from the thread pool and returned to the operating system. When 
++ *  a thread in the thread pool has been idle for this number of milliseconds
++ *  the thread will be released from the thread pool.  The default value is
++ *  5000 milliseconds (5 seconds).
++ *
++ * @{
++ */
++#define THREAD_IDLE_TIME 5000
++/* @} */
++
++
++/*!
++ * \name JOBS_PER_THREAD
++ *
++ * The {\tt JOBS_PER_THREAD} constant determines when a new thread will be
++ * allocated to the thread pool inside the  SDK. The thread pool will
++ * try and maintain this jobs/thread ratio. When the jobs/thread ratio 
++ * becomes greater than this, then a new thread (up to the max) will be 
++ * allocated to the thread pool.  The default ratio is 10 jobs/thread.
++ *
++ * @{
++ */
++#define JOBS_PER_THREAD 40
++/* @} */
++
++
++/*!
++ * \name MIN_THREADS
++ *
++ * The {\tt MIN_THREADS} constant defines the minimum number of threads the
++ * thread pool inside the SDK will create.  The thread pool will
++ * always have this number of threads. These threads are used
++ * for both callbacks into applications built on top of the SDK and also
++ * for making connections to other control points and devices. This number
++ * includes persistent threads.  The default value is two threads.
++ *
++ * @{
++ */
++#define MIN_THREADS 5 
++/* @} */
++
++
++/*!
++ * \name MAX_THREADS
++ *
++ * The {\tt MAX_THREADS} constant defines the maximum number of threads the
++ * thread pool inside the SDK will create.  These threads are used
++ * for both callbacks into applications built on top of the library and also 
++ * for making connections to other control points and devices.  It is not 
++ * recommended that this value be below 10, since the threads are 
++ * necessary for correct operation.  This value can be increased for greater
++ * performance in operation at the expense of greater memory overhead.  The 
++ * default value is 12.
++ *
++ * @{
++ */
++#define MAX_THREADS 15 
++/* @} */
++
++
++/*!
++ * \name THREAD_STACK_SIZE
++ *
++ * The {\tt THREAD_STACK_SIZE} constant defines the minimum stack size (in
++ * bytes) allocated for the stack of each thread the thread pool inside the
++ * SDK will create.  These threads are used for both callbacks into
++ * applications built on top of the library and also for making connections
++ * to other control points and devices.  This value will not be used if it
++ * is lower than ITHREAD_STACK_MIN or greater than a system-imposed limit.
++ * This value can be used to lower memory overhead in embedded systems.
++ * The default value is 0 (so it is not used by default).
++ *
++ * @{
++ */
++#define THREAD_STACK_SIZE (size_t)0
++/* @} */
++
++
++/*! \name MAX_JOBS_TOTAL
++ *
++ *  The {\tt MAX_JOBS_TOTAL} constant determines the maximum number of jobs
++ *  that can be queued. If this limit is reached further jobs will be thrown
++ *  to avoid memory exhaustion. The default value 100.
++ *  (Added by Axis.)
++ *
++ * @{
++ */
++#define MAX_JOBS_TOTAL 400
++/* @} */
++
++
++/*!
++ * \name DEFAULT_SOAP_CONTENT_LENGTH
++ *
++ * SOAP messages will read at most {\tt DEFAULT_SOAP_CONTENT_LENGTH} bytes.  
++ * This prevents devices that have a misbehaving web server to send 
++ * a large amount of data to the control point causing it to crash.  
++ * This can be adjusted dynamically with {\tt UpnpSetMaxContentLength}.
++ *
++ * @{
++ */
++#define DEFAULT_SOAP_CONTENT_LENGTH 16000
++/* @} */
++
++
++/*!
++ * \name NUM_SSDP_COPY
++ *
++ * This configuration parameter determines how many copies of each SSDP 
++ * advertisement and search packets will be sent. By default it will send two 
++ * copies of every packet.  
++ *
++ * @{
++ */
++#define NUM_SSDP_COPY  1
++/* @} */
++
++
++/*!
++ * \name SSDP_PAUSE
++ *
++ * This configuration parameter determines the pause between identical SSDP 
++ * advertisement and search packets. The pause is measured in milliseconds
++ * and defaults to 100.
++ *
++ * @{
++ */
++#define SSDP_PAUSE  100u
++/* @} */
++
++/*!
++ * \name WEB_SERVER_BUF_SIZE
++ * 
++ * This configuration parameter sets the maximum buffer size for the 
++ * webserver. The default value is 1MB.
++ *
++ * @{
++ */
++#define WEB_SERVER_BUF_SIZE  (size_t)(1024*1024)
++/* @} */
++
++/*!
++ * \name WEB_SERVER_CONTENT_LANGUAGE
++ *
++ * This configuration parameter sets the value of the Content-Language
++ * header for the webserver. Thanks to this parameter, the use can advertize
++ * the language used by the device in the description (friendlyName) and
++ * presentation steps of UPnP. The default value is empty string so no
++ * Content-Language header is added.
++ *
++ * @{
++ */
++#define WEB_SERVER_CONTENT_LANGUAGE ""
++/* @} */
++
++/*!
++ * \name AUTO_RENEW_TIME
++ *
++ * The {\tt AUTO_RENEW_TIME} is the time, in seconds, before a subscription
++ * expires that the SDK automatically resubscribes.  The default 
++ * value is 10 seconds.  Setting this value too low can result in the 
++ * subscription renewal not making it to the device in time, causing the 
++ * subscription to timeout. In order to avoid continually resubscribing
++ * the minimum subscription time is five seconds more than the auto renew
++ * time.
++ *
++ * @{
++ */
++#define AUTO_RENEW_TIME 10
++/* @} */
++
++/*!
++ * \name CP_MINIMUM_SUBSCRIPTION_TIME
++ *
++ * The {\tt CP_MINIMUM_SUBSCRIPTION_TIME} is the minimum subscription time
++ * allowed for a control point using the SDK. Subscribing for less than
++ * this time automatically results in a subscription for this amount.  The 
++ * default value is 5 seconds more than the {\tt AUTO_RENEW_TIME}, or 15
++ * seconds.
++ *
++ * @{
++ */
++#define CP_MINIMUM_SUBSCRIPTION_TIME (AUTO_RENEW_TIME + 5)
++/* @} */
++
++
++/*!
++ * \name MAX_SEARCH_TIME
++ *
++ * The {\tt MAX_SEARCH_TIME} is the maximum time
++ * allowed for an SSDP search by a control point. Searching for greater than
++ * this time automatically results in a search for this amount.  The default 
++ * value is 80 seconds.
++ *
++ * @{
++ */
++#define MAX_SEARCH_TIME 80
++/* @} */
++
++
++/*!
++ * \name MIN_SEARCH_TIME
++ *
++ * The {\tt MIN_SEARCH_TIME} is the minimumm time
++ * allowed for an SSDP search by a control point. Searching for less than
++ * this time automatically results in a search for this amount.  The default 
++ * value is 2 seconds.
++ *
++ * @{
++ */
++#define MIN_SEARCH_TIME 2
++/* @} */
++
++
++/*!
++ * \name AUTO_ADVERTISEMENT_TIME
++ *
++ * The {\tt AUTO_ADVERTISEMENT_TIME} is the time, in seconds, before an
++ * device advertisements expires before a renewed advertisement is sent.
++ * The default time is 30 seconds.
++ *
++ * @{
++ */
++#define AUTO_ADVERTISEMENT_TIME 30
++/* @} */
++
++
++/*!
++ * \name SSDP_PACKET_DISTRIBUTE
++ *
++ * The {\tt SSDP_PACKET_DISTRIBUTE} enables the SSDP packets to be sent
++ * at an interval equal to half of the expiration time of SSDP packets
++ * minus the AUTO_ADVERTISEMENT_TIME. This is used to increase
++ * the probability of SSDP packets reaching to control points.
++ * It is recommended that this flag be turned on for embedded wireless 
++ * devices.
++ *
++ * @{
++ */
++#define SSDP_PACKET_DISTRIBUTE 1
++/* @} */
++
++
++/*!
++ * \name GENA_NOTIFICATION_SENDING_TIMEOUT
++ *
++ * The {\tt GENA_NOTIFICATION_SENDING_TIMEOUT} specifies the number of seconds
++ * to wait for sending GENA notifications to the Control Point.
++ *
++ * This timeout will be used to know how many seconds GENA notification threads
++ * will wait to write on the socket to send the notification. By putting a
++ * lower value than HTTP_DEFAULT_TIMEOUT, the thread will not wait too long and
++ * will return quickly if writing is impossible. This is very useful as some
++ * Control Points disconnect from the network without unsubscribing as a result
++ * if HTTP_DEFAULT_TIMEOUT is used, all the GENA threads will be blocked to send
++ * notifications to those disconnected Control Points until the subscription
++ * expires.
++ *
++ * @{
++ */
++#define GENA_NOTIFICATION_SENDING_TIMEOUT HTTP_DEFAULT_TIMEOUT
++/* @} */
++
++
++/*!
++ * \name GENA_NOTIFICATION_ANSWERING_TIMEOUT
++ *
++ * The {\tt GENA_NOTIFICATION_ANSWERING_TIMEOUT} specifies the number of seconds
++ * to wait for receiving the answer to a GENA notification from the Control
++ * Point.
++ *
++ * This timeout will be used to know how many seconds GENA notification threads
++ * will wait on the socket to read for an answer from the CP. By putting a
++ * lower value than HTTP_DEFAULT_TIMEOUT, the thread will not wait too long and
++ * will return quickly if there is no answer from the CP. This is very useful as
++ * some Control Points disconnect from the network without unsubscribing and if
++ * HTTP_DEFAULT_TIMEOUT is used, all the GENA threads will be blocked to wait
++ * for an answer from those disconnected Control Points until the subscription
++ * expires. However, it should be noted that UDA specifies a value of 30s for
++ * waiting the CP's answer.
++ *
++ * @{
++ */
++#define GENA_NOTIFICATION_ANSWERING_TIMEOUT HTTP_DEFAULT_TIMEOUT
++/* @} */
++
++
++/*!
++ * \name Module Exclusion
++ *
++ * Depending on the requirements, the user can selectively discard any of 
++ * the major modules like SOAP, GENA, SSDP or the Internal web server. By 
++ * default everything is included inside the SDK.  By setting any of
++ * the values below to 0, that component will not be included in the final
++ * SDK.
++ * \begin{itemize}
++ *   \item {\tt EXCLUDE_SOAP[0,1]}
++ *   \item {\tt EXCLUDE_GENA[0,1]}
++ *   \item {\tt EXCLUDE_SSDP[0,1]}
++ *   \item {\tt EXCLUDE_DOM [0,1]}
++ *   \item {\tt EXCLUDE_MINISERVER[0,1]}
++ *   \item {\tt EXCLUDE_WEB_SERVER[0,1]}
++ *   \item {\tt EXCLUDE_JNI[0,1]}
++ * \end{itemize}
++ *
++ * @{
++ */
++#define EXCLUDE_SSDP 0
++#define EXCLUDE_SOAP 0
++#define EXCLUDE_GENA 0
++#define EXCLUDE_DOM  0
++#define EXCLUDE_MINISERVER 0
++#define EXCLUDE_WEB_SERVER 0
++#ifdef USE_JNI
++#	define EXCLUDE_JNI 0
++#else
++#	define EXCLUDE_JNI 1
++#endif
++/* @} */
++
++    
++/*!
++ * \name DEBUG_TARGET
++ *
++ * The user has the option to redirect the library output debug messages 
++ * to either the screen or to a log file.  All the output messages with 
++ * debug level 0 will go to {\tt upnp.err} and messages with debug level 
++ * greater than zero will be redirected to {\tt upnp.out}.
++ *
++ * @{
++ */
++#define DEBUG_TARGET		1   
++/* @} */
++
++
++/*!
++ * \name Other debugging features
++ *
++ * The UPnP SDK contains other features to aid in debugging:
++ * see <upnp/inc/upnpdebug.h>
++ */
++
++#define DEBUG_ALL		1
++#define DEBUG_SSDP		0
++#define DEBUG_SOAP		0
++#define DEBUG_GENA		0
++#define DEBUG_TPOOL		0
++#define DEBUG_MSERV		0
++#define DEBUG_DOM		0
++#define DEBUG_HTTP		0
++#define DEBUG_API		0
++
++
++/*
++ * @} Compile time configuration options
++ */
++
++
++/***************************************************************************
++ * Do not change, Internal purpose only!!!
++ ***************************************************************************/ 
++
++/*!
++ * @{
++ */
++
++
++/*
++ * Set additional defines based on requested configuration 
++ */
++
++
++/* configure --enable-client */
++#if UPNP_HAVE_CLIENT
++#	define INCLUDE_CLIENT_APIS	1
++#endif
++
++
++/* configure --enable-device */
++#if UPNP_HAVE_DEVICE
++#	define INCLUDE_DEVICE_APIS	1
++#endif
++
++
++/* configure --enable-webserver */
++#if UPNP_HAVE_WEBSERVER
++#	define INTERNAL_WEB_SERVER	1
++#endif
++
++/* configure --enable-ssdp */
++#undef EXCLUDE_SSDP
++#if UPNP_HAVE_SSDP
++#       define EXCLUDE_SSDP 0
++#else
++#       define EXCLUDE_SSDP 1
++#endif
++
++/* configure --enable-soap */
++#undef EXCLUDE_SOAP
++#if UPNP_HAVE_SOAP
++#	define EXCLUDE_SOAP 0
++#else
++#	define EXCLUDE_SOAP 1
++#endif
++
++/* configure --enable-gena */
++#undef EXCLUDE_GENA
++#if UPNP_HAVE_GENA
++#       define EXCLUDE_GENA 0
++#else
++#       define EXCLUDE_GENA 1
++#endif
++
++#undef  EXCLUDE_WEB_SERVER
++#undef  EXCLUDE_MINISERVER
++#ifdef  INTERNAL_WEB_SERVER
++#	define EXCLUDE_WEB_SERVER 0
++#	define EXCLUDE_MINISERVER 0
++#else
++#	define EXCLUDE_WEB_SERVER 1
++#	define EXCLUDE_MINISERVER 1
++#endif
++
++
++#if EXCLUDE_SSDP == 1 && EXCLUDE_GENA == 1 && EXCLUDE_SOAP == 1 && EXCLUDE_WEB_SERVER == 1
++#	undef  EXCLUDE_MINISERVER
++#	define EXCLUDE_MINISERVER 1
++#	if INTERNAL_WEB_SERVER
++#		error "conflicting settings: use configure --disable-webserver"
++#	endif
++#endif
++
++
++#if EXCLUDE_SSDP == 0 || EXCLUDE_GENA == 0 || EXCLUDE_SOAP == 0 || EXCLUDE_WEB_SERVER == 0
++#	undef  EXCLUDE_MINISERVER
++#	define EXCLUDE_MINISERVER 0
++#	if EXCLUDE_WEB_SERVER == 0 && !defined INTERNAL_WEB_SERVER
++#		error "conflicting settings : use configure --enable-webserver"
++#	endif
++#endif
++
++
++/*
++ * @}
++ */
++
++#endif /* INTERNAL_CONFIG_H */
++
+Index: libupnp-1.6.19/upnp/inc/upnp.h
+===================================================================
+--- libupnp-1.6.19.orig/upnp/inc/upnp.h
++++ libupnp-1.6.19/upnp/inc/upnp.h
+@@ -909,7 +909,10 @@ EXPORT_SPEC int UpnpInit(
+ 	const char *HostIP,
+ 	/*! Local Port to listen for incoming connections
+ 	 * \c NULL will pick an arbitrary free port. */
+-	unsigned short DestPort);
++	unsigned short DestPort,
++	/*! Additional user data to be passed to libupnp
++	 * \c Device UDN string to be passed for now */
++	void* UserData);
+ 
+ /*!
+  * \brief Initializes the Linux SDK for UPnP Devices (IPv4 or IPv6).
+@@ -1499,10 +1502,19 @@ EXPORT_SPEC int UpnpSendAdvertisementLow
+         /*! SleepPeriod as defined by UPnP Low Power. */
+         int SleepPeriod,
+         /*! RegistrationState as defined by UPnP Low Power. */
+-        int RegistrationState);
++        int RegistrationState,
++        /*! Advertisement flag, to support unicast Advertisement */
++        int AdvFlag,
++        /*! Unicast IP addr */
++        char *ipaddr);
+ 
+ /* @} Discovery */
+ 
++int UpnpGetMiniServerHealth(void);
++int UpnpResetMiniServerHealth(void);
++extern int gMiniServerHealth;
++extern int gUPnPLogEnable;
++
+ /******************************************************************************
+  ******************************************************************************
+  *                                                                            *
+Index: libupnp-1.6.19/upnp/src/api/upnpapi.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/api/upnpapi.c
++++ libupnp-1.6.19/upnp/src/api/upnpapi.c
+@@ -69,6 +69,8 @@
+ #include <signal.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <stdarg.h>
++#include <sys/syscall.h>
+ 
+ #ifdef WIN32
+ 	/* Do not include these files */
+@@ -117,6 +119,12 @@ TimerThread gTimerThread;
+ /*! Send thread pool. */
+ ThreadPool gSendThreadPool;
+ 
++/*! SSDP recv thread pool. */
++ThreadPool gSsdpRecvThreadPool;
++
++/*! Discovery response thread pool. */
++ThreadPool gDiscoveryRespThreadPool;
++
+ /*! Receive thread pool. */
+ ThreadPool gRecvThreadPool;
+ 
+@@ -180,6 +188,40 @@ int UpnpSdkDeviceregisteredV6 = 0;
+ Upnp_SID gUpnpSdkNLSuuid;
+ #endif /* UPNP_HAVE_OPTSSDP */
+ 
++/* Device UDN */
++char gDevUdn[256]={'\0'};
++
++void printme(int logLevel, const char *FmtStr, ...)
++{
++	char	buff[256];
++	char	nbuff[512];
++	char cTime[32] = {'\0',};
++	struct timeval tv;
++	struct tm *now;
++
++	va_list ArgList;
++	va_start(ArgList, FmtStr);
++
++	memset(buff, 0, sizeof(buff));
++	memset(nbuff, 0, sizeof(nbuff));
++
++	vsnprintf(buff, sizeof (buff), FmtStr, ArgList);
++	va_end(ArgList);
++
++	gettimeofday(&tv,NULL);
++	now=localtime(&tv.tv_sec);
++
++	snprintf((char*)cTime,sizeof(cTime),"[%04d-%02d-%02d][%02d:%02d:%02d.%06d]",now->tm_year+1900,now->tm_mon+1,now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, (int)tv.tv_usec);
++	strncat(nbuff, (char*)cTime, sizeof(nbuff));
++	strncat(nbuff, (char*)buff, sizeof(nbuff));
++
++	if((logLevel == LOG_DEBUG) && (gUPnPLogEnable == 1))
++		syslog(logLevel, "LIBUPNP[%d]:%s", (int)syscall(SYS_gettid), nbuff);
++	else if((logLevel == LOG_INFO) && (gUPnPLogEnable == 2))
++		syslog(logLevel, "LIBUPNP[%d]:%s", (int)syscall(SYS_gettid), nbuff);
++	else if(gUPnPLogEnable == 3)
++		syslog(logLevel, "LIBUPNP[%d]:%s", (int)syscall(SYS_gettid), nbuff);
++}
+ 
+ /*!
+  * \brief (Windows Only) Initializes the Windows Winsock library.
+@@ -276,16 +318,36 @@ static int UpnpInitThreadPools(void)
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
++    	else
++		printme(LOG_DEBUG, "gSendThreadPool threadpool [%p] initialized successfully", &gSendThreadPool);
+ 
+ 	if (ThreadPoolInit(&gRecvThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
++    	else
++		printme(LOG_DEBUG, "gRecvThreadPool threadpool [%p] initialized successfully", &gRecvThreadPool);
+ 
++	if (ThreadPoolInit(&gSsdpRecvThreadPool, &attr) != UPNP_E_SUCCESS) {
++		ret = UPNP_E_INIT_FAILED;
++		goto exit_function;
++	}
++    	else
++		printme(LOG_DEBUG, "gSsdpRecvThreadPool threadpool [%p] initialized successfully", &gSsdpRecvThreadPool);
++	
++	if (ThreadPoolInit(&gDiscoveryRespThreadPool, &attr) != UPNP_E_SUCCESS) {
++		ret = UPNP_E_INIT_FAILED;
++		goto exit_function;
++	}
++    	else
++		printme(LOG_DEBUG, "gDiscoveryRespThreadPool threadpool [%p] initialized successfully", &gDiscoveryRespThreadPool);
++	
+ 	if (ThreadPoolInit(&gMiniServerThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
++    	else
++		printme(LOG_DEBUG, "gMiniServerThreadPool threadpool [%p] initialized successfully", &gMiniServerThreadPool);
+ 
+ exit_function:
+ 	if (ret != UPNP_E_SUCCESS) {
+@@ -325,6 +387,7 @@ static int UpnpInitPreamble(void)
+ 	srand((unsigned int)time(NULL));
+ 
+ 	/* Initialize debug output. */
++	//openlog(NULL, LOG_CONS|LOG_NDELAY|LOG_PERROR, LOG_USER);
+ 	retVal = UpnpInitLog();
+ 	if (retVal != UPNP_E_SUCCESS) {
+ 		/* UpnpInitLog does not return a valid UPNP_E_*. */
+@@ -398,8 +461,8 @@ static int UpnpInitStartServers(
+ 	int retVal = 0;
+ #endif
+ 
+-	UpnpPrintf( UPNP_INFO, API, __FILE__, __LINE__,
+-		"Entering UpnpInitStartServers\n" );
++		UpnpPrintf( UPNP_INFO, API, __FILE__, __LINE__,
++			"Entering UpnpInitStartServers\n" );
+ 
+ #if EXCLUDE_MINISERVER == 0
+ 	LOCAL_PORT_V4 = DestPort;
+@@ -429,7 +492,7 @@ static int UpnpInitStartServers(
+ }
+ 
+ 
+-int UpnpInit(const char *HostIP, unsigned short DestPort)
++int UpnpInit(const char *HostIP, unsigned short DestPort, void *UserData)
+ {
+ 	int retVal = UPNP_E_SUCCESS;
+ 
+@@ -444,6 +507,14 @@ int UpnpInit(const char *HostIP, unsigne
+ 		goto exit_function;
+ 	}
+ 
++	/* Read the list of supported WeMo devices */
++	if(UPNP_E_SUCCESS != buildDeviceList())
++	{
++		retVal = UPNP_E_INIT;
++		goto exit_function;
++	}
++	
++
+ 	/* Perform initialization preamble. */
+ 	retVal = UpnpInitPreamble();
+ 	if (retVal != UPNP_E_SUCCESS) {
+@@ -479,6 +550,21 @@ int UpnpInit(const char *HostIP, unsigne
+ 		"Host Ip: %s Host Port: %d\n", gIF_IPV4,
+ 		(int)LOCAL_PORT_V4);
+ 
++	if(UserData && strlen((char *)(UserData)))
++	{
++		/* save the device information for later use */
++		strncpy(gDevUdn, (char *)UserData, sizeof(gDevUdn)-1);
++		printme(LOG_DEBUG, "********* Device UDN passed: %s **********", gDevUdn);
++	}
++	else
++	{
++		printme(LOG_DEBUG, "********* Invalid UDN passed **********");
++		retVal = UPNP_E_INIT_FAILED;
++		UpnpSdkInit = 0;
++		goto exit_function;
++	}
++
++
+ exit_function:
+ 	ithread_mutex_unlock(&gSDKInitMutex);
+ 
+@@ -606,6 +692,10 @@ int UpnpFinish(void)
+ 
+ 	if (UpnpSdkInit != 1)
+ 		return UPNP_E_FINISH;
++	
++	freeDeviceList();
++
++
+ 	UpnpPrintf(UPNP_INFO, API, __FILE__, __LINE__,
+ 		   "Inside UpnpFinish: UpnpSdkInit is %d\n", UpnpSdkInit);
+ 	if (UpnpSdkInit == 1)
+@@ -658,6 +748,9 @@ int UpnpFinish(void)
+ 	ThreadPoolShutdown(&gSendThreadPool);
+ 	PrintThreadPoolStats(&gRecvThreadPool, __FILE__, __LINE__,
+ 		"Recv Thread Pool");
++	ThreadPoolShutdown(&gDiscoveryRespThreadPool);
++	ThreadPoolShutdown(&gSsdpRecvThreadPool);
++
+ #ifdef INCLUDE_CLIENT_APIS
+ 	ithread_mutex_destroy(&GlobalClientSubscribeMutex);
+ #endif
+@@ -669,6 +762,7 @@ int UpnpFinish(void)
+ 	UpnpPrintf(UPNP_INFO, API, __FILE__, __LINE__,
+ 		"Exiting UpnpFinish: UpnpSdkInit is :%d:\n", UpnpSdkInit);
+ 	UpnpCloseLog();
++	//closelog();
+ 	/* Clean-up ithread library resources */
+ 	ithread_cleanup_library();
+ 
+@@ -1298,7 +1392,7 @@ int UpnpUnRegisterRootDeviceLowPower(Upn
+ #if EXCLUDE_SSDP == 0
+ 	retVal = AdvertiseAndReply(-1, Hnd, (enum SsdpSearchType)0,
+ 		(struct sockaddr *)NULL, (char *)NULL, (char *)NULL,
+-		(char *)NULL, HInfo->MaxAge);
++		(char *)NULL, HInfo->MaxAge, NULL);
+ #endif
+ 
+ 	HandleLock();
+@@ -1590,6 +1684,7 @@ static int GetDescDocumentAndURL(
+ 			}
+ 			if (strlen(temp_str) > (LINE_SIZE - 1)) {
+ 				ixmlDocument_free(*xmlDoc);
++				free(temp_str);
+ 				return UPNP_E_URL_TOO_BIG;
+ 			}
+ 			strncpy(aliasStr, temp_str, sizeof(aliasStr) - 1);
+@@ -1674,11 +1769,11 @@ int UpnpSendAdvertisement(UpnpDevice_Han
+ {
+     UpnpPrintf(UPNP_ALL, API, __FILE__, __LINE__,
+         "Inside UpnpSendAdvertisement \n");
+-    return UpnpSendAdvertisementLowPower (Hnd, Exp, -1, -1, -1);
++    return UpnpSendAdvertisementLowPower (Hnd, Exp, -1, -1, -1, 1, NULL);
+ }
+ 
+ int UpnpSendAdvertisementLowPower(UpnpDevice_Handle Hnd, int Exp,
+-    int PowerState, int SleepPeriod, int RegistrationState)
++    int PowerState, int SleepPeriod, int RegistrationState, int AdvFlag, char *UnicastIP)
+ {
+     struct Handle_Info *SInfo = NULL;
+     int retVal = 0,
+@@ -1712,9 +1807,9 @@ int UpnpSendAdvertisementLowPower(UpnpDe
+     SInfo->SleepPeriod = SleepPeriod;
+     SInfo->RegistrationState = RegistrationState;
+     HandleUnlock();
+-    retVal = AdvertiseAndReply( 1, Hnd, ( enum SsdpSearchType )0,
++    retVal = AdvertiseAndReply( AdvFlag, Hnd, ( enum SsdpSearchType )0,
+                                 ( struct sockaddr * )NULL, ( char * )NULL,
+-                                ( char * )NULL, ( char * )NULL, Exp );
++                                ( char * )NULL, ( char * )NULL, Exp, UnicastIP);
+ 
+     if( retVal != UPNP_E_SUCCESS )
+         return retVal;
+@@ -3695,6 +3790,7 @@ void UpnpThreadDistribution(struct UpnpN
+ 	}
+ #endif /* EXCLUDE_SOAP == 0 */
+ 	default:
++		free(Param);
+ 		break;
+ 	}
+ 
+Index: libupnp-1.6.19/upnp/src/gena/gena_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/gena/gena_device.c
++++ libupnp-1.6.19/upnp/src/gena/gena_device.c
+@@ -49,11 +49,14 @@
+ #include "unixutil.h"
+ #include "upnpapi.h"
+ #include "uuid.h"
++#include <sys/syscall.h>
+ 
+ #ifdef WIN32
+ 	#define snprintf _snprintf
+ #endif
+ 
++#define DBG_printf //printf
++
+ /*!
+  * \brief Unregisters a device.
+  *
+@@ -145,15 +148,15 @@ static void free_notify_struct(
+ 	/*! [in] Notify structure. */
+ 	notify_thread_struct *input)
+ {
+-	(*input->reference_count)--;
+-	if (*input->reference_count == 0) {
+-		free(input->headers);
+-		ixmlFreeDOMString(input->propertySet);
+-		free(input->servId);
+-		free(input->UDN);
+-		free(input->reference_count);
++	if(input) (*input->reference_count)--;
++	if (input && *input->reference_count == 0) {
++		if(input->headers) free(input->headers);
++		if(input->propertySet) ixmlFreeDOMString(input->propertySet);
++		if(input->servId) free(input->servId);
++		if(input->UDN) free(input->UDN);
++		if(input->reference_count) free(input->reference_count);
+ 	}
+-	free(input);
++	if(input) free(input);
+ }
+ 
+ /*!
+@@ -163,6 +166,7 @@ static void free_notify_struct(
+  *
+  * \note called by genaNotify
+  */
++#define MAX_HTTP_CONNECT_TIMES 3
+ static UPNP_INLINE int notify_send_and_recv(
+ 	/*! [in] subscription callback URL (URL of the control point). */
+ 	uri_type *destination_url,
+@@ -181,6 +185,7 @@ static UPNP_INLINE int notify_send_and_r
+ 	int timeout;
+ 	SOCKINFO info;
+ 	const char *CRLF = "\r\n";
++	int counter = 0x00;
+ 
+ 	/* connect */
+ 	UpnpPrintf(UPNP_ALL, GENA, __FILE__, __LINE__,
+@@ -188,10 +193,22 @@ static UPNP_INLINE int notify_send_and_r
+ 		(int)destination_url->hostport.text.size,
+ 		destination_url->hostport.text.buff);
+ 
+-	conn_fd = http_Connect(destination_url, &url);
++	//- try here
++	do 
++	{
++		conn_fd = http_Connect( destination_url, &url);
++		counter++;
++	}while ((conn_fd < 0) && (counter < MAX_HTTP_CONNECT_TIMES));
++
++
+ 	if (conn_fd < 0)
++	{
++		//- connection time out three times, only one time deal with each session
++		printme(LOG_DEBUG, "push notification gena connection failure");
+ 		/* return UPNP error */
+ 		return UPNP_E_SOCKET_CONNECT;
++	}
++
+ 	ret_code = sock_init(&info, conn_fd);
+ 	if (ret_code) {
+ 		sock_destroy(&info, SD_BOTH);
+@@ -253,7 +270,9 @@ static int genaNotify(
+ 	/*! [in] The evented XML. */
+ 	char *propertySet,
+ 	/*! [in] subscription to be Notified, assumes this is valid for life of function. */
+-	subscription *sub)
++	subscription *sub,
++	/*! [out] IP address to be notified */
++	char *IP)
+ {
+ 	size_t i;
+ 	membuffer mid_msg;
+@@ -276,19 +295,32 @@ static int genaNotify(
+ 		return_code = notify_send_and_recv(
+ 			url, &mid_msg, propertySet, &response);
+ 		if (return_code == UPNP_E_SUCCESS)
++		{
++			printme(LOG_DEBUG, "Sent to IP: %.*s , sid: %s, key: %d", url->hostport.text.size, (url->hostport.text.buff), sub->sid, sub->ToSendEventKey);
++			sub->failCnt=0;
+ 			break;
+ 	}
++		else
++		{
++			printme(LOG_DEBUG, "Sending to IP: %.*s failed, return_code: %d, SID: %s, key: %d, fail_cnt: %d", 
++				url->hostport.text.size, (url->hostport.text.buff), return_code, sub->sid, sub->ToSendEventKey, sub->failCnt);
++			sub->failCnt++;
++			strncpy(IP, url->hostport.text.buff, url->hostport.text.size);
++		}
++	}
+ 	membuffer_destroy(&mid_msg);
+ 	if (return_code == UPNP_E_SUCCESS) {
+ 		if (response.msg.status_code == HTTP_OK)
+ 			return_code = GENA_SUCCESS;
+ 		else {
+-			if (response.msg.status_code == HTTP_PRECONDITION_FAILED)
++			if (response.msg.status_code == HTTP_PRECONDITION_FAILED) {
+ 				/*Invalid SID gets removed */
+ 				return_code = GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB;
+-			else
++				strncpy(IP, url->hostport.text.buff, url->hostport.text.size);
++			 } else {
+ 				return_code = GENA_E_NOTIFY_UNACCEPTED;
+ 		}
++		}
+ 		httpmsg_destroy(&response.msg);
+ 	}
+ 
+@@ -304,6 +336,37 @@ static int genaNotify(
+  *
+  * \note calls the genaNotify to do the actual work.
+  */
++
++#define MAX_NOTIFY_FAIL_CNT 3
++static pthread_attr_t attr;
++static pthread_t thread = -1;
++
++void* advThread(void *arg)
++{
++	char ipaddr[20];
++	int dev_handle;
++	char *ptr;
++
++	printme(LOG_DEBUG, "In advThread");
++
++	memset(ipaddr, 0, sizeof(ipaddr));
++	memcpy(&dev_handle, (char *)arg, sizeof(int));
++	//strncpy(ipaddr, (char *)arg + sizeof(int), 20);
++	ptr = (char *)arg + sizeof(int);
++	memcpy(ipaddr, ptr, strlen(ptr)+1);
++
++	free(arg);
++
++	sleep(1);
++	printme(LOG_DEBUG, "sending out UPnP advertisement, dev_handle=%d, ipaddr: %s", dev_handle, ipaddr);
++	UpnpSendAdvertisementLowPower(dev_handle, 86400, -1, -1, -1, 2, ipaddr);
++	printme(LOG_DEBUG, "sent out UPnP advertisement, dev_handle=%d", dev_handle);
++	fflush(stdout);
++	thread=-1;
++}
++
++
++
+ static void genaNotifyThread(
+ 	/*! [in] notify thread structure containing all the headers and property set info. */
+ 	void *input)
+@@ -315,6 +378,9 @@ static void genaNotifyThread(
+ 	int return_code;
+ 	struct Handle_Info *handle_info;
+ 	ThreadPoolJob job;
++	int retVal = -1;
++	char hostaddr[30];
++	char *ipaddr = NULL;
+ 
+ 	memset(&job, 0, sizeof(job));
+ 
+@@ -334,22 +400,36 @@ static void genaNotifyThread(
+ 
+ 	if (!(service = FindServiceId(&handle_info->ServiceTable, in->servId, in->UDN)) ||
+ 	    !service->active ||
+-	    !(sub = GetSubscriptionSID(in->sid, service)) ||
+-	    copy_subscription(sub, &sub_copy) != HTTP_SUCCESS) {
++	    !(sub = GetSubscriptionSID(in->sid, service)))
++	{
++		printme(LOG_DEBUG, "No service id or subscription entry found");
++		free_notify_struct(in);
++		HandleUnlock();
++		return;
++	}
++	else
++	{
++	    sub->ToSendEventKey = in->eventKey;
++	    if(copy_subscription(sub, &sub_copy) != HTTP_SUCCESS) {
++		printme(LOG_DEBUG, "sub copy failed");
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+ 	}
+-#ifdef UPNP_ENABLE_NOTIFICATION_REORDERING
++		//printme(LOG_DEBUG, "Notifying udn: %s for sid: %s",in->UDN, in->sid);
++	}
++//#ifdef UPNP_ENABLE_NOTIFICATION_REORDERING
++#if 0
+ 	/*If the event is out of order push it back to the job queue */
+ 	if (in->eventKey != sub->ToSendEventKey) {
++		printme(LOG_DEBUG, "Deferring eventKey: %d, ToSend: %d", in->eventKey,sub->ToSendEventKey);
+ 		TPJobInit(&job, (start_routine) genaNotifyThread, input);
+ 		TPJobSetFreeFunction(&job, (free_function) free_notify_struct);
+ 		TPJobSetPriority(&job, MED_PRIORITY);
+ 		/* Sleep a little before creating another thread otherwise if there is
+ 		 * a lot of notifications to send, the device will take 100% of the CPU
+ 		 * to create threads and push them back to the job queue. */
+-		imillisleep(1);
++		imillisleep(100);
+ 		ThreadPoolAdd(&gSendThreadPool, &job, NULL);
+ 		freeSubscription(&sub_copy);
+ 		HandleUnlock();
+@@ -360,10 +440,20 @@ static void genaNotifyThread(
+ 	HandleUnlock();
+ 
+ 	/* send the notify */
+-	return_code = genaNotify(in->headers, in->propertySet, &sub_copy);
++	memset(hostaddr, 0, sizeof(hostaddr));
++	return_code = genaNotify(in->headers, in->propertySet, &sub_copy, hostaddr);
++	if(sub_copy.failCnt || (return_code == GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB))
++	{
++		ipaddr = strtok(hostaddr, ":");
++		printme(LOG_DEBUG, "Failed %d to send SID: %s notification to: %s", sub_copy.failCnt, in->sid, ipaddr);
++	}
++	sub->failCnt = sub_copy.failCnt;
++	//DBG_printf("\n[%d] Updated failcnt from copy (%p) %d: %d\n", syscall(SYS_gettid), sub, sub->failCnt, sub_copy.failCnt);
++
+ 	freeSubscription(&sub_copy);
+ 	HandleLock();
+ 	if (GetHandleInfo(in->device_handle, &handle_info) != HND_DEVICE) {
++		printme(LOG_DEBUG, "free_notify_struct");
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+@@ -372,16 +462,51 @@ static void genaNotifyThread(
+ 	if (!(service = FindServiceId(&handle_info->ServiceTable, in->servId, in->UDN)) ||
+ 	    !service->active ||
+ 	    !(sub = GetSubscriptionSID(in->sid, service))) {
++		printme(LOG_DEBUG, "sid: %s", in->sid);
+ 		free_notify_struct(in);
+ 		HandleUnlock();
+ 		return;
+ 	}
+-	sub->ToSendEventKey++;
++	//sub->ToSendEventKey++;
+ 	if (sub->ToSendEventKey < 0)
+ 		/* wrap to 1 for overflow */
+ 		sub->ToSendEventKey = 1;
+-	if (return_code == GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB)
++
++	if (return_code == GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB || sub->failCnt >= MAX_NOTIFY_FAIL_CNT)
++	{
++		char *data = (char *)malloc(sizeof(int) + 20);
++
++		//- Any failure, it will be removed since it is http request
++		printme(LOG_DEBUG, "push notification failure, service id: %s to be removed %d, failCnt: %d", in->sid,return_code, sub->failCnt);
+ 		RemoveSubscriptionSID(in->sid, service);
++
++		/* Send UPnP advertisement */
++		if((data != NULL) && (thread == -1) && ipaddr)
++		{
++			printme(LOG_DEBUG, "sizeof int: %d, ipaddr: %s, len: %d", sizeof(int), ipaddr, strlen(ipaddr));
++
++			memset(data, 0, sizeof(int) + 20);
++			memcpy(data, &(in->device_handle), sizeof(int));
++
++			/* fill in the IP address */
++			memcpy(data+sizeof(int), ipaddr, strlen(ipaddr)+1);
++			
++			//printme(LOG_DEBUG, "after copy ipaddr: %s", data+sizeof(int));
++
++			pthread_attr_init(&attr);
++			pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_DETACHED);
++			retVal = pthread_create(&thread,&attr,
++					(void*)&advThread, (void *)data);
++
++			if(retVal < 0)
++				printme(LOG_DEBUG, "Adv Thread not created");
++			else
++				printme(LOG_DEBUG, "Adv Thread created");
++		}
++		else if(data != NULL)
++			free(data);
++	}
++
+ 	free_notify_struct(in);
+ 
+ 	HandleUnlock();
+@@ -454,6 +579,7 @@ int genaInitNotify(
+ {
+ 	int ret = GENA_SUCCESS;
+ 	int line = 0;
++	int jobid=0;
+ 
+ 	int *reference_count = NULL;
+ 	char *UDN_copy = NULL;
+@@ -572,13 +698,15 @@ int genaInitNotify(
+ 		TPJobSetFreeFunction(&job, (free_routine)free_notify_struct);
+ 		TPJobSetPriority(&job, MED_PRIORITY);
+ 
+-		ret = ThreadPoolAdd(&gSendThreadPool, &job, NULL);
++		ret = ThreadPoolAdd(&gSendThreadPool, &job, &jobid);
+ 		if (ret != 0) {
+ 			if (ret == EOUTOFMEM) {
+ 				line = __LINE__;
+ 				ret = UPNP_E_OUTOF_MEMORY;
+ 			}
+ 		} else {
++			DBG_printf("\n[%d] Init Adding job [%d] to notify for sid: %s, key: %d\n", syscall(SYS_gettid), jobid, thread_struct->sid, thread_struct->eventKey);
++
+ 			line = __LINE__;
+ 			ret = GENA_SUCCESS;
+ 		}
+@@ -930,6 +1058,7 @@ int genaNotifyAll(
+ 	service_info *service = NULL;
+ 	struct Handle_Info *handle_info;
+ 	ThreadPoolJob job;
++	int jobid=0;
+ 
+ 	memset(&job, 0, sizeof(job));
+ 
+@@ -1013,11 +1142,12 @@ int genaNotifyAll(
+ 					finger->eventKey = 1;
+ 				}
+ 
++				//DBG_printf("\n[%d] Adding job to notify for sid: %s, key: %d\n", syscall(SYS_gettid), thread_struct->sid, thread_struct->eventKey);
+ 
+ 				TPJobInit(&job, (start_routine)genaNotifyThread, thread_struct);
+ 				TPJobSetFreeFunction(&job, (free_routine)free_notify_struct);
+ 				TPJobSetPriority(&job, MED_PRIORITY);
+-				ret = ThreadPoolAdd(&gSendThreadPool, &job, NULL);
++				ret = ThreadPoolAdd(&gSendThreadPool, &job, &jobid);
+ 				if (ret != 0) {
+ 					line = __LINE__;
+ 					if (ret == EOUTOFMEM) {
+@@ -1026,6 +1156,7 @@ int genaNotifyAll(
+ 					}
+ 					break;
+ 				}
++				DBG_printf("\n[%d] Adding job [%d] to notify for sid: %s, key: %d\n", syscall(SYS_gettid), jobid, thread_struct->sid, thread_struct->eventKey);
+ 
+ 				finger = GetNextSubscription(service, finger);
+ 			}
+@@ -1037,11 +1168,11 @@ int genaNotifyAll(
+ 
+ ExitFunction:
+ 	if (ret != GENA_SUCCESS || *reference_count == 0) {
+-		free(headers);
+-		ixmlFreeDOMString(propertySet);
+-		free(servId_copy);
+-		free(UDN_copy);
+-		free(reference_count);
++		if(headers) free(headers);
++		if(propertySet) ixmlFreeDOMString(propertySet);
++		if(servId_copy) free(servId_copy);
++		if(UDN_copy) free(UDN_copy);
++		if(reference_count) free(reference_count);
+ 	}
+ 
+ 	HandleUnlock();
+@@ -1203,6 +1334,44 @@ static int create_url_list(
+ }
+ 
+ 
++int check_existing_entry(char *url_entry, service_info *service, subscription **sub)
++{
++	/* url_entry should be of the form IPAddress:port */
++	char *ipaddr;
++	subscription *subscriptionList = service->subscriptionList;
++	int return_code;
++	char url_entry_copy[100] = {'\0'};
++
++	strncpy(url_entry_copy, url_entry, 100-1);
++	ipaddr = strtok(url_entry_copy, ":");
++	printme(LOG_DEBUG, " from IP : %s", ipaddr);
++	fflush(stdout);
++
++	//printme(LOG_DEBUG, "url_entry: %s, ipaddr: %s", url_entry, ipaddr);
++
++	while(subscriptionList != NULL)
++	{
++		if(strstr(subscriptionList->DeliveryURLs.parsedURLs[0].hostport.text.buff, ipaddr))
++		{
++			//DBG_printf("Subscription entry found for IP: %s, SID: %s", ipaddr, subscriptionList->sid);
++			*sub = subscriptionList;
++			return_code = UPNP_E_ALREADY_REGISTERED;
++			break;
++		}
++		else
++		{
++			//DBG_printf("\nUn-matched subscription entry: %s, SID: %s", subscriptionList->DeliveryURLs.parsedURLs[0].hostport.text.buff, subscriptionList->sid);
++			subscriptionList = subscriptionList->next;				
++		}
++	}
++
++	if(!subscriptionList)
++		return_code = UPNP_E_SUCCESS;
++
++	return return_code;	
++}
++
++
+ void gena_process_subscription_request(
+ 	SOCKINFO *info,
+ 	http_message_t *request)
+@@ -1213,6 +1382,7 @@ void gena_process_subscription_request(
+ 	int time_out = 1801;
+ 	service_info *service;
+ 	subscription *sub;
++	subscription *sub_entry;
+ 	uuid_upnp uid;
+ 	struct Handle_Info *handle_info;
+ 	void *cookie;
+@@ -1223,6 +1393,8 @@ void gena_process_subscription_request(
+ 	memptr callback_hdr;
+ 	memptr timeout_hdr;
+ 	int rc = 0;
++	URL_list DeliveryURLs;
++	uri_type *url;
+ 
+ 	memset(&request_struct, 0, sizeof(request_struct));
+ 
+@@ -1258,6 +1430,8 @@ void gena_process_subscription_request(
+ 		"SubscriptionRequest for event URL path: %s\n",
+ 		event_url_path);
+ 
++	printme(LOG_DEBUG, "SubscriptionRequest for event URL path: %s",event_url_path);
++
+ 	HandleLock();
+ 
+ 	/* CURRENTLY, ONLY ONE DEVICE */
+@@ -1290,41 +1464,38 @@ void gena_process_subscription_request(
+ 		HandleUnlock();
+ 		goto exit_function;
+ 	}
+-	/* generate new subscription */
+-	sub = (subscription *)malloc(sizeof (subscription));
+-	if (sub == NULL) {
+-		error_respond(info, HTTP_INTERNAL_SERVER_ERROR, request);
+-		HandleUnlock();
+-		goto exit_function;
+-	}
+-	sub->eventKey = 0;
+-	sub->ToSendEventKey = 0;
+-	sub->active = 0;
+-	sub->next = NULL;
+-	sub->DeliveryURLs.size = 0;
+-	sub->DeliveryURLs.URLs = NULL;
+-	sub->DeliveryURLs.parsedURLs = NULL;
+ 
+ 	/* check for valid callbacks */
+ 	if (httpmsg_find_hdr( request, HDR_CALLBACK, &callback_hdr) == NULL) {
+ 		error_respond(info, HTTP_PRECONDITION_FAILED, request);
+-		freeSubscriptionList(sub);
++		//freeSubscriptionList(sub);
+ 		HandleUnlock();
+ 		goto exit_function;
+ 	}
+-	return_code = create_url_list(&callback_hdr, &sub->DeliveryURLs);
++	return_code = create_url_list(&callback_hdr, &DeliveryURLs);
+ 	if (return_code == 0) {
+ 		error_respond(info, HTTP_PRECONDITION_FAILED, request);
+-		freeSubscriptionList(sub);
++		//freeSubscriptionList(sub);
+ 		HandleUnlock();
+ 		goto exit_function;
+ 	}
+ 	if (return_code == UPNP_E_OUTOF_MEMORY) {
+ 		error_respond(info, HTTP_INTERNAL_SERVER_ERROR, request);
+-		freeSubscriptionList(sub);
++		//freeSubscriptionList(sub);
+ 		HandleUnlock();
+ 		goto exit_function;
+ 	}
++
++	/* If we have found a valid delivery url, parse it to find IP address and see if its entry exists */
++	url = &DeliveryURLs.parsedURLs[0];
++	return_code = check_existing_entry(url->hostport.text.buff, service, &sub_entry);
++	if(return_code == UPNP_E_ALREADY_REGISTERED)
++	{
++		printme(LOG_DEBUG, "Found existing subscription: %s, removing it!!!", sub_entry->sid);
++        	RemoveSubscriptionSID( sub_entry->sid, service );
++	}
++
++	
+ 	/* set the timeout */
+ 	if (httpmsg_find_hdr(request, HDR_TIMEOUT, &timeout_hdr) != NULL) {
+ 		if (matchstr(timeout_hdr.buf, timeout_hdr.length,
+@@ -1345,6 +1516,23 @@ void gena_process_subscription_request(
+ 			time_out = handle_info->MaxSubscriptionTimeOut;
+ 		}
+ 	}
++
++	/* generate new subscription */
++	sub = (subscription *)malloc(sizeof (subscription));
++	if (sub == NULL) {
++		error_respond(info, HTTP_INTERNAL_SERVER_ERROR, request);
++		HandleUnlock();
++		goto exit_function;
++	}
++	sub->eventKey = 0;
++	sub->ToSendEventKey = 0;
++	sub->active = 0;
++	sub->failCnt = 0;
++	sub->next = NULL;
++	sub->DeliveryURLs.size = 0;
++	sub->DeliveryURLs.URLs = NULL;
++	sub->DeliveryURLs.parsedURLs = NULL;
++
+ 	if (time_out >= 0) {
+ 		sub->expireTime = time(NULL) + time_out;
+ 	} else {
+@@ -1352,24 +1540,33 @@ void gena_process_subscription_request(
+ 		sub->expireTime = 0;
+ 	}
+ 
++	/* copy delivery URL list */
++	memcpy(&sub->DeliveryURLs, &DeliveryURLs, sizeof(URL_list));
++
+ 	/* generate SID */
+ 	uuid_create(&uid);
+ 	uuid_unpack(&uid, temp_sid);
+ 	rc = snprintf(sub->sid, sizeof(sub->sid), "uuid:%s", temp_sid);
+ 
++	/* add to subscription list */
++	sub->next = service->subscriptionList;
++	service->subscriptionList = sub;
++	service->TotalSubscriptions++;
++	
++	printme(LOG_DEBUG, "Creating new subscription: %s!!!", sub->sid);
++
+ 	/* respond OK */
+ 	if (rc < 0 || (unsigned int) rc >= sizeof(sub->sid) ||
+ 		(respond_ok(info, time_out,
+ 		sub, request) != UPNP_E_SUCCESS)) {
++		printme(LOG_DEBUG, "Sending response OK failed for SID: %s", sub->sid);
+ 		freeSubscriptionList(sub);
+ 		HandleUnlock();
+ 		goto exit_function;
+ 	}
+-	/* add to subscription list */
+-	sub->next = service->subscriptionList;
+-	service->subscriptionList = sub;
+-	service->TotalSubscriptions++;
+ 
++	//if(return_code != UPNP_E_ALREADY_REGISTERED)
++	{
+ 	/* finally generate callback for init table dump */
+ 	request_struct.ServiceId = service->serviceId;
+ 	request_struct.UDN = service->UDN;
+@@ -1386,7 +1583,7 @@ void gena_process_subscription_request(
+ 	/* in the future should find a way of mainting that the handle */
+ 	/* is not unregistered in the middle of a callback */
+ 	callback_fun(UPNP_EVENT_SUBSCRIPTION_REQUEST, &request_struct, cookie);
+-
++	}
+ exit_function:
+ 	return;
+ }
+@@ -1461,6 +1658,7 @@ void gena_process_subscription_renewal_r
+     if( handle_info->MaxSubscriptions != -1 &&
+             service->TotalSubscriptions > handle_info->MaxSubscriptions ) {
+         error_respond( info, HTTP_INTERNAL_SERVER_ERROR, request );
++    	//printme(LOG_DEBUG, "Removing subscription sid: %s", sub->sid);
+         RemoveSubscriptionSID( sub->sid, service );
+         HandleUnlock();
+         return;
+@@ -1498,6 +1696,7 @@ void gena_process_subscription_renewal_r
+     }
+ 
+     if( respond_ok( info, time_out, sub, request ) != UPNP_E_SUCCESS ) {
++    	printme(LOG_DEBUG, "%s: Removing subscription sid: %s", __func__, sub->sid);
+         RemoveSubscriptionSID( sub->sid, service );
+     }
+ 
+@@ -1532,6 +1731,8 @@ void gena_process_unsubscribe_request(
+     memcpy( sid, temp_hdr.buf, temp_hdr.length );
+     sid[temp_hdr.length] = '\0';
+ 
++    printme(LOG_DEBUG, "Unsubscribe request for SID: %s", sid);
++
+     /* lookup service by eventURL */
+     membuffer_init( &event_url_path );
+     if( membuffer_append( &event_url_path, request->uri.pathquery.buff,
+@@ -1563,6 +1764,7 @@ void gena_process_unsubscribe_request(
+         return;
+     }
+ 
++    //printme(LOG_DEBUG, "Removing subscription sid: %s", sid);
+     RemoveSubscriptionSID(sid, service);
+     error_respond(info, HTTP_OK, request);    /* success */
+ 
+Index: libupnp-1.6.19/upnp/src/genlib/miniserver/miniserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/miniserver/miniserver.c
++++ libupnp-1.6.19/upnp/src/genlib/miniserver/miniserver.c
+@@ -57,6 +57,7 @@
+ #include "unixutil.h" /* for socklen_t, EAFNOSUPPORT */
+ #include "upnpapi.h"
+ #include "upnputil.h"
++#include "upnp.h"
+ 
+ #include <assert.h>
+ #include <errno.h>
+@@ -64,6 +65,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/types.h>
++#include <sys/syscall.h>
+ 
+ /*! . */
+ #define APPLICATION_LISTENING_PORT 49152
+@@ -96,6 +98,7 @@ static MiniServerState gMServState = MSE
+ static MiniServerCallback gGetCallback = NULL;
+ static MiniServerCallback gSoapCallback = NULL;
+ static MiniServerCallback gGenaCallback = NULL;
++int gMiniServerHealth = 0;
+ 
+ void SetHTTPGetCallback(MiniServerCallback callback)
+ {
+@@ -125,6 +128,10 @@ static int dispatch_request(
+ 	/*! [in] HTTP parser object. */
+ 	http_parser_t *hparser)
+ {
++	struct timeval callbackStartTime;
++	struct timeval callbackEndTime;
++	long callbackExecutiontime = 0;
++
+ 	MiniServerCallback callback;
+ 
+ 	switch (hparser->msg.method) {
+@@ -154,8 +161,15 @@ static int dispatch_request(
+ 	if (callback == NULL) {
+ 		return HTTP_INTERNAL_SERVER_ERROR;
+ 	}
++
++	gettimeofday(&callbackStartTime, NULL);
++
+ 	callback(hparser, &hparser->msg, info);
+ 
++	gettimeofday(&callbackEndTime, NULL);
++	callbackExecutiontime = DiffMillis(&callbackEndTime, &callbackStartTime);
++	printme(LOG_DEBUG, "callback execution time:%ld", callbackExecutiontime);
++
+ 	return 0;
+ }
+ 
+@@ -279,6 +293,7 @@ static UPNP_INLINE void schedule_request
+ 	TPJobInit(&job, (start_routine)handle_request, (void *)request);
+ 	TPJobSetFreeFunction(&job, free_handle_request_arg);
+ 	TPJobSetPriority(&job, MED_PRIORITY);
++
+ 	if (ThreadPoolAdd(&gMiniServerThreadPool, &job, NULL) != 0) {
+ 		UpnpPrintf(UPNP_INFO, MSERV, __FILE__, __LINE__,
+ 			"mserv %d: cannot schedule request\n", connfd);
+@@ -306,6 +321,8 @@ static void web_server_accept(SOCKET lso
+ 
+ 	if (lsock != INVALID_SOCKET && FD_ISSET(lsock, set)) {
+ 		clientLen = sizeof(clientAddr);
++
++		printme(LOG_DEBUG, "before accept");
+ 		asock = accept(lsock, (struct sockaddr *)&clientAddr,
+ 			&clientLen);
+ 		if (asock == INVALID_SOCKET) {
+@@ -314,6 +331,7 @@ static void web_server_accept(SOCKET lso
+ 				"miniserver: Error in accept(): %s\n",
+ 				errorBuffer);
+ 		} else {
++			printme(LOG_DEBUG, "after accept");	
+ 			schedule_request_job(asock,
+ 				(struct sockaddr *)&clientAddr);
+ 		}
+@@ -378,6 +396,7 @@ static void RunMiniServer(
+ 	SOCKET maxMiniSock;
+ 	int ret = 0;
+ 	int stopSock = 0;
++    	struct timeval sel_timeout;
+ 
+ 	maxMiniSock = 0;
+ 	maxMiniSock = max(maxMiniSock, miniSock->miniServerSock4);
+@@ -391,6 +410,7 @@ static void RunMiniServer(
+ 	maxMiniSock = max(maxMiniSock, miniSock->ssdpReqSock6);
+ #endif /* INCLUDE_CLIENT_APIS */
+ 	++maxMiniSock;
++    	printme(LOG_DEBUG, "*************** RunMiniServer thread started ****************");
+ 
+ 	gMServState = MSERV_RUNNING;
+ 	while (!stopSock) {
+@@ -409,16 +429,26 @@ static void RunMiniServer(
+ 		fdset_if_valid(miniSock->ssdpReqSock6, &rdSet);
+ #endif /* INCLUDE_CLIENT_APIS */
+ 		/* select() */
+-		ret = select((int) maxMiniSock, &rdSet, NULL, &expSet, NULL);
++
++		sel_timeout.tv_sec = 60;
++		sel_timeout.tv_usec = 0;
++
++		ret = select((int) maxMiniSock, &rdSet, NULL, &expSet, &sel_timeout);
+ 		if (ret == SOCKET_ERROR && errno == EINTR) {
++    	    		++gMiniServerHealth;
+ 			continue;
+ 		}
+ 		if (ret == SOCKET_ERROR) {
++    	    		++gMiniServerHealth;
+ 			strerror_r(errno, errorBuffer, ERROR_BUFFER_LEN);
+ 			UpnpPrintf(UPNP_CRITICAL, SSDP, __FILE__, __LINE__,
+ 				"Error in select(): %s\n", errorBuffer);
+ 			continue;
++		} else if(ret == 0) {
++			++gMiniServerHealth;
++			continue;
+ 		} else {
++    	    		++gMiniServerHealth;
+ 			web_server_accept(miniSock->miniServerSock4, &rdSet);
+ 			web_server_accept(miniSock->miniServerSock6, &rdSet);
+ #ifdef INCLUDE_CLIENT_APIS
+@@ -982,4 +1012,14 @@ int StopMiniServer()
+ 
+ 	return 0;
+ }
++
++int UpnpGetMiniServerHealth( ) {
++	return gMiniServerHealth;
++}
++
++int UpnpResetMiniServerHealth( ) {
++	gMiniServerHealth = 0;
++	return gMiniServerHealth;
++}
++
+ #endif /* EXCLUDE_MINISERVER */
+Index: libupnp-1.6.19/upnp/src/genlib/net/http/httpreadwrite.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/http/httpreadwrite.c
++++ libupnp-1.6.19/upnp/src/genlib/net/http/httpreadwrite.c
+@@ -230,17 +230,77 @@ SOCKET http_Connect(
+ 	OUT uri_type *url)
+ {
+ 	SOCKET connfd;
+-	socklen_t sockaddr_len;
++	//socklen_t sockaddr_len;
+ 	int ret_connect;
+-	char errorBuffer[ERROR_BUFFER_LEN];
++	int flags = 0, error = 0, ret = 0;
++	fd_set  rset;
++	struct timeval  ts;
++
++	ts.tv_sec   = HTTP_DEFAULT_TIMEOUT; //- 4 secondsts
++    	ts.tv_usec  = 0x00;
++
++    	FD_ZERO(&rset);
+ 
+ 	http_FixUrl(destination_url, url);
+ 
+ 	connfd = socket((int)url->hostport.IPaddress.ss_family,
+ 		SOCK_STREAM, 0);
+ 	if (connfd == INVALID_SOCKET) {
++		printme(LOG_DEBUG, "Socket creation failed");
+ 		return (SOCKET)(UPNP_E_OUTOF_SOCKET);
+ 	}
++
++
++	FD_SET(connfd, &rset);
++	//- No blocking
++	flags = fcntl(connfd, F_GETFL, 0 );
++	if(fcntl(connfd, F_SETFL, flags | O_NONBLOCK) < 0)
++	{
++		printme(LOG_DEBUG, "Socket connection failed");
++		goto SOCKET_CLOSE;
++	}
++
++	ret_connect = connect(connfd, (struct sockaddr *)&url->hostport.IPaddress, sizeof( struct sockaddr_in));
++	if (0x00 == ret_connect)
++	{
++		//- get success immediately
++		//put socket back in blocking mode
++		fcntl(connfd, F_SETFL, flags);
++		return connfd;
++	}
++
++	ret_connect = select(connfd + 1, &rset, &rset, &rset, &ts);
++
++	if( -1 == ret_connect)
++	{
++		printme(LOG_DEBUG, "Socket connection SELECT failed");
++		goto SOCKET_CLOSE;
++	}
++
++	else if(0x00 == ret_connect)
++	{   //we had a timeout
++		printme(LOG_DEBUG, "Socket connection select timeout");
++		goto SOCKET_CLOSE;
++	}
++	else
++	{
++		//put socket back in blocking mode
++		fcntl(connfd, F_SETFL, flags);
++		return connfd;
++	}
++
++SOCKET_CLOSE:
++	{
++		printme(LOG_DEBUG, "SOCKET_CLOSE: Socket connection failed");
++		shutdown(connfd, SD_BOTH );
++		UpnpCloseSocket( connfd );
++		return UPNP_E_SOCKET_CONNECT;
++	}
++
++
++	return UPNP_E_SOCKET_CONNECT;
++
++#if 0
+ 	sockaddr_len = (socklen_t)(url->hostport.IPaddress.ss_family == AF_INET6 ?
+ 		sizeof(struct sockaddr_in6) : sizeof(struct sockaddr_in));
+ 	ret_connect = private_connect(connfd,
+@@ -260,6 +320,7 @@ SOCKET http_Connect(
+ 	}
+ 
+ 	return connfd;
++#endif
+ }
+ 
+ 
+@@ -302,7 +363,9 @@ int http_RecvMessage(
+ 	}
+ 
+ 	while (TRUE) {
++		printme(LOG_DEBUG, "Before sock_read");
+ 		num_read = sock_read(info, buf, sizeof buf, timeout_secs);
++		printme(LOG_DEBUG, "After sock_read");
+ 		if (num_read > 0) {
+ 			/* got data */
+ 			status = parser_append(parser, buf, (size_t)num_read);
+@@ -326,6 +389,7 @@ int http_RecvMessage(
+ 				*http_error_code = parser->http_error_code;
+ 				line = __LINE__;
+ 				ret = UPNP_E_BAD_HTTPMSG;
++				printme(LOG_DEBUG, "err: %d", *http_error_code);
+ 				goto ExitFunction;
+ 			case PARSE_INCOMPLETE_ENTITY:
+ 				/* read until close */
+@@ -353,6 +417,7 @@ int http_RecvMessage(
+ 				*http_error_code = HTTP_BAD_REQUEST;    /* or response */
+ 				line = __LINE__;
+ 				ret = UPNP_E_BAD_HTTPMSG;
++				printme(LOG_DEBUG, "err: %d", *http_error_code);
+ 				goto ExitFunction;
+ 			}
+ 		} else {
+@@ -371,6 +436,7 @@ ExitFunction:
+ 			*http_error_code);
+ 	}
+ 
++	printme(LOG_DEBUG, "returning from http_RecvMessage");
+ 	return ret;
+ }
+ 
+@@ -494,7 +560,7 @@ int http_SendMessage(SOCKINFO *info, int
+ 					       strlen(Chunk_Header));
+ 					/* on the top of the buffer. */
+ 					/*file_buf[num_read+strlen(Chunk_Header)] = NULL; */
+-					/*printf("Sending %s\n",file_buf-strlen(Chunk_Header)); */
++					/*printme(LOG_DEBUG, "Sending %s",file_buf-strlen(Chunk_Header)); */
+ 					nw = sock_write(info,
+ 						file_buf - strlen(Chunk_Header),
+ 						num_read + strlen(Chunk_Header) + (size_t)2,
+@@ -1201,6 +1267,7 @@ static int ReadResponseLineAndHeaders(
+ 		} else if (num_read == 0) {
+ 			/* partial msg */
+ 			*http_error_code = HTTP_BAD_REQUEST;	/* or response */
++				printme(LOG_DEBUG, "err: %d", *http_error_code);
+ 			return UPNP_E_BAD_HTTPMSG;
+ 		} else {
+ 			*http_error_code = parser->http_error_code;
+@@ -1240,6 +1307,7 @@ static int ReadResponseLineAndHeaders(
+ 		} else if (num_read == 0) {
+ 			/* partial msg */
+ 			*http_error_code = HTTP_BAD_REQUEST;	/* or response */
++				printme(LOG_DEBUG, "err: %d", *http_error_code);
+ 			return UPNP_E_BAD_HTTPMSG;
+ 		} else {
+ 			*http_error_code = parser->http_error_code;
+@@ -1350,6 +1418,7 @@ int http_ReadHttpGet(
+ 				/* partial msg */
+ 				*size = (size_t)0;
+ 				handle->response.http_error_code = HTTP_BAD_REQUEST;	/* or response */
++				printme(LOG_DEBUG, "err: %d", HTTP_BAD_REQUEST);
+ 				return UPNP_E_BAD_HTTPMSG;
+ 			}
+ 		} else {
+Index: libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/http/webserver.c
++++ libupnp-1.6.19/upnp/src/genlib/net/http/webserver.c
+@@ -66,6 +66,8 @@
+ 	 #define snprintf _snprintf
+ #endif
+ 
++extern int gWebIconVersion;
++
+ /*!
+  * Response Types.
+  */
+@@ -1049,6 +1051,8 @@ static int process_request(
+ 	int alias_grabbed;
+ 	size_t dummy;
+ 	const char *extra_headers = NULL;
++	char *ptr = NULL;
++	char abspath [PATH_MAX+1];
+ 
+ 	print_http_headers(req);
+ 	url = &req->uri;
+@@ -1088,6 +1092,7 @@ static int process_request(
+ 		err_code = HTTP_BAD_REQUEST;
+ 		goto error_handler;
+ 	}
++
+ 	if (isFileInVirtualDir(request_doc)) {
+ 		using_virtual_dir = TRUE;
+ 		RespInstr->IsVirtualFile = 1;
+@@ -1167,6 +1172,16 @@ static int process_request(
+ 		       filename->buf[filename->length - 1] == '/') {
+ 			membuffer_delete(filename, filename->length - 1, 1);
+ 		}
++
++		/* BT: not process request for webroot symlink */
++		memset(abspath, 0x0, sizeof(abspath));
++		ptr = realpath (filename->buf, abspath);
++
++		if(0x0 == strstr(abspath, gDocumentRootDir.buf)){
++			err_code = HTTP_NOT_FOUND;
++			goto error_handler;
++		}
++
+ 		if (req->method != HTTPMETHOD_POST) {
+ 			/* get info on file */
+ 			if (get_file_info(filename->buf, &finfo) != 0) {
+@@ -1251,6 +1266,7 @@ static int process_request(
+ 		}
+ 	} else if (RespInstr->IsRangeActive && !RespInstr->IsChunkActive) {
+ 		/* Content-Range: bytes 222-3333/4000  HTTP_PARTIAL_CONTENT */
++		/* Transfer-Encoding: chunked */
+ 		if (http_MakeMessage(headers, resp_major, resp_minor,
+ 		    "R" "N" "T" "GLD" "s" "tcS" "Xc" "sCc",
+ 		    HTTP_PARTIAL_CONTENT,	/* status code */
+@@ -1264,6 +1280,7 @@ static int process_request(
+ 			goto error_handler;
+ 		}
+ 	} else if (!RespInstr->IsRangeActive && RespInstr->IsChunkActive) {
++		/* Content-Range: bytes 222-3333/4000  HTTP_PARTIAL_CONTENT */
+ 		/* Transfer-Encoding: chunked */
+ 		if (http_MakeMessage(headers, resp_major, resp_minor,
+ 		    "RK" "TLD" "s" "tcS" "Xc" "sCc",
+@@ -1278,6 +1295,8 @@ static int process_request(
+ 	} else {
+ 		/* !RespInstr->IsRangeActive && !RespInstr->IsChunkActive */
+ 		if (RespInstr->ReadSendSize >= 0) {
++			/* Content-Range: bytes 222-3333/4000  HTTP_PARTIAL_CONTENT */
++			/* Transfer-Encoding: chunked */
+ 			if (http_MakeMessage(headers, resp_major, resp_minor,
+ 			    "R" "N" "TLD" "s" "tcS" "Xc" "sCc",
+ 			    HTTP_OK,	/* status code */
+@@ -1291,6 +1310,8 @@ static int process_request(
+ 				goto error_handler;
+ 			}
+ 		} else {
++			/* Content-Range: bytes 222-3333/4000  HTTP_PARTIAL_CONTENT */
++			/* Transfer-Encoding: chunked */
+ 			if (http_MakeMessage(headers, resp_major, resp_minor,
+ 			    "R" "TLD" "s" "tcS" "Xc" "sCc",
+ 			    HTTP_OK,	/* status code */
+@@ -1332,6 +1353,68 @@ static int process_request(
+ 	return err_code;
+ }
+ 
++#define ICON_BUF	    64
++#define ICON_VERSION_KEY    "IconVersion"
++#define MAX_FILE_LINE	    256
++
++int UpdateXML()
++{
++    FILE* pfReadStream  = 0x00;
++    FILE* pfWriteStream = 0x00;
++    char szBuff[MAX_FILE_LINE];
++    char szBuff1[MAX_FILE_LINE];
++
++    memset(szBuff, 0x00, sizeof(szBuff));
++    strncpy(szBuff, "cp /tmp/Belkin_settings/setup.xml /tmp/setup.xml", MAX_FILE_LINE);
++    system(szBuff);
++
++    pfReadStream  = fopen("/tmp/setup.xml", "r");
++    pfWriteStream = fopen("/tmp/Belkin_settings/setup.xml", "w");
++
++    if (0x00 == pfReadStream || 0x00 == pfWriteStream)
++    {
++	if(pfReadStream)
++	    fclose(pfReadStream);
++
++	if(pfWriteStream)
++	    fclose(pfWriteStream);
++
++	return 1;
++    }
++
++    while (!feof(pfReadStream))
++    {
++	memset(szBuff, 0x00, sizeof(szBuff));
++
++	fgets(szBuff, MAX_FILE_LINE, pfReadStream);
++
++	if (strstr(szBuff, "iconVersion"))
++	{
++	    memset(szBuff1, 0x00, sizeof(szBuff1));
++            int port = 0;
++	    char *pch = NULL, *pch2 = NULL;
++
++	    pch = strtok(szBuff, "|");
++	    pch2 = strtok(NULL, "|");
++
++	    pch = strtok(pch2, "<");
++	    if(pch) {
++		port = atoi(pch);
++	    }
++	
++	    snprintf(szBuff1, MAX_FILE_LINE, "<iconVersion>%d|%d</iconVersion>\n", gWebIconVersion, port);
++	    strcpy(szBuff, szBuff1);
++	}
++
++	fwrite(szBuff, 1, strlen(szBuff), pfWriteStream);
++    }
++
++    fclose(pfReadStream);
++    fclose(pfWriteStream);
++
++    return 0x00;
++}
++
+ /*!
+  * \brief Receives the HTTP post message.
+  *
+@@ -1362,6 +1445,34 @@ static int http_RecvPostMessage(
+ 	size_t entity_offset = 0;
+ 	int num_read = 0;
+ 	int ret_code = HTTP_OK;
++	char buff[ICON_BUF];
++
++	//- Check it to post db file or not, if db file. duplcaite it
++	int isDatabasePosted = 0x00;
++	
++	if (0x00 != strstr(filename, "rules.db"))
++	{
++		printme(LOG_DEBUG, "rules db post request, duplcate to rules1.db");
++		char* cmd = "cp -f /tmp/Belkin_settings/rules.db /tmp/Belkin_settings/rules1.db";
++		system(cmd);
++		isDatabasePosted = 0x01;
++	}
++	else if (0x00 != strstr(filename, "icon.jpg"))
++	{
++		printme(LOG_DEBUG, "icon post request: %s", filename);
++
++		gWebIconVersion++;
++
++		memset(buff, 0x0, ICON_BUF);
++		snprintf(buff, ICON_BUF, "%d", gWebIconVersion);
++		SetBelkinParameter(ICON_VERSION_KEY, buff);
++		UpdateXML();
++		SaveSetting();
++	}
++	else
++	{
++		printme(LOG_DEBUG, "post request: %s", filename);
++	}
+ 
+ 	if (Instr && Instr->IsVirtualFile) {
+ 		Fp = (virtualDirCallback.open) (filename, UPNP_WRITE);
+@@ -1529,7 +1640,7 @@ void web_server_callback(http_parser_t *
+ 				&RespInstr);
+ 			/* Send response. */
+ 			http_MakeMessage(&headers, 1, 1,
+-				"RTLSXcCc",
++				"RTDSXcCc",
+ 				ret, "text/html", &RespInstr, X_USER_AGENT);
+ 			http_SendMessage(info, &timeout, "b",
+ 				headers.buf, headers.length);
+Index: libupnp-1.6.19/upnp/src/genlib/net/sock.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/net/sock.c
++++ libupnp-1.6.19/upnp/src/genlib/net/sock.c
+@@ -50,6 +50,7 @@
+ 
+ #include "upnpdebug.h"
+ #include "upnputil.h"
++#include "upnpapi.h"
+ 
+ #include <assert.h>
+ #include <errno.h>
+@@ -61,6 +62,19 @@
+ #define MSG_NOSIGNAL 0
+ #endif
+ 
++/*print bytes*/
++void printBytes(int logLevel, char *buffer, int bufferSize)
++{
++	int i;
++	if((logLevel == LOG_INFO) && ((gUPnPLogEnable == 2) || (gUPnPLogEnable == 3)))
++	{
++		printme(LOG_INFO, "data start-->");
++		for(i = 0; i < bufferSize; i++)
++			printf("%c", buffer[i]);
++		printme(LOG_INFO, "<--data end");
++	}
++}
++
+ int sock_init(SOCKINFO *info, SOCKET sockfd)
+ {
+ 	assert(info);
+@@ -177,6 +191,9 @@ static int sock_read_write(
+ 		if (bRead) {
+ 			/* read data. */
+ 			numBytes = (long)recv(sockfd, buffer, bufsize, MSG_NOSIGNAL);
++			/* print UPnP debug info */
++			printBytes(LOG_INFO, buffer, numBytes);
++			printme(LOG_INFO, "Bytes to read: %d\nActual bytes read: %d", bufsize,numBytes);
+ 		} else {
+ 			byte_left = bufsize;
+ 			bytes_sent = 0;
+@@ -190,12 +207,18 @@ static int sock_read_write(
+ 					setsockopt(sockfd, SOL_SOCKET,
+ 						SO_NOSIGPIPE, &old, olen);
+ #endif
++					/* print UPnP debug info */
++					printme(LOG_INFO, "Write failed");
++
+ 					return (int)num_written;
+ 				}
+ 				byte_left -= (size_t)num_written;
+ 				bytes_sent += num_written;
+ 			}
+ 			numBytes = bytes_sent;
++			/* print UPnP debug info */
++			printBytes(LOG_INFO, buffer, numBytes);
++			printme(LOG_INFO, "Bytes to write: %d\nActual bytes write: %d", bufsize,numBytes);
+ 		}
+ #ifdef SO_NOSIGPIPE
+ 		setsockopt(sockfd, SOL_SOCKET, SO_NOSIGPIPE, &old, olen);
+Index: libupnp-1.6.19/upnp/src/genlib/service_table/service_table.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/genlib/service_table/service_table.c
++++ libupnp-1.6.19/upnp/src/genlib/service_table/service_table.c
+@@ -70,6 +70,7 @@ copy_subscription( subscription * in,
+     out->ToSendEventKey = in->ToSendEventKey;
+     out->expireTime = in->expireTime;
+     out->active = in->active;
++    out->failCnt = in->failCnt;
+     if( ( return_code =
+           copy_URL_list( &in->DeliveryURLs, &out->DeliveryURLs ) )
+         != HTTP_SUCCESS )
+Index: libupnp-1.6.19/upnp/src/inc/httpreadwrite.h
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/inc/httpreadwrite.h
++++ libupnp-1.6.19/upnp/src/inc/httpreadwrite.h
+@@ -43,7 +43,7 @@
+ #include "httpparser.h"
+ 
+ /*! timeout in secs. */
+-#define HTTP_DEFAULT_TIMEOUT	30
++#define HTTP_DEFAULT_TIMEOUT	4
+ 
+ #ifdef __cplusplus
+ extern "C" {
+Index: libupnp-1.6.19/upnp/src/inc/service_table.h
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/inc/service_table.h
++++ libupnp-1.6.19/upnp/src/inc/service_table.h
+@@ -57,6 +57,7 @@ extern "C" {
+ typedef struct SUBSCRIPTION {
+ 	Upnp_SID sid;
+ 	int eventKey;
++	int failCnt;
+ 	int ToSendEventKey;
+ 	time_t expireTime;
+ 	int active;
+Index: libupnp-1.6.19/upnp/src/inc/ssdplib.h
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/inc/ssdplib.h
++++ libupnp-1.6.19/upnp/src/inc/ssdplib.h
+@@ -138,6 +138,7 @@ typedef struct ssdpsearchreply
+ 	UpnpDevice_Handle handle;
+ 	struct sockaddr_storage dest_addr;
+ 	SsdpEvent event;
++	int job_id;
+ } SsdpSearchReply;
+ 
+ typedef struct ssdpsearcharg
+@@ -153,6 +154,7 @@ typedef struct
+ {
+ 	http_parser_t parser;
+ 	struct sockaddr_storage dest_addr;
++	int job_id;
+ } ssdp_thread_data;
+ 
+ /* globals */
+@@ -192,7 +194,9 @@ int AdvertiseAndReply(
+ 	/* [in] Service type. */
+ 	char *ServiceType,
+ 	/* [in] Advertisement age. */
+-	int Exp);
++	int Exp,
++	/* [in] Unicast IP */
++	char *ipaddr);
+ 
+ /*!
+  * \brief Fills the fields of the event structure like DeviceType, Device UDN
+@@ -327,13 +331,17 @@ void ssdp_handle_device_request(
+ 	/* [in] . */
+ 	http_message_t *hmsg, 
+ 	/* [in] . */
+-	struct sockaddr_storage *dest_addr);
++	struct sockaddr_storage *dest_addr,
++	/* [in] . */
++	int job_id);
+ #else /* INCLUDE_DEVICE_APIS */
+ static UPNP_INLINE void ssdp_handle_device_request(
+ 	/* [in] . */
+ 	http_message_t *hmsg, 
+ 	/* [in] . */
+-	struct sockaddr_storage *dest_addr) {}
++	struct sockaddr_storage *dest_addr,
++	/* [in] . */
++	int job_id) ()
+ #endif /* INCLUDE_DEVICE_APIS */
+ 
+ /*!
+@@ -438,7 +446,9 @@ int ServiceAdvertisement(
+ 	/* [in] SleepPeriod as defined by UPnP Low Power. */
+ 	int SleepPeriod,
+ 	/* [in] RegistrationState as defined by UPnP Low Power. */
+-	int RegistrationState);
++	int RegistrationState,
++	/* [in] Unicast IP */
++	char *ipaddr);
+ 
+ /*!
+  * \brief Creates the advertisement packet based on the input parameter,
+Index: libupnp-1.6.19/upnp/src/inc/upnpapi.h
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/inc/upnpapi.h
++++ libupnp-1.6.19/upnp/src/inc/upnpapi.h
+@@ -43,6 +43,7 @@
+ #include "client_table.h"
+ #include "upnp.h"
+ #include "VirtualDir.h"		/* for struct VirtualDirCallbacks */
++#include <syslog.h>
+ 
+ 
+ #define MAX_INTERFACES 256
+@@ -53,7 +54,7 @@
+ 
+ #define DEFAULT_MX 5
+ 
+-#define DEFAULT_MAXAGE 1800
++#define DEFAULT_MAXAGE 86400 //-24 hours
+ 
+ #define DEFAULT_SOAP_CONTENT_LENGTH 16000
+ #define MAX_SOAP_CONTENT_LENGTH (size_t)32000
+@@ -61,7 +62,7 @@
+ extern size_t g_maxContentLength;
+ 
+ /* 30-second timeout */
+-#define UPNP_TIMEOUT	30
++#define UPNP_TIMEOUT	10              //-30 timeout?
+ 
+ typedef enum {HND_INVALID=-1,HND_CLIENT,HND_DEVICE} Upnp_Handle_Type;
+ 
+@@ -200,8 +201,10 @@ extern Upnp_SID gUpnpSdkNLSuuid;
+ 
+ extern TimerThread gTimerThread;
+ extern ThreadPool gRecvThreadPool;
++extern ThreadPool gSsdpRecvThreadPool;
+ extern ThreadPool gSendThreadPool;
+ extern ThreadPool gMiniServerThreadPool;
++extern ThreadPool gDiscoveryRespThreadPool;
+ 
+ 
+ typedef enum {
+@@ -312,6 +315,7 @@ int PrintHandleInfo(
+ 	/*! [in] Handle index. */
+ 	UpnpClient_Handle Hnd);
+ 
++void printme(int x, const char *FmtStr, ...);
+ 
+ extern WebServerState bWebServerState;
+ 
+Index: libupnp-1.6.19/upnp/src/soap/soap_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/soap/soap_device.c
++++ libupnp-1.6.19/upnp/src/soap/soap_device.c
+@@ -500,7 +500,9 @@ static int get_device_info(
+ 	save_char = control_url[request->uri.pathquery.size];
+ 	((char *)control_url)[request->uri.pathquery.size] = '\0';
+ 
++	printme(LOG_DEBUG, "Before HandleLock");
+ 	HandleLock();
++	printme(LOG_DEBUG, "After HandleLock");
+ 
+ 	if (GetDeviceHandleInfo(AddressFamily, &device_hnd,
+ 				&device_info) != HND_DEVICE)
+@@ -550,6 +552,7 @@ static int get_device_info(
+ 	/* restore */
+ 	((char *)control_url)[request->uri.pathquery.size] = save_char;
+ 	HandleUnlock();
++	printme(LOG_DEBUG, "After HandleUnLock");
+ 	return ret_code;
+ }
+ 
+@@ -793,7 +796,9 @@ static void handle_invoke_action(
+ 	action.ErrCode = UPNP_E_SUCCESS;
+ 	action.CtrlPtIPAddr = info->foreign_sockaddr;
+ 	UpnpPrintf(UPNP_INFO, SOAP, __FILE__, __LINE__, "Calling Callback\n");
++	printme(LOG_DEBUG, "Calling Callback");
+ 	soap_event_callback(UPNP_CONTROL_ACTION_REQUEST, &action, cookie);
++	printme(LOG_DEBUG, "After Calling Callback");
+ 	if (action.ErrCode != UPNP_E_SUCCESS) {
+ 		if (strlen(action.ErrStr) <= 0) {
+ 			err_code = SOAP_ACTION_FAILED;
+@@ -811,7 +816,9 @@ static void handle_invoke_action(
+ 		goto error_handler;
+ 	}
+ 	/* send response */
++	printme(LOG_DEBUG, "Calling send_action_response");
+ 	send_action_response(info, action.ActionResult, request);
++	printme(LOG_DEBUG, "Sent send_action_response");
+ 	err_code = 0;
+ 
+ 	/* error handling and cleanup */
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_ctrlpt.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_ctrlpt.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_ctrlpt.c
+@@ -171,6 +171,10 @@ void ssdp_handle_ctrlpt_msg(http_message
+ 		hdr_value.buf[hdr_value.length] = '\0';
+ 		usn_found = (unique_service_name(hdr_value.buf, &event) == 0);
+ 		hdr_value.buf[hdr_value.length] = save_char;
++
++		//printme(LOG_DEBUG, "Event UDN: %s, devType: %s, serviceType: %s", event.UDN, event.DeviceType, event.ServiceType);
++		if(!isWeMoDevice(event.UDN))
++			return;
+ 	}
+ 	if (nt_found || usn_found) {
+ 		strncpy(param.DeviceId, event.UDN, sizeof(param.DeviceId) - 1);
+@@ -178,6 +182,7 @@ void ssdp_handle_ctrlpt_msg(http_message
+ 			sizeof(param.DeviceType) - 1);
+ 		strncpy(param.ServiceType, event.ServiceType,
+ 			sizeof(param.ServiceType) - 1);
++
+ 	}
+ 	/* ADVERT. OR BYEBYE */
+ 	if (hmsg->is_request) {
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_device.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_device.c
+@@ -67,19 +67,26 @@
+ void *advertiseAndReplyThread(void *data)
+ {
+ 	SsdpSearchReply *arg = (SsdpSearchReply *) data;
++	time_t rawtime;
++	char* otTime;
+ 
+ 	AdvertiseAndReply(0, arg->handle,
+ 			  arg->event.RequestType,
+ 			  (struct sockaddr *)&arg->dest_addr,
+ 			  arg->event.DeviceType,
+-			  arg->event.UDN, arg->event.ServiceType, arg->MaxAge);
+-	free(arg);
++			  arg->event.UDN, arg->event.ServiceType, arg->MaxAge, NULL);
++
++	time (&rawtime);
++	otTime = ctime(&rawtime);
++	otTime[strlen(otTime) - 1] = 0x00;
+ 
++	printme(LOG_DEBUG, "[%s]:job_id[%d]:Sent discovery response to device:%s", otTime,arg->job_id,inet_ntoa(((struct sockaddr_in *)&(arg->dest_addr))->sin_addr));
++	free(arg);
+ 	return NULL;
+ }
+ 
+ #ifdef INCLUDE_DEVICE_APIS
+-void ssdp_handle_device_request(http_message_t *hmsg, struct sockaddr_storage *dest_addr)
++void ssdp_handle_device_request(http_message_t *hmsg, struct sockaddr_storage *dest_addr,int job_id)
+ {
+ #define MX_FUDGE_FACTOR 10
+ 	int handle;
+@@ -91,8 +98,11 @@ void ssdp_handle_device_request(http_mes
+ 	int ret_code;
+ 	SsdpSearchReply *threadArg = NULL;
+ 	ThreadPoolJob job;
+-	int replyTime;
++	//int replyTime;
+ 	int maxAge;
++	time_t rawtime;
++	char* otTime;
++	int return_code=0;
+ 
+ 	memset(&job, 0, sizeof(job));
+ 
+@@ -101,6 +111,11 @@ void ssdp_handle_device_request(http_mes
+ 	    memptr_cmp(&hdr_value, "\"ssdp:discover\"") != 0)
+ 		/* bad or missing hdr. */
+ 		return;
++
++	time (&rawtime);
++	otTime = ctime(&rawtime);
++	otTime[strlen(otTime) - 1] = 0x00;
++
+ 	/* MX header. */
+ 	if (httpmsg_find_hdr(hmsg, HDR_MX, &hdr_value) == NULL ||
+ 	    (mx = raw_to_int(&hdr_value, 10)) < 0)
+@@ -144,17 +159,27 @@ void ssdp_handle_device_request(http_mes
+ 	threadArg = (SsdpSearchReply *)malloc(sizeof(SsdpSearchReply));
+ 	if (threadArg == NULL)
+ 		return;
++	printme(LOG_DEBUG, "[%s]:job_id[%d]:Receiving discovery request: MX: %d from: %s", otTime, job_id, mx, inet_ntoa(((struct sockaddr_in *)dest_addr)->sin_addr));
+ 	threadArg->handle = handle;
+ 	memcpy(&threadArg->dest_addr, dest_addr, sizeof(threadArg->dest_addr));
+ 	threadArg->event = event;
+ 	threadArg->MaxAge = maxAge;
++	threadArg->job_id = job_id;
+ 
+ 	TPJobInit(&job, advertiseAndReplyThread, threadArg);
+ 	TPJobSetFreeFunction(&job, (free_routine) free);
++	TPJobSetPriority( &job, HIGH_PRIORITY );
++
++	return_code = ThreadPoolAdd(&gDiscoveryRespThreadPool, &job, NULL);
++        if( return_code != 0 )
++        {
++                printme(LOG_DEBUG, "####################Adding Discovery response job failed: %d #########################",return_code);
++        }
+ 
+ 	/* Subtract a percentage from the mx to allow for network and processing
+ 	 * delays (i.e. if search is for 30 seconds, respond
+ 	 * within 0 - 27 seconds). */
++#if 0
+ 	if (mx >= 2)
+ 		mx -= MAXVAL(1, mx / MX_FUDGE_FACTOR);
+ 	if (mx < 1)
+@@ -162,6 +187,7 @@ void ssdp_handle_device_request(http_mes
+ 	replyTime = rand() % mx;
+ 	TimerThreadSchedule(&gTimerThread, replyTime, REL_SEC, &job,
+ 			    SHORT_TERM, NULL);
++#endif
+ }
+ #endif
+ 
+@@ -495,6 +521,101 @@ static void CreateServicePacket(
+ 	return;
+ }
+ 
++
++int UnicastAdvertisement(char *DevType, int RootDev, char *Udn, char *Location,
++			int Duration, int AddressFamily, int PowerState,
++			int SleepPeriod, int RegistrationState, char *UnicastIP)
++{
++	struct sockaddr_storage __ss;
++	struct sockaddr_in *DestAddr4 = (struct sockaddr_in *)&__ss;
++	struct sockaddr_in6 *DestAddr6 = (struct sockaddr_in6 *)&__ss;
++	/* char Mil_Nt[LINE_SIZE] */
++	char Mil_Usn[LINE_SIZE];
++	char *msgs[3];
++	int ret_code = UPNP_E_OUTOF_MEMORY;
++	int rc = 0;
++
++	UpnpPrintf(UPNP_INFO, SSDP, __FILE__, __LINE__,
++		   "In function UnicastAdvertisement\n");
++	memset(&__ss, 0, sizeof(__ss));
++	switch (AddressFamily) {
++	case AF_INET:
++		DestAddr4->sin_family = (sa_family_t)AF_INET;
++		if(UnicastIP)
++		{
++			printme(LOG_DEBUG, "Sending Advertisement to : %s", UnicastIP);
++			inet_pton(AF_INET, UnicastIP, &DestAddr4->sin_addr);
++		}
++		else
++		{
++			inet_pton(AF_INET, SSDP_IP, &DestAddr4->sin_addr);
++		}
++		DestAddr4->sin_port = htons(SSDP_PORT);
++		break;
++	case AF_INET6:
++		DestAddr6->sin6_family = (sa_family_t)AF_INET6;
++		inet_pton(AF_INET6,
++			  (isUrlV6UlaGua(Location)) ? SSDP_IPV6_SITELOCAL :
++			  SSDP_IPV6_LINKLOCAL, &DestAddr6->sin6_addr);
++		DestAddr6->sin6_port = htons(SSDP_PORT);
++		DestAddr6->sin6_scope_id = gIF_INDEX;
++		break;
++	default:
++		UpnpPrintf(UPNP_CRITICAL, SSDP, __FILE__, __LINE__,
++			   "Invalid device address family.\n");
++	}
++	msgs[0] = NULL;
++	msgs[1] = NULL;
++	msgs[2] = NULL;
++	/* If deviceis a root device , here we need to send 3 advertisement
++	 * or reply */
++	if (RootDev) {
++		rc = snprintf(Mil_Usn, sizeof(Mil_Usn), "%s::upnp:rootdevice",
++			Udn);
++		if (rc < 0 || (unsigned int) rc >= sizeof(Mil_Usn))
++			goto error_handler;
++		CreateServicePacket(MSGTYPE_ADVERTISEMENT, "upnp:rootdevice",
++				    Mil_Usn, Location, Duration, &msgs[0],
++				    AddressFamily, PowerState, SleepPeriod,
++				    RegistrationState);
++	}
++	/* both root and sub-devices need to send these two messages */
++	CreateServicePacket(MSGTYPE_ADVERTISEMENT, Udn, Udn,
++			    Location, Duration, &msgs[1], AddressFamily,
++			    PowerState, SleepPeriod, RegistrationState);
++	rc = snprintf(Mil_Usn, sizeof(Mil_Usn), "%s::%s", Udn, DevType);
++	if (rc < 0 || (unsigned int) rc >= sizeof(Mil_Usn))
++		goto error_handler;
++	CreateServicePacket(MSGTYPE_ADVERTISEMENT, DevType, Mil_Usn,
++			    Location, Duration, &msgs[2], AddressFamily,
++			    PowerState, SleepPeriod, RegistrationState);
++	/* check error */
++	if ((RootDev && msgs[0] == NULL) || msgs[1] == NULL || msgs[2] == NULL) {
++		goto error_handler;
++	}
++	/* send packets */
++	if (RootDev) {
++		/* send 3 msg types */
++		ret_code =
++		    NewRequestHandler((struct sockaddr *)&__ss, 3, &msgs[0]);
++	} else {		/* sub-device */
++
++		/* send 2 msg types */
++		ret_code =
++		    NewRequestHandler((struct sockaddr *)&__ss, 2, &msgs[1]);
++	}
++
++error_handler:
++	/* free msgs */
++	if(msgs[0]) free(msgs[0]);
++	if(msgs[1]) free(msgs[1]);
++	if(msgs[2]) free(msgs[2]);
++
++	return ret_code;
++}
++
++
++
+ int DeviceAdvertisement(char *DevType, int RootDev, char *Udn, char *Location,
+ 			int Duration, int AddressFamily, int PowerState,
+ 			int SleepPeriod, int RegistrationState)
+@@ -579,6 +700,82 @@ error_handler:
+ 	return ret_code;
+ }
+ 
++int SendDiscoveryPackets( IN struct sockaddr_in *DestAddr,
++                   IN char **RqPacket )
++{
++	char errorBuffer[ERROR_BUFFER_LEN];
++	int ReplySock;
++	int socklen = sizeof( struct sockaddr_in );
++	int NumCopy=0;
++	int rc;
++	unsigned long replyAddr = inet_addr(gIF_IPV4);
++	int ttl = 4; // a/c to UPNP Spec
++
++	ReplySock = socket( AF_INET, SOCK_DGRAM, 0 );
++	if ( ReplySock == -1 ) {
++		strerror_r(errno, errorBuffer, ERROR_BUFFER_LEN);
++		UpnpPrintf( UPNP_INFO, SSDP, __FILE__, __LINE__,
++				"SSDP_LIB: New Request Handler:"
++				"Error in socket(): %s\n", errorBuffer );
++
++		return UPNP_E_OUTOF_SOCKET;
++	}
++
++	setsockopt( ReplySock, IPPROTO_IP, IP_MULTICAST_IF,
++			(char *)&replyAddr, sizeof (replyAddr) );
++	setsockopt( ReplySock, IPPROTO_IP, IP_MULTICAST_TTL,
++			(char *)&ttl, sizeof (int) );
++
++	while( NumCopy < 1) {
++		rc = sendto( ReplySock, *( RqPacket),
++				strlen( *(RqPacket ) ),
++				0, ( struct sockaddr * )DestAddr, socklen );
++		imillisleep( SSDP_PAUSE );
++		++NumCopy;
++	}
++
++	shutdown( ReplySock, SD_BOTH );
++	UpnpCloseSocket( ReplySock );
++
++	return UPNP_E_SUCCESS;
++}
++
++
++int
++SendDiscoveryResponse( IN struct sockaddr_in *DestAddr,
++           IN char *Udn,
++           IN char *Location,
++           IN int Duration)
++{
++	int ret_code;
++	char *msgs[1];
++	int num_msgs;
++	char Mil_Usn[LINE_SIZE];
++
++	msgs[0] = NULL;
++
++	// one msg for root device
++	num_msgs = 1;
++
++	sprintf( Mil_Usn, "%s::upnp:rootdevice", Udn );
++	CreateServicePacket( MSGTYPE_REPLY, "upnp:rootdevice",
++			Mil_Usn, Location, Duration, &msgs[0], 
++			AF_INET, -1, -1, -1);
++
++	// check error
++	if( msgs[0] == NULL ) {
++		free( msgs[0] );
++		return UPNP_E_OUTOF_MEMORY;
++	}
++
++	// send msgs
++	ret_code = SendDiscoveryPackets( DestAddr, msgs );
++	if( msgs[0] != NULL )
++		free( msgs[0] );
++
++	return ret_code;
++}
++
+ int SendReply(struct sockaddr *DestAddr, char *DevType, int RootDev,
+ 	      char *Udn, char *Location, int Duration, int ByType,
+ 	      int PowerState, int SleepPeriod, int RegistrationState)
+@@ -708,7 +905,7 @@ error_handler:
+ 
+ int ServiceAdvertisement(char *Udn, char *ServType, char *Location,
+ 			 int Duration, int AddressFamily,
+-			 int PowerState, int SleepPeriod, int RegistrationState)
++			 int PowerState, int SleepPeriod, int RegistrationState, char *UnicastIP)
+ {
+ 	char Mil_Usn[LINE_SIZE];
+ 	char *szReq[1];
+@@ -723,7 +920,15 @@ int ServiceAdvertisement(char *Udn, char
+ 	switch (AddressFamily) {
+ 	case AF_INET:
+ 		DestAddr4->sin_family = (sa_family_t)AddressFamily;
+-		inet_pton(AF_INET, SSDP_IP, &DestAddr4->sin_addr);
++		if(UnicastIP)
++		{
++			printme(LOG_DEBUG, "Sending service Advertisement to : %s", UnicastIP);
++			inet_pton(AF_INET, UnicastIP, &DestAddr4->sin_addr);
++		}
++		else
++		{
++			inet_pton(AF_INET, SSDP_IP, &DestAddr4->sin_addr);
++		}
+ 		DestAddr4->sin_port = htons(SSDP_PORT);
+ 		break;
+ 	case AF_INET6:
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_server.c
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_server.c
+@@ -86,13 +86,15 @@ struct SSDPSockArray {
+ #endif /* INCLUDE_CLIENT_APIS */
+ };
+ 
++extern char gDevUdn[];
++
+ #ifdef INCLUDE_DEVICE_APIS
+ static const char SERVICELIST_STR[] = "serviceList";
+ 
+ int AdvertiseAndReply(int AdFlag, UpnpDevice_Handle Hnd,
+ 		      enum SsdpSearchType SearchType,
+ 		      struct sockaddr *DestAddr, char *DeviceType,
+-		      char *DeviceUDN, char *ServiceType, int Exp)
++		      char *DeviceUDN, char *ServiceType, int Exp, char *UnicastIP)
+ {
+ 	int retVal = UPNP_E_SUCCESS;
+ 	long unsigned int i;
+@@ -118,6 +120,7 @@ int AdvertiseAndReply(int AdFlag, UpnpDe
+ 	UpnpPrintf(UPNP_ALL, API, __FILE__, __LINE__,
+ 		   "Inside AdvertiseAndReply with AdFlag = %d\n", AdFlag);
+ 
++//gautam - special (faster) handling for SSDP_ROOTDEVICE Discovery search
+ 	/* Use a read lock */
+ 	HandleReadLock();
+ 	if (GetHandleInfo(Hnd, &SInfo) != HND_DEVICE) {
+@@ -125,6 +128,16 @@ int AdvertiseAndReply(int AdFlag, UpnpDe
+ 		goto end_function;
+ 	}
+ 	defaultExp = SInfo->MaxAge;
++#if 1 
++     if(0 == AdFlag && SearchType == SSDP_ROOTDEVICE)
++     {
++	     SendDiscoveryResponse( DestAddr, gDevUdn, SInfo->DescURL, defaultExp);
++
++	     HandleUnlock();
++
++	     return UPNP_E_SUCCESS;
++     }
++#endif
+ 	/* parse the device list and send advertisements/replies */
+ 	while (NumCopy == 0 || (AdFlag && NumCopy < NUM_SSDP_COPY)) {
+ 		if (NumCopy != 0)
+@@ -212,6 +225,17 @@ int AdvertiseAndReply(int AdFlag, UpnpDe
+ 							    SInfo->PowerState,
+ 	                                                    SInfo->SleepPeriod,
+ 	                                                    SInfo->RegistrationState);
++				} else if (AdFlag == 2) {
++					int err = UnicastAdvertisement(devType, i == 0lu,
++							    UDNstr,
++							    SInfo->DescURL, Exp,
++							    SInfo->DeviceAf,
++							    SInfo->PowerState,
++	                                                    SInfo->SleepPeriod,
++	                                                    SInfo->RegistrationState,
++							    UnicastIP);
++					printme(LOG_DEBUG, "UnicastAdvertisement to %s ret: %d", UnicastIP, err);
++					fflush(stdout);
+ 				} else {
+ 					/* AdFlag == -1 */
+ 					DeviceShutdown(devType, i == 0lu, UDNstr,
+@@ -363,7 +387,14 @@ int AdvertiseAndReply(int AdFlag, UpnpDe
+ 							Exp, SInfo->DeviceAf,
+ 							SInfo->PowerState,
+ 							SInfo->SleepPeriod,
+-							SInfo->RegistrationState);
++							SInfo->RegistrationState, NULL);
++					} else if (AdFlag == 2) {
++						ServiceAdvertisement(UDNstr,
++							servType, SInfo->DescURL,
++							Exp, SInfo->DeviceAf,
++							SInfo->PowerState,
++							SInfo->SleepPeriod,
++							SInfo->RegistrationState, UnicastIP);
+ 					} else {
+ 						/* AdFlag == -1 */
+ 						ServiceShutdown(UDNstr,
+@@ -435,8 +466,8 @@ int AdvertiseAndReply(int AdFlag, UpnpDe
+ 	}
+ 
+ end_function:
+-	ixmlNodeList_free(tmpNodeList);
+-	ixmlNodeList_free(nodeList);
++	if(tmpNodeList) ixmlNodeList_free(tmpNodeList);
++	if(nodeList) ixmlNodeList_free(nodeList);
+ 	UpnpPrintf(UPNP_ALL, API, __FILE__, __LINE__,
+ 		   "Exiting AdvertiseAndReply.\n");
+ 	HandleUnlock();
+@@ -687,13 +718,107 @@ static void ssdp_event_handler_thread(
+ #endif /* INCLUDE_CLIENT_APIS */
+ 	} else {
+ 		ssdp_handle_device_request(hmsg,
+-					   &data->dest_addr);
++					   &data->dest_addr,data->job_id);
+ 	}
+ 
+ 	/* free data */
+ 	free_ssdp_event_handler_data(data);
+ }
+ 
++//#define WEMO_DEVICES "/tmp/Belkin_settings/devices.txt"
++#define WEMO_DEVICES "/etc/devices.txt"
++#define MAX_WEMO_DEVICES	20
++char *g_szWeMoDevices[MAX_WEMO_DEVICES];
++
++int buildDeviceList()
++{
++	char szBuff[64] = {'\0',};
++	int len=0, i=0;
++	FILE* pfReadStream = fopen(WEMO_DEVICES, "r");
++
++	if(NULL == pfReadStream)
++	{
++		printme(LOG_DEBUG, "open file %s failed", WEMO_DEVICES);
++		return UPNP_E_FILE_NOT_FOUND;
++	}
++
++	while ((!feof(pfReadStream)) && (i < MAX_WEMO_DEVICES))
++	{
++		memset(szBuff, 0x00, sizeof(szBuff));
++
++		fgets(szBuff, 64, pfReadStream);
++		len = strlen(szBuff);		
++
++		/* truncate the last newline character */	
++		if(szBuff[len-1] == '\n')
++		{
++			szBuff[len-1] = '\0';
++			len = strlen(szBuff);		
++		}
++		
++		printme(LOG_DEBUG, "Device: %s found, len: %d", szBuff, strlen(szBuff));
++
++		if(len)
++		{
++			g_szWeMoDevices[i] = calloc(1, len+1);
++
++			if(g_szWeMoDevices[i])
++			{
++				strcpy(g_szWeMoDevices[i], szBuff);
++			}
++			else
++			{
++				printme(LOG_DEBUG, "Memory allocation failure");
++				return UPNP_E_OUTOF_MEMORY;
++			}
++
++			i++;	
++		}
++	}
++	
++	fclose(pfReadStream);
++
++	printme(LOG_DEBUG, "%d devices found", i);
++	return 0;
++
++}
++
++int freeDeviceList()
++{
++	int i=0;
++	while(i < MAX_WEMO_DEVICES)
++	{
++		if(g_szWeMoDevices[i])
++		{
++			free(g_szWeMoDevices[i]);
++			g_szWeMoDevices[i] = NULL;
++			i++;
++		}
++		else
++			break;
++	}
++
++	printme(LOG_DEBUG, "Freed %d device list entries", i);
++	return 0;
++}
++
++
++int isWeMoDevice(char *str)
++{
++	int i=0;
++
++	for(i=0; g_szWeMoDevices[i]!=NULL; i++)
++	{
++		if(strstr(str, g_szWeMoDevices[i]))
++		{
++			//printme(LOG_DEBUG, "WeMo device: %s", g_szWeMoDevices[i]);
++			return TRUE;
++		}
++	}
++
++	return FALSE;
++}
++
+ void readFromSSDPSocket(SOCKET socket)
+ {
+ 	char *requestBuf = NULL;
+@@ -739,41 +864,76 @@ void readFromSSDPSocket(SOCKET socket)
+ 	if (byteReceived > 0) {
+ 		requestBuf[byteReceived] = '\0';
+ 		switch (__ss.ss_family) {
+-		case AF_INET:
+-			inet_ntop(AF_INET,
+-				  &((struct sockaddr_in *)&__ss)->sin_addr,
+-				  ntop_buf, sizeof(ntop_buf));
+-			break;
++			case AF_INET:
++				inet_ntop(AF_INET,
++						&((struct sockaddr_in *)&__ss)->sin_addr,
++						ntop_buf, sizeof(ntop_buf));
++				break;
+ #ifdef UPNP_ENABLE_IPV6
+-		case AF_INET6:
+-			inet_ntop(AF_INET6,
+-				  &((struct sockaddr_in6 *)&__ss)->sin6_addr,
+-				  ntop_buf, sizeof(ntop_buf));
+-			break;
++			case AF_INET6:
++				inet_ntop(AF_INET6,
++						&((struct sockaddr_in6 *)&__ss)->sin6_addr,
++						ntop_buf, sizeof(ntop_buf));
++				break;
+ #endif /* UPNP_ENABLE_IPV6 */
+-		default:
+-			memset(ntop_buf, 0, sizeof(ntop_buf));
+-			strncpy(ntop_buf, "<Invalid address family>",
+-				sizeof(ntop_buf) - 1);
++			default:
++				memset(ntop_buf, 0, sizeof(ntop_buf));
++				strncpy(ntop_buf, "<Invalid address family>",
++						sizeof(ntop_buf) - 1);
+ 		}
+ 		UpnpPrintf(UPNP_INFO, SSDP, __FILE__, __LINE__,
+-			   "Start of received response ----------------------------------------------------\n"
+-			   "%s\n"
+-			   "End of received response ------------------------------------------------------\n"
+-			   "From host %s\n", requestBuf, ntop_buf);
++				"Start of received response ----------------------------------------------------\n"
++				"%s\n"
++				"End of received response ------------------------------------------------------\n"
++				"From host %s\n", requestBuf, ntop_buf);
+ 		/* add thread pool job to handle request */
+ 		if (data != NULL) {
+ 			data->parser.msg.msg.length += (size_t) byteReceived;
+-			/* null-terminate */
++			// null-terminate
+ 			data->parser.msg.msg.buf[byteReceived] = 0;
+ 			memcpy(&data->dest_addr, &__ss, sizeof(__ss));
+-			TPJobInit(&job, (start_routine)
+-				  ssdp_event_handler_thread, data);
+-			TPJobSetFreeFunction(&job,
+-					     free_ssdp_event_handler_data);
+-			TPJobSetPriority(&job, MED_PRIORITY);
+-			if (ThreadPoolAdd(&gRecvThreadPool, &job, NULL) != 0)
+-				free_ssdp_event_handler_data(data);
++			//is_wemo_advertisement? Allow only sensor/socket Advertisements to reach wemoApp
++			if(strstr(requestBuf, "ssdp:alive"))
++			{
++				//if(!(strstr(requestBuf, "uuid:Sensor")) && !(strstr(requestBuf, "uuid:Socket")) && !(strstr(requestBuf, "uuid:Insight")))
++				if(!isWeMoDevice(requestBuf))
++				{
++					//printme(LOG_DEBUG, "Adv from non Sensor/Switch");
++					free_ssdp_event_handler_data( data );
++					return;
++				}
++			}
++
++			data->job_id = gSsdpRecvThreadPool.lastJobId;
++			TPJobInit( &job, ( start_routine )
++					ssdp_event_handler_thread, data );
++			TPJobSetFreeFunction( &job, free_ssdp_event_handler_data );
++
++			TPJobSetPriority( &job, MED_PRIORITY );
++			//TPJobSetPriority( &job, HIGH_PRIORITY );
++
++#ifdef INCLUDE_CLIENT_APIS
++			if(0x00 != strstr(requestBuf, "M-SEARCH"))
++			{
++				//- This should get all discovery search messages
++				//printme(LOG_DEBUG, "*********************Adding job to gSsdpRecvThreadPool *******************************");
++				if( ThreadPoolAdd( &gSsdpRecvThreadPool, &job, NULL ) != 0 ) {
++					free_ssdp_event_handler_data( data );
++				}
++			}
++			else 
++			{
++				//printme(LOG_DEBUG, "*********************Adding job to gRecvThreadPool *******************************");
++				//- This should get other SSDP data
++				if( ThreadPoolAdd( &gRecvThreadPool, &job, NULL ) != 0 ) {
++					free_ssdp_event_handler_data( data );
++				}
++			}
++#else
++			if( ThreadPoolAdd( &gSsdpRecvThreadPool, &job, NULL ) != 0 ) {
++				free_ssdp_event_handler_data( data );
++			}
++#endif
+ 		}
+ 	} else
+ 		free_ssdp_event_handler_data(data);
+Index: libupnp-1.6.19/threadutil/inc/ithread.h
+===================================================================
+--- libupnp-1.6.19.orig/threadutil/inc/ithread.h
++++ libupnp-1.6.19/threadutil/inc/ithread.h
+@@ -49,7 +49,7 @@ extern "C" {
+ #endif
+ 
+ #include <pthread.h>
+-
++#undef UPNP_USE_RWLOCK
+ #if defined(BSD) && !defined(__GNU__)
+ 	#define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
+ #endif
+@@ -200,6 +200,10 @@ typedef pthread_rwlockattr_t ithread_rwl
+ static UPNP_INLINE int ithread_initialize_library(void) {
+ 	int ret = 0;
+ 
++#if defined(WIN32) && defined(PTW32_STATIC_LIB)
++	ret = !pthread_win32_process_attach_np();
++#endif
++
+ 	return ret;
+ }
+ 
+@@ -218,6 +222,10 @@ static UPNP_INLINE int ithread_initializ
+ static UPNP_INLINE int ithread_cleanup_library(void) {
+ 	int ret = 0;
+ 
++#if defined(WIN32) && defined(PTW32_STATIC_LIB)
++	ret = !pthread_win32_process_detach_np();
++#endif
++
+ 	return ret;
+ }
+ 
+@@ -366,7 +374,9 @@ static UPNP_INLINE int ithread_cleanup_t
+  *      Always returns 0.
+  *      See man page for pthread_mutex_init
+  *****************************************************************************/
+-#define ithread_mutex_init pthread_mutex_init
++int robust_mutex_init (pthread_mutex_t *mutex,
++			       __const pthread_mutexattr_t *mutexattr);
++#define ithread_mutex_init robust_mutex_init
+ 
+ 
+ /****************************************************************************
+@@ -383,7 +393,8 @@ static UPNP_INLINE int ithread_cleanup_t
+  *      Always returns 0.
+  *      See man page for pthread_mutex_lock
+  *****************************************************************************/
+-#define ithread_mutex_lock pthread_mutex_lock
++int robust_mutex_lock(pthread_mutex_t *mutex);
++#define ithread_mutex_lock robust_mutex_lock
+   
+ 
+ /****************************************************************************

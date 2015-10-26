@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches
+END
+210-can_include_linux_fs_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/210-can_include_linux_fs_h.patch
+END
+106-iegbe_new_irqf_constant.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/106-iegbe_new_irqf_constant.patch
+END
+601-2.6.32_includes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/601-2.6.32_includes.patch
+END
+150-ocracoke_island.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/150-ocracoke_island.patch
+END
+400-edma_fix_irq_request_warning.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/400-edma_fix_irq_request_warning.patch
+END
+500-1588_fix_irq_request_warning.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/500-1588_fix_irq_request_warning.patch
+END
+600-2.6.27_includes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/600-2.6.27_includes.patch
+END
+102-iegbe_nuke_polling_netdev.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/102-iegbe_nuke_polling_netdev.patch
+END
+103-iegbe_convert_unicast_addr_list.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/103-iegbe_convert_unicast_addr_list.patch
+END
+220-can_fix_irq_request.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/220-can_fix_irq_request.patch
+END
+200-can_fix_ioctl_numbers.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/200-can_fix_ioctl_numbers.patch
+END
+230-can_remove_driver_data_direct_access.patch
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/230-can_remove_driver_data_direct_access.patch
+END
+100-iegbe_netdev_ops.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/100-iegbe_netdev_ops.patch
+END
+104-iegbe_group_address_list_and_its_count.patch
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/104-iegbe_group_address_list_and_its_count.patch
+END
+700-iegbe_kcompat_2.6.30.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/700-iegbe_kcompat_2.6.30.patch
+END
+701-iegbe_poll_dev.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/701-iegbe_poll_dev.patch
+END
+002-cflags_cleanup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/002-cflags_cleanup.patch
+END
+105-iegbe_new_dma_masks.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/105-iegbe_new_dma_masks.patch
+END
+003-new_irqf_constants.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/003-new_irqf_constants.patch
+END
+001-igbe_update.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/001-igbe_update.patch
+END
+101-iegbe_fix_napi_interface.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/101-iegbe_fix_napi_interface.patch
+END
+300-wdt_compile_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ep80579-drivers/patches/300-wdt_compile_fix.patch
+END

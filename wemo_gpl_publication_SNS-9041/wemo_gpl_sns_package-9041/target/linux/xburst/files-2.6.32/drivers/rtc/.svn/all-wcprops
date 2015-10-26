@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/drivers/rtc
+END
+rtc-jz4740.c
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/drivers/rtc/rtc-jz4740.c
+END

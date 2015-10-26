@@ -1,0 +1,34 @@
+#!/bin/sh
+
+usage() {
+    echo usage: $0: \<dropbear configuation directory\>
+}
+
+die() {
+    echo $*
+    usage
+    exit 1
+}
+
+[ -n "$1" -a -d "$1" ] || die Expected dropbear configuration directory
+cd "$1"
+
+dl=${DL_DIR:-$(TOPDIR)/dl}
+
+if [ -f ${dl}/dropbear_rsa_host_key ]; then
+    [ -s dropbear_rsa_host_key ] || cp ${dl}/dropbear_rsa_host_key .
+    [ -s dropbear_dss_host_key ] || cp ${dl}/dropbear_dss_host_key .
+elif [ -x /usr/bin/dropbearkey ]; then
+    [ -s dropbear_rsa_host_key ] || {
+	/usr/bin/dropbearkey -t rsa -f dropbear_rsa_host_key
+	cp dropbear_rsa_host_key ${dl}
+    }
+    [ -s dropbear_dss_host_key ] || {
+	/usr/bin/dropbearkey -t rsa -f dropbear_dss_host_key
+	cp dropbear_dss_host_key ${dl}
+    }
+else
+    [ -s dropbear_rsa_host_key ] || touch dropbear_rsa_host_key
+    [ -s dropbear_dss_host_key ] || touch dropbear_dss_host_key
+fi
+

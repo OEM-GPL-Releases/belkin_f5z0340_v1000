@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30
+END
+005-register_defs_octeon_mgmt.patch
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/005-register_defs_octeon_mgmt.patch
+END
+010-export_erratum_function.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/010-export_erratum_function.patch
+END
+013-compile_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/013-compile_fixes.patch
+END
+008-more_board_types_constraints.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/008-more_board_types_constraints.patch
+END
+006-octeon_mgmt_driver.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/006-octeon_mgmt_driver.patch
+END
+003_pci_pcie_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/003_pci_pcie_support.patch
+END
+001-handle_removal_h_constraint.patch
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/001-handle_removal_h_constraint.patch
+END
+017-platform_devices.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/017-platform_devices.patch
+END
+007-export_cvmx_sysinfo.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/007-export_cvmx_sysinfo.patch
+END
+018-dwc_otg.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/018-dwc_otg.patch
+END
+016-octeon_hw_rng.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/016-octeon_hw_rng.patch
+END
+011-octeon_ethernet_driver.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/011-octeon_ethernet_driver.patch
+END
+105-nb5_fixup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/105-nb5_fixup.patch
+END
+004-named_alloc_function.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/004-named_alloc_function.patch
+END
+100-wndap330_hacks.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/100-wndap330_hacks.patch
+END
+106-no_module_reloc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/106-no_module_reloc.patch
+END
+009-more_chip_specific_feature_tests.patch
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/009-more_chip_specific_feature_tests.patch
+END
+015-no_werror.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/015-no_werror.patch
+END
+012-hook_up_eth_driver.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/012-hook_up_eth_driver.patch
+END
+002-register_defs_pci.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/octeon/patches-2.6.30/002-register_defs_pci.patch
+END

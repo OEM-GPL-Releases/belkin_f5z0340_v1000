@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs
+END
+working.tex
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/working.tex
+END
+adding.tex
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/adding.tex
+END
+init-scripts.tex
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/init-scripts.tex
+END
+network.tex
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/network.tex
+END
+debugging.tex
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/debugging.tex
+END
+wireless.tex
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/wireless.tex
+END
+openwrt.tex
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/openwrt.tex
+END
+build.tex
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/build.tex
+END
+bugs.tex
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/bugs.tex
+END
+config.tex
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/config.tex
+END
+.gitignore
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/.gitignore
+END
+submitting-patches.tex
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/submitting-patches.tex
+END
+openwrt.sty
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/openwrt.sty
+END
+network-scripts.tex
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/network-scripts.tex
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/docs/Makefile
+END

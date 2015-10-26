@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4
+END
+995-short-enums.diff
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/995-short-enums.diff
+END
+100-uclibc-conf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/100-uclibc-conf.patch
+END
+820-libgcc_pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/820-libgcc_pic.patch
+END
+993-arm_insn-opinit-RTX_CODE-fixup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/993-arm_insn-opinit-RTX_CODE-fixup.patch
+END
+410-fix_pr37436.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/410-fix_pr37436.patch
+END
+104-gnuhurd-uclibc-conf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/104-gnuhurd-uclibc-conf.patch
+END
+810-arm-softfloat-libgcc.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/810-arm-softfloat-libgcc.patch
+END
+910-mbsd_multi.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/910-mbsd_multi.patch
+END
+305-libmudflap-susv3-legacy.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/305-libmudflap-susv3-legacy.patch
+END
+302-c99-snprintf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/302-c99-snprintf.patch
+END
+106-fix_linker_error.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/106-fix_linker_error.patch
+END
+105-libtool.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/105-libtool.patch
+END
+998-gcc-4.3.0-fix-header.00.patch
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/998-gcc-4.3.0-fix-header.00.patch
+END
+999-coldfire.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/999-coldfire.patch
+END
+301-missing-execinfo_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.3.4/301-missing-execinfo_h.patch
+END

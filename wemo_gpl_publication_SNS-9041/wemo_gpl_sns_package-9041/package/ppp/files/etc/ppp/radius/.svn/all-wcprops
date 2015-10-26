@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/files/etc/ppp/radius
+END
+dictionary
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/files/etc/ppp/radius/dictionary
+END
+dictionary.microsoft
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/files/etc/ppp/radius/dictionary.microsoft
+END
+servers
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/files/etc/ppp/radius/servers
+END
+dictionary.asnet
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/files/etc/ppp/radius/dictionary.asnet
+END

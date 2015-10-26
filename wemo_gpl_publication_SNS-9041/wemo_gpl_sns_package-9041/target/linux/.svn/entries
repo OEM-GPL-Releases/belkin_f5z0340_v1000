@@ -1,0 +1,137 @@
+10
+
+dir
+9042
+https://svn.nikleb.com/svn/plugins/branches/wemo_dev_pro_RC_1_13/target/linux
+https://svn.nikleb.com/svn/plugins
+
+
+
+2015-05-26T22:58:04.914125Z
+8926
+shansen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3b1d6894-504c-d64c-8afa-5a68f46bc93b
+
+ifxmips
+dir
+
+generic-2.6
+dir
+
+rt288x
+dir
+
+ppc44x
+dir
+
+brcm-2.4
+dir
+
+x86
+dir
+
+orion
+dir
+
+octeon
+dir
+
+xburst
+dir
+
+kirkwood
+dir
+
+ar7
+dir
+
+ar71xx
+dir
+
+avr32
+dir
+
+rb532
+dir
+
+uml
+dir
+
+ixp4xx
+dir
+
+cobalt
+dir
+
+atheros
+dir
+
+au1000
+dir
+
+rdc
+dir
+
+adm5120
+dir
+
+brcm63xx
+dir
+
+generic-2.4
+dir
+
+Makefile
+file
+
+
+
+
+2015-06-11T17:37:34.682992Z
+4a3c6e549c402779f6bbd7aee0226372
+2013-12-04T19:55:59.888625Z
+3786
+hugh.daschbach
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+365
+
+brcm47xx
+dir
+
+ppc40x
+dir
+

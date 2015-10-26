@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches
+END
+014-sierra_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/014-sierra_support.patch
+END
+010-bcm47xx-cam_absent.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/010-bcm47xx-cam_absent.patch
+END
+110-b44_alignment.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/110-b44_alignment.patch
+END
+015-sierra_kconfig.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/015-sierra_kconfig.patch
+END
+001-bcm47xx.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/001-bcm47xx.patch
+END
+016-fuse-ntfs-3g-mips.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/016-fuse-ntfs-3g-mips.patch
+END
+013-wl_hdd_pdc202xx.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/013-wl_hdd_pdc202xx.patch
+END
+004-flash.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/004-flash.patch
+END
+100-wl_config.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/100-wl_config.patch
+END
+008-b44_bcm47xx_support.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/008-b44_bcm47xx_support.patch
+END
+009-wrt54g3g_pcmcia.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/009-wrt54g3g_pcmcia.patch
+END
+011-wl_qdisc_war.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/011-wl_qdisc_war.patch
+END
+003-bcm47xx_cache_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/003-bcm47xx_cache_fixes.patch
+END
+005-bluetooth_sco_buffer_align.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/005-bluetooth_sco_buffer_align.patch
+END
+006-ide_workaround.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/006-ide_workaround.patch
+END
+012-aec62xx.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm-2.4/patches/012-aec62xx.patch
+END

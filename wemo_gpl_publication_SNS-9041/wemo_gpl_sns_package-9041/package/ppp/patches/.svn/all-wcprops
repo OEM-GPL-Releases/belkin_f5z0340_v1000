@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches
+END
+101-debian_close_dev_ppp.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/101-debian_close_dev_ppp.patch
+END
+206-compensate_time_change.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/206-compensate_time_change.patch
+END
+205-no_exponential_timeout.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/205-no_exponential_timeout.patch
+END
+105-debian_demand.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/105-debian_demand.patch
+END
+202-no_strip.patch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/202-no_strip.patch
+END
+201-mppe_mppc_1.1.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/201-mppe_mppc_1.1.patch
+END
+106-debian_stripMSdomain.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/106-debian_stripMSdomain.patch
+END
+103-debian_fix_link_pidfile.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/103-debian_fix_link_pidfile.patch
+END
+109-debian_pppoe_cleanup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/109-debian_pppoe_cleanup.patch
+END
+110-debian_defaultroute.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/110-debian_defaultroute.patch
+END
+108-debian_pppatm_fix_mtu.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/108-debian_pppatm_fix_mtu.patch
+END
+310-precompile_filter.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/310-precompile_filter.patch
+END
+102-debian_fix_close_fd0.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/102-debian_fix_close_fd0.patch
+END
+100-debian_ip-ip_option.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/100-debian_ip-ip_option.patch
+END
+010-use_target_for_configure.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/010-use_target_for_configure.patch
+END
+200-makefile.patch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/200-makefile.patch
+END
+104-debian_fix_mschapv2_ppp.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/104-debian_fix_mschapv2_ppp.patch
+END
+207-lcp_mtu_max.patch
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/207-lcp_mtu_max.patch
+END
+300-filter-pcap-includes-lib.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/300-filter-pcap-includes-lib.patch
+END
+107-debian_pppatm_cleanup.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/107-debian_pppatm_cleanup.patch
+END
+204-radius_config.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/204-radius_config.patch
+END
+203-opt_flags.patch
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/ppp/patches/203-opt_flags.patch
+END

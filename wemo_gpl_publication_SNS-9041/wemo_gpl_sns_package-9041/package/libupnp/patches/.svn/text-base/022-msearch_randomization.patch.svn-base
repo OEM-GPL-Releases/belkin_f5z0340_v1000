@@ -1,0 +1,271 @@
+Index: libupnp-1.6.19/threadutil/inc/TimerThread.h
+===================================================================
+--- libupnp-1.6.19.orig/threadutil/inc/TimerThread.h	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/threadutil/inc/TimerThread.h	2015-05-13 12:27:12.195438558 +0530
+@@ -84,7 +84,7 @@
+ {
+ 	ThreadPoolJob job;
+ 	/*! [in] Absolute time for event in seconds since Jan 1, 1970. */
+-	time_t eventTime;
++	long long eventTime;
+ 	/*! [in] Long term or short term job. */
+ 	Duration persistent;
+ 	int id;
+@@ -114,7 +114,7 @@
+ 	TimerThread* timer,
+ 	/*! [in] time of event. Either in absolute seconds, or relative
+ 	 * seconds in the future. */
+-	time_t time, 
++	long long time, 
+ 	/*! [in] either ABS_SEC, or REL_SEC. If REL_SEC, then the event
+ 	 * will be scheduled at the current time + REL_SEC. */
+ 	TimeoutType type,
+Index: libupnp-1.6.19/threadutil/src/TimerThread.c
+===================================================================
+--- libupnp-1.6.19.orig/threadutil/src/TimerThread.c	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/threadutil/src/TimerThread.c	2015-05-13 12:27:12.199438558 +0530
+@@ -64,8 +64,8 @@
+     TimerThread *timer = ( TimerThread * ) arg;
+     ListNode *head = NULL;
+     TimerEvent *nextEvent = NULL;
+-    time_t currentTime = 0;
+-    time_t nextEventTime = 0;
++    long long currentTime = 0;
++    long long nextEventTime = 0;
+     struct timespec timeToWait;
+     int tempId;
+ 
+@@ -92,7 +92,10 @@
+             nextEvent = ( TimerEvent * ) head->item;
+             nextEventTime = nextEvent->eventTime;
+         }
+-        currentTime = time(NULL);
++//        currentTime = time(NULL);
++        struct timeval te;
++        gettimeofday(&te, NULL); // get current time
++        currentTime= te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
+         /* If time has elapsed, schedule job. */
+         if (nextEvent && currentTime >= nextEventTime) {
+             if( nextEvent->persistent ) {
+@@ -113,8 +116,8 @@
+             continue;
+         }
+         if (nextEvent) {
+-            timeToWait.tv_nsec = 0;
+-            timeToWait.tv_sec = (long)nextEvent->eventTime;
++            timeToWait.tv_nsec = ((nextEvent->eventTime) % 1000) * 1000000;
++            timeToWait.tv_sec = (nextEvent->eventTime)/1000;
+             ithread_cond_timedwait( &timer->condition, &timer->mutex,
+                                     &timeToWait );
+         } else {
+@@ -132,20 +135,25 @@
+  */
+ static int CalculateEventTime(
+ 	/*! [in] Timeout. */
+-	time_t *timeout,
++	long long  *timeout,
+ 	/*! [in] Timeout type. */
+ 	TimeoutType type)
+ {
+-    time_t now;
+-
++//    time_t now;
++    struct timeval te;
++    long long milliseconds=-1;  
+     assert( timeout != NULL );
+ 
+     switch (type) {
+     case ABS_SEC:
+         return 0;
+     default: /* REL_SEC) */
+-        time(&now);
+-        ( *timeout ) += now;
++//        time(&now);
++//        ( *timeout ) += now;
++        gettimeofday(&te, NULL); // get current time
++        milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
++        ( *timeout ) += milliseconds;
++        printf("\n########## Time out set for job =%lld ########### \n",( *timeout )); 
+         return 0;
+     }
+ 
+@@ -165,7 +173,7 @@
+ 	/*! [in] . */
+ 	Duration persistent,
+ 	/*! [in] The absoule time of the event in seconds from Jan, 1970. */
+-	time_t eventTime,
++	long long eventTime,
+ 	/*! [in] Id of job. */
+ 	int id)
+ {
+@@ -244,7 +252,7 @@
+ 
+ int TimerThreadSchedule(
+ 	TimerThread *timer,
+-	time_t timeout,
++	long long timeout,
+ 	TimeoutType type,
+ 	ThreadPoolJob *job,
+ 	Duration duration,
+Index: libupnp-1.6.19/upnp/src/api/upnpapi.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/api/upnpapi.c	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/upnp/src/api/upnpapi.c	2015-05-13 12:27:12.199438558 +0530
+@@ -121,10 +121,10 @@
+ 
+ /*! SSDP recv thread pool. */
+ ThreadPool gSsdpRecvThreadPool;
+-
++#if 0
+ /*! Discovery response thread pool. */
+ ThreadPool gDiscoveryRespThreadPool;
+-
++#endif
+ /*! Receive thread pool. */
+ ThreadPool gRecvThreadPool;
+ 
+@@ -334,14 +334,14 @@
+ 	}
+     	else
+ 		syslog(LOG_DEBUG, "gSsdpRecvThreadPool threadpool [%p] initialized successfully", &gSsdpRecvThreadPool);
+-	
++#if 0	
+ 	if (ThreadPoolInit(&gDiscoveryRespThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+ 	}
+     	else
+ 		syslog(LOG_DEBUG, "gDiscoveryRespThreadPool threadpool [%p] initialized successfully", &gDiscoveryRespThreadPool);
+-	
++#endif	
+ 	if (ThreadPoolInit(&gMiniServerThreadPool, &attr) != UPNP_E_SUCCESS) {
+ 		ret = UPNP_E_INIT_FAILED;
+ 		goto exit_function;
+@@ -748,7 +748,9 @@
+ 	ThreadPoolShutdown(&gSendThreadPool);
+ 	PrintThreadPoolStats(&gRecvThreadPool, __FILE__, __LINE__,
+ 		"Recv Thread Pool");
++#if 0
+ 	ThreadPoolShutdown(&gDiscoveryRespThreadPool);
++#endif
+ 	ThreadPoolShutdown(&gSsdpRecvThreadPool);
+ 
+ #ifdef INCLUDE_CLIENT_APIS
+@@ -1842,7 +1844,7 @@
+     TPJobSetPriority( &job, MED_PRIORITY );
+     if( ( retVal = TimerThreadSchedule( &gTimerThread,
+                                         ( ( Exp / 2 ) -
+-                                          ( AUTO_ADVERTISEMENT_TIME ) ),
++                                          ( AUTO_ADVERTISEMENT_TIME ) )*1000,
+                                         REL_SEC, &job, SHORT_TERM,
+                                         &( adEvent->eventId ) ) )
+         != UPNP_E_SUCCESS ) {
+@@ -1856,7 +1858,7 @@
+     TPJobSetFreeFunction( &job, ( free_routine ) free_upnp_timeout );
+     TPJobSetPriority( &job, MED_PRIORITY );
+     if( ( retVal = TimerThreadSchedule( &gTimerThread,
+-                                        Exp - AUTO_ADVERTISEMENT_TIME,
++                                        (Exp - AUTO_ADVERTISEMENT_TIME)*1000,
+                                         REL_SEC, &job, SHORT_TERM,
+                                         &( adEvent->eventId ) ) )
+         != UPNP_E_SUCCESS ) {
+Index: libupnp-1.6.19/upnp/src/gena/gena_ctrlpt.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/gena/gena_ctrlpt.c	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/upnp/src/gena/gena_ctrlpt.c	2015-05-13 12:27:12.199438558 +0530
+@@ -187,7 +187,7 @@
+ 	/* Schedule the job */
+ 	return_code = TimerThreadSchedule(
+ 		&gTimerThread,
+-		TimeOut - AUTO_RENEW_TIME,
++		(TimeOut - AUTO_RENEW_TIME)*1000,
+ 		REL_SEC,
+ 		&job, SHORT_TERM,
+ 		&(RenewEvent->eventId));
+Index: libupnp-1.6.19/upnp/src/inc/upnpapi.h
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/inc/upnpapi.h	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/upnp/src/inc/upnpapi.h	2015-05-13 12:27:12.199438558 +0530
+@@ -204,8 +204,9 @@
+ extern ThreadPool gSsdpRecvThreadPool;
+ extern ThreadPool gSendThreadPool;
+ extern ThreadPool gMiniServerThreadPool;
++#if 0
+ extern ThreadPool gDiscoveryRespThreadPool;
+-
++#endif
+ 
+ typedef enum {
+ 	SUBSCRIBE,
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_ctrlpt.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_ctrlpt.c	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_ctrlpt.c	2015-05-13 12:27:12.199438558 +0530
+@@ -587,7 +587,7 @@
+ 	TPJobSetPriority(&job, MED_PRIORITY);
+ 	TPJobSetFreeFunction(&job, (free_routine) free);
+ 	/* Schedule a timeout event to remove search Arg */
+-	TimerThreadSchedule(&gTimerThread, timeTillRead,
++	TimerThreadSchedule(&gTimerThread, timeTillRead*1000,
+ 			    REL_SEC, &job, SHORT_TERM, id);
+ 	newArg->timeoutEventId = *id;
+ 	ListAddTail(&ctrlpt_info->SsdpSearchList, newArg);
+Index: libupnp-1.6.19/upnp/src/ssdp/ssdp_device.c
+===================================================================
+--- libupnp-1.6.19.orig/upnp/src/ssdp/ssdp_device.c	2015-05-13 12:27:12.199438558 +0530
++++ libupnp-1.6.19/upnp/src/ssdp/ssdp_device.c	2015-05-13 12:50:01.487408088 +0530
+@@ -102,7 +102,7 @@
+ 	int ret_code;
+ 	SsdpSearchReply *threadArg = NULL;
+ 	ThreadPoolJob job;
+-	//int replyTime;
++	long long  replyTime;
+ 	int maxAge;
+ 	time_t rawtime;
+ 	char* otTime;
+@@ -178,7 +178,7 @@
+ 	TPJobInit(&job, advertiseAndReplyThread, threadArg);
+ 	TPJobSetFreeFunction(&job, (free_routine) free);
+ 	TPJobSetPriority( &job, HIGH_PRIORITY );
+-
++#if 0
+ 	return_code = ThreadPoolAdd(&gDiscoveryRespThreadPool, &job, NULL);
+         if( return_code != 0 )
+         {
+@@ -187,19 +187,29 @@
+ 		else
+                 	syslog(LOG_DEBUG, "####################Adding Discovery response job failed: %d #########################",return_code);
+         }
+-
++#endif
+ 	/* Subtract a percentage from the mx to allow for network and processing
+ 	 * delays (i.e. if search is for 30 seconds, respond
+ 	 * within 0 - 27 seconds). */
+-#if 0
+-	if (mx >= 2)
+-		mx -= MAXVAL(1, mx / MX_FUDGE_FACTOR);
+-	if (mx < 1)
+-		mx = 1;
++
++        if (mx >= 2)
++        {
++                mx=mx*1000;
++		mx -= MAXVAL(1000, mx / MX_FUDGE_FACTOR);
++        }
++	else if (mx <=1)
++        {                
++		mx = 10;
++        }
++        else
++        {
++            /**Empty Case*/
++        }
+ 	replyTime = rand() % mx;
++        printf("\n#########Reply time pass to TimerThreadSchedule =%lldms ##########\n",replyTime);
+ 	TimerThreadSchedule(&gTimerThread, replyTime, REL_SEC, &job,
+ 			    SHORT_TERM, NULL);
+-#endif
++
+ }
+ #endif
+ 

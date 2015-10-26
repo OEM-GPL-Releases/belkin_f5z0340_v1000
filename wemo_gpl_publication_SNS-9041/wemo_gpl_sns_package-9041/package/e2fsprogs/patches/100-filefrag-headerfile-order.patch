@@ -1,0 +1,13 @@
+--- a/misc/filefrag.c      2010-10-20 18:28:41.411831204 -0700
++++ b/misc/filefrag.c   2010-10-20 18:29:35.638022702 -0700
+@@ -39,8 +39,8 @@
+ #include <sys/vfs.h>
+ #include <sys/ioctl.h>
+ #include <linux/fd.h>
+-#include <ext2fs/ext2_types.h>
+ #include <ext2fs/fiemap.h>
++#include <ext2fs/ext2_types.h>
+ 
+ int verbose = 0;
+ int no_bs = 0;         /* Don't use the files blocksize, use 1K blocksize */
+

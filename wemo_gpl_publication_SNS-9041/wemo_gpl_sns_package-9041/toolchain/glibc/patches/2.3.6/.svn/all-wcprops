@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/glibc/patches/2.3.6
+END
+602-powerpc_cflags_initfini.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/glibc/patches/2.3.6/602-powerpc_cflags_initfini.patch
+END
+002-mips_bootstrap_gcc_header_install.patch
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/glibc/patches/2.3.6/002-mips_bootstrap_gcc_header_install.patch
+END
+001-make_install_lib_all.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/glibc/patches/2.3.6/001-make_install_lib_all.patch
+END
+601-powerpc_socket_week_alias.patch
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/glibc/patches/2.3.6/601-powerpc_socket_week_alias.patch
+END

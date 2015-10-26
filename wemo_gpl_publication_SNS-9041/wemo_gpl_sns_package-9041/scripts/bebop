@@ -1,0 +1,143 @@
+#!/bin/bash
+# Help build an image.  Adds timestamps, etc
+
+PROGNAME=$(basename $0)
+LOGGING_DISABLED=""
+
+usage() {
+    printf "Usage:\n"
+    printf "    \t%s [-h] [-h] [-n] [-N] [-A{addr}] [-L] -- {build options}\n" $PROGNAME
+    echo "Where:"
+    printf "  -A{addr}\tSet notification address.  Overrides config file.\n"
+    printf "  -d\tDebug mode.\n"
+    printf "  -L\tDisable logging\n"
+    printf "  -n\tDry run\n"
+    printf "  -N\tSend notification\n"
+    printf "  -h\tThis help\n"
+    printf "\n"
+    printf " {build options} Additional options passed to make.\n"
+    printf " Note '--' is required to differentiate between options\n"
+    printf " for make and options for $PROGNAME.\n"
+}
+
+function next_logfile_name() {
+    LAST="$(ls -1 build*.log 2>/dev/null| tail -1)"
+    LAST="${LAST:-build000.log}"
+    echo $LAST | \
+           awk '                                  \
+      match($0, /(build)(.*)(\.log)/, m ) {        \
+        printf( "%s%03d%s\n", m[1], ++m[2], m[3] ); \
+      }'
+}
+
+function notify() {
+    if [ -n "$NOTIFY" ]; then
+        STATUS=$1
+        shift
+        CMD="$*"
+        if [ $STATUS -eq 0 ]; then
+            SUBJECT="Success"
+            STATE="succeeded"
+        else
+            SUBJECT="FAILED"
+            STATE="FAILED"
+        fi
+        if [ -n "$DEBUG" ];then
+            printf "DEBUG: notify(%s): SUBJECT: \"%s\", STATE: \"%s\".\n" \
+                "$STATUS" "$SUBJECT" "$STATUS"
+        fi
+        echo "Command \"$CMD\" $STATE" | mail -s "$SUBJECT" $NOTIFICATION_ADDR
+    else
+        [ -n "$DEBUG" ] && echo "DEBUG: No notification requested" >&2
+    fi
+}
+
+
+# Placeholder for echo command.  If not set, the rest of the command
+# is executed.  If set to "echo" then it is only printed
+RUN=""
+export LOGFILE="$(next_logfile_name)"
+LOG="> $LOGFILE"
+unset DEBUG
+CONFIG_FILE="$HOME/.beboprc"
+NOTIFICATION_ADDR=""
+
+# Load configuration file if present
+if [ -f "$CONFIG_FILE" ];then
+    echo "Using configuration file $CONFIG_FILE"
+    source "$CONFIG_FILE"
+else
+    [ -n "$DEBUG" ] && echo "No config file detected ($CONFIG_FILE)" >&2
+fi
+
+while getopts ":a:dhqnNL" opt;do
+    case $opt in
+        d)  DEBUG=1 ;;
+        L)  LOG=$LOGGING_DISABLED ;;
+        A)  NOTIFICATION_ADDR="$OPTARG" ;;
+        N)  NOTIFY=1 ;;
+        h)
+            usage
+            exit 0
+            ;;
+        n)  # Dry run.  Also disable logging.
+            RUN="echo"
+            LOG=$LOGGING_DISABLED
+            ;;
+        \?)
+           echo "Invalid option: -$OPTARG" >&2
+           usage
+           exit 1
+           ;;
+	:)
+	   echo "Option -${OPTARG} needs an argument." >&2
+	   usage
+	   exit 1
+	   ;;
+    esac
+done
+shift $((OPTIND-1))
+
+# If notification selected, make sure we have an address
+if [ -n "$NOTIFY" -a -z "$NOTIFICATION_ADDR" ]; then
+    echo "Notification requires address (-A or config file)." >&2
+    usage
+    exit 1
+fi
+
+CMD_PREFIX="make"
+CMD="${CMD_PREFIX} $*"
+
+if [ -n "$DEBUG" ]; then
+    echo "RUN:     '$RUN'"
+    echo "LOG:     '$LOG'"
+    echo "LOGFILE: '$LOGFILE'"
+    echo "ARGS:    '$*'"
+    echo "CMD:     '$CMD'"
+    exit 0
+fi
+
+if [ "$LOG" != "$LOGGING_DISABLED" ];then
+    echo "(Logging to file '$LOGFILE')." 1>&2
+    # Save original stdout to FD 3
+    exec 3>&1
+    exec 1>"$LOGFILE" 2>&1
+    tail -F "$LOGFILE" >&3 &
+    TAIL_PID=$!
+fi
+
+( time ( 
+    printf "=== %s starts at %s ===\n" "$PROGNAME" "$(date)";
+    printf "=== Using command: '%s' ===\n" "${CMD}";
+    ${RUN} $CMD 
+  )
+  RESULT=$?
+  printf "=== %s ends at %s ===\n" "$PROGNAME" "$(date)"
+  exit $RESULT
+)
+
+RESULT=$?
+
+[ -n "$TAIL_PID" ] && kill $TAIL_PID > /dev/null
+
+notify $RESULT $CMD

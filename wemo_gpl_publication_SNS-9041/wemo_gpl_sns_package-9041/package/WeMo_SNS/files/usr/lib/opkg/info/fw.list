@@ -1,0 +1,7 @@
+/etc/product.name
+/sbin/firmware_update.sh
+/sbin/update_test.sh
+/root/.gnupg/trustdb.gpg
+/root/.gnupg/pubring.gpg
+/root/.gnupg/secring.gpg
+/root/.gnupg/WeMoPubKey.asc

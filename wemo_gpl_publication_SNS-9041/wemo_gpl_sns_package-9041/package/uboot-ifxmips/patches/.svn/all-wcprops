@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/patches
+END
+100-ifx.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/patches/100-ifx.patch
+END
+130-a800.patch
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/patches/130-a800.patch
+END
+110-compile_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/patches/110-compile_fix.patch
+END
+120-eon_flash.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/patches/120-eon_flash.patch
+END
+001-portability.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/patches/001-portability.patch
+END

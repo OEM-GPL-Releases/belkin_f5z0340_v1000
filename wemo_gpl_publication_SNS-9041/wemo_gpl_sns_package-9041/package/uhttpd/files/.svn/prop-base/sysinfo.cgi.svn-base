@@ -1,0 +1,28 @@
+K 14
+svn:executable
+V 1
+*
+K 13
+svn:mergeinfo
+V 2034
+/branches/backfire_smart_corewifi_link_HomeSense/package/uhttpd/files/sysinfo.cgi:8043-8064
+/trunk/embedded-WeMo_2_0/openwrt/package/uhttpd/files/sysinfo.cgi:2760-3681
+/trunk/embedded-WeMo_2_0_3127/openwrt/package/uhttpd/files/sysinfo.cgi:3139-3743
+/trunk/embedded-WeMo_2_0_3691/openwrt/package/uhttpd/files/sysinfo.cgi:3692-4906,5483-6223
+/trunk/embedded-WeMo_2_0_5482_RC18/openwrt/package/uhttpd/files/sysinfo.cgi:5566,5593,5703,5712,5714,5740,5746,5750,5758,5761,5776,5778-5779,5867,5872,6040,6055,6073,6104,6110,6184-6185,6187,6227,6232,6240-6241
+/trunk/embedded-WeMo_2_0_LED_Light/openwrt/package/uhttpd/files/sysinfo.cgi:4925-7360,7481,7511,7516,7613,7703-7704,7734,7737,7752,7759-7760,7780,7822,7837-7838
+/trunk/embedded-WeMo_2_0_LED_Light_6083_RC18/openwrt/package/uhttpd/files/sysinfo.cgi:6119-6938
+/trunk/embedded-WeMo_2_0_LED_Light_Async/openwrt/package/uhttpd/files/sysinfo.cgi:6000-6033
+/trunk/embedded-WeMo_2_0_LED_Light_CES_2015/openwrt/package/uhttpd/files/sysinfo.cgi:7742-7751
+/trunk/embedded-WeMo_2_0_LED_Light_DeferZB/openwrt/package/uhttpd/files/sysinfo.cgi:6647-6648
+/trunk/embedded-WeMo_2_0_LED_Light_DeferZBMain/openwrt/package/uhttpd/files/sysinfo.cgi:6762-7510
+/trunk/embedded-WeMo_2_0_LED_Light_LL/openwrt/package/uhttpd/files/sysinfo.cgi:5737-5792
+/trunk/embedded-WeMo_2_0_LED_Light_LevelStatus/openwrt/package/uhttpd/files/sysinfo.cgi:6956-7610
+/trunk/embedded-WeMo_2_0_LED_Light_M3691_4511/openwrt/package/uhttpd/files/sysinfo.cgi:4512-4842
+/trunk/embedded-WeMo_2_0_LED_Light_MIC/openwrt/package/uhttpd/files/sysinfo.cgi:5932
+/trunk/embedded-WeMo_2_0_LED_Light_Merge_1.5_4412/openwrt/package/uhttpd/files/sysinfo.cgi:4413-4461
+/trunk/embedded-WeMo_2_0_LED_Light_Multi/openwrt/package/uhttpd/files/sysinfo.cgi:6001-6706
+/trunk/embedded-WeMo_2_0_LED_Light_Osram/openwrt/package/uhttpd/files/sysinfo.cgi:6560-6561
+/trunk/embedded-WeMo_2_0_netcam_maint_sdk_integ/openwrt/package/uhttpd/files/sysinfo.cgi:3495-3538
+/trunk/embedded-WeMo_2_0_netcam_maintenance/openwrt/package/uhttpd/files/sysinfo.cgi:3408-3548
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library
+END
+havege.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/havege.c
+END
+x509write.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/x509write.c
+END
+bignum.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/bignum.c
+END
+base64.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/base64.c
+END
+rsa.c
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/rsa.c
+END
+timing.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/timing.c
+END
+sha1.c
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/px5g/src/library/sha1.c
+END

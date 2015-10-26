@@ -1,0 +1,22 @@
+Index: linux-2.6.21/arch/mips/mm/fault.c
+===================================================================
+--- linux-2.6.21.orig/arch/mips/mm/fault.c	2007-04-25 20:08:32.000000000 -0700
++++ linux-2.6.21/arch/mips/mm/fault.c	2015-02-17 13:44:53.442847651 -0800
+@@ -133,14 +133,15 @@
+ 	if (user_mode(regs)) {
+ 		tsk->thread.cp0_badvaddr = address;
+ 		tsk->thread.error_code = write;
+-#if 0
+-		printk("do_page_fault() #2: sending SIGSEGV to %s for "
++#if 1
++		printk("sending SIGSEGV to %s for "
+ 		       "invalid %s\n%0*lx (epc == %0*lx, ra == %0*lx)\n",
+ 		       tsk->comm,
+ 		       write ? "write access to" : "read access from",
+ 		       field, address,
+ 		       field, (unsigned long) regs->cp0_epc,
+ 		       field, (unsigned long) regs->regs[31]);
++		show_registers(regs);
+ #endif
+ 		info.si_signo = SIGSEGV;
+ 		info.si_errno = 0;

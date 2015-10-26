@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/base-files/lib/preinit
+END
+05_set_preinit_face_adm5120
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/base-files/lib/preinit/05_set_preinit_face_adm5120
+END
+05_reset_button_adm5120
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/base-files/lib/preinit/05_reset_button_adm5120
+END

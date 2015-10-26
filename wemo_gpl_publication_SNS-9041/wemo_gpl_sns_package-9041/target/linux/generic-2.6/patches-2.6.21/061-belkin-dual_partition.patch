@@ -1,0 +1,50 @@
+---  a/drivers/mtd/mtdpart.c	2014-03-03 18:18:12.513796093 +0900
++++  a/drivers/mtd/mtdpart.c	2014-03-03 18:28:02.308142000 +0900
+@@ -26,6 +26,10 @@
+ /* Our partition linked list */
+ static LIST_HEAD(mtd_partitions);
+ 
++#if defined (CONFIG_WEMO_FLASH_OPTION_1) || defined (CONFIG_WEMO_FLASH_OPTION_2)
++extern char __initdata saved_root_name[];
++#endif
++
+ /* Our partition node structure */
+ struct mtd_part {
+ 	struct mtd_info mtd;
+@@ -594,11 +598,34 @@
+ 			return ret;
+ 		j++;
+ 
++#if defined (CONFIG_WEMO_FLASH_OPTION_1)
++        if(!saved_root_name) {
++            printk(KERN_EMERG "%s: Could not find saved_root_name !!\n",
++                    __FUNCTION__);
++            BUG();
++            return 0;
++        }
++		if (((strcmp(part->name, "rootfs_1") == 0 && saved_root_name[strlen(saved_root_name)-1] == '2')
++		||   (strcmp(part->name, "rootfs_2") == 0 && saved_root_name[strlen(saved_root_name)-1] == '4')
++        ) && slave->registered) {
++#elif defined (CONFIG_WEMO_FLASH_OPTION_2)
++        if(!saved_root_name) {
++            printk(KERN_EMERG "%s: Could not find saved_root_name !!\n",
++                    __FUNCTION__);
++            BUG();
++            return 0;
++        }
++		if (((strcmp(part->name, "rootfs_1") == 0 && saved_root_name[strlen(saved_root_name)-1] == '5')
++		||   (strcmp(part->name, "rootfs_2") == 0 && saved_root_name[strlen(saved_root_name)-1] == '7')
++        ) && slave->registered) {
++#else
+ 		if (strcmp(part->name, "rootfs") == 0 && slave->registered) {
++#endif
++
+ #ifdef CONFIG_MTD_ROOTFS_ROOT_DEV
+ 			if (ROOT_DEV == 0) {
+-				printk(KERN_NOTICE "mtd: partition \"rootfs\" "
+-					"set to be root filesystem\n");
++				printk(KERN_NOTICE "mtd: partition \"%s\" "
++					"set to be root filesystem\n", part->name );
+ 				ROOT_DEV = MKDEV(MTD_BLOCK_MAJOR, slave->mtd.index);
+ 			}
+ #endif

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches
+END
+008-integer_width.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/008-integer_width.patch
+END
+005-wrapper.patch
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/005-wrapper.patch
+END
+004-ccache_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/004-ccache_fixes.patch
+END
+007-numeric_limits.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/007-numeric_limits.patch
+END
+001-path_to_make.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/001-path_to_make.patch
+END
+006-eabi_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/006-eabi_fix.patch
+END
+002-path_to_bash.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/002-path_to_bash.patch
+END
+900-dependent_exception.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/900-dependent_exception.patch
+END
+009-compile_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/009-compile_fixes.patch
+END
+003-cp_command.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uclibc++/patches/003-cp_command.patch
+END

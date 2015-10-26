@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/drivers/i2c/chips
+END
+n516-lpc.c
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/drivers/i2c/chips/n516-lpc.c
+END
+n526-lpc.c
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/drivers/i2c/chips/n526-lpc.c
+END

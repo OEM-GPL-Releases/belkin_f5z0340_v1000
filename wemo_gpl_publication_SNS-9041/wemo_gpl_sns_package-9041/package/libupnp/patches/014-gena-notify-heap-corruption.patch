@@ -1,0 +1,29 @@
+diff --git a/upnp/src/gena/gena_device.c b/upnp/src/gena/gena_device.c
+index cdf7ba7..b657da8 100644
+--- a/upnp/src/gena/gena_device.c
++++ b/upnp/src/gena/gena_device.c
+@@ -414,6 +414,7 @@ static void genaNotifyThread(
+ 	int retVal = -1;
+ 	char hostaddr[30];
+ 	char *ipaddr = NULL;
++	int  fail_count;
+ 
+ 	memset(&job, 0, sizeof(job));
+ 
+@@ -492,7 +493,7 @@ static void genaNotifyThread(
+ 		else
+ 			syslog(LOG_DEBUG, "Failed %d to send SID: %s notification to: %s", sub_copy.failCnt, in->sid, ipaddr);
+ 	}
+-	sub->failCnt = sub_copy.failCnt;
++	fail_count = sub_copy.failCnt;
+ 	//DBG_printf("\n[%d] Updated failcnt from copy (%p) %d: %d\n", syscall(SYS_gettid), sub, sub->failCnt, sub_copy.failCnt);
+ 
+ 	freeSubscription(&sub_copy);
+@@ -524,6 +525,7 @@ static void genaNotifyThread(
+ 		/* wrap to 1 for overflow */
+ 		sub->ToSendEventKey = 1;
+ 
++	sub->failCnt = fail_count;
+ 	if (return_code == GENA_E_NOTIFY_UNACCEPTED_REMOVE_SUB || sub->failCnt >= MAX_NOTIFY_FAIL_CNT)
+ 	{
+ 		char *data = (char *)malloc(sizeof(int) + 20);

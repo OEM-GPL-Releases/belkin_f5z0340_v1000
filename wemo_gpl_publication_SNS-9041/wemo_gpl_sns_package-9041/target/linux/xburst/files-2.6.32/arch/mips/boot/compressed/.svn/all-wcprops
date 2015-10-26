@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/boot/compressed
+END
+head.S
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/boot/compressed/head.S
+END
+ld.script
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/boot/compressed/ld.script
+END
+dummy.c
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/boot/compressed/dummy.c
+END
+misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/boot/compressed/misc.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/boot/compressed/Makefile
+END

@@ -1,0 +1,287 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site
+END
+mips64-linux
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips64-linux
+END
+mipsel-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mipsel-openwrt-linux-uclibc
+END
+i486-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/i486-openwrt-linux-uclibc
+END
+i686-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/i686-openwrt-linux-uclibc
+END
+avr32-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/avr32-openwrt-linux-uclibc
+END
+linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/linux-gnu
+END
+mipsel-linux
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mipsel-linux
+END
+x86_64-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/x86_64-openwrt-linux-uclibc
+END
+armeb-openwrt-linux-gnueabi
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/armeb-openwrt-linux-gnueabi
+END
+mips-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips-openwrt-linux-gnu
+END
+cris-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/cris-openwrt-linux-uclibc
+END
+avr32-linux
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/avr32-linux
+END
+mips-linux
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips-linux
+END
+m68k-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/m68k-openwrt-linux-gnu
+END
+armeb-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/armeb-openwrt-linux-gnu
+END
+armeb-openwrt-linux-uclibcgnueabi
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/armeb-openwrt-linux-uclibcgnueabi
+END
+i486-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/i486-openwrt-linux-gnu
+END
+mips64-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips64-openwrt-linux-uclibc
+END
+i686-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/i686-openwrt-linux-gnu
+END
+m68k-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/m68k-openwrt-linux-uclibc
+END
+x86_64-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/x86_64-openwrt-linux-gnu
+END
+arm-openwrt-linux-gnueabi
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/arm-openwrt-linux-gnueabi
+END
+cris-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/cris-openwrt-linux-gnu
+END
+m68k-linux
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/m68k-linux
+END
+armeb-linux
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/armeb-linux
+END
+mips64el-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips64el-openwrt-linux-gnu
+END
+i486-linux
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/i486-linux
+END
+i686-linux
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/i686-linux
+END
+mips64el-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips64el-openwrt-linux-uclibc
+END
+x86_64-linux
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/x86_64-linux
+END
+cris-linux
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/cris-linux
+END
+linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/linux-uclibc
+END
+linux
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/linux
+END
+arm-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/arm-openwrt-linux-gnu
+END
+powerpc-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/powerpc-openwrt-linux-gnu
+END
+mips-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips-openwrt-linux-uclibc
+END
+mips64el-linux
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips64el-linux
+END
+arm-openwrt-linux-uclibcgnueabi
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/arm-openwrt-linux-uclibcgnueabi
+END
+mips64-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mips64-openwrt-linux-gnu
+END
+mipsel-openwrt-linux2.4-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mipsel-openwrt-linux2.4-uclibc
+END
+arm-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/arm-openwrt-linux-uclibc
+END
+powerpc-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/powerpc-openwrt-linux-uclibc
+END
+mipsel-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/mipsel-openwrt-linux-gnu
+END
+arm-linux
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/arm-linux
+END
+powerpc-linux
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/powerpc-linux
+END
+avr32-openwrt-linux-gnu
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/avr32-openwrt-linux-gnu
+END
+armeb-openwrt-linux-uclibc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/include/site/armeb-openwrt-linux-uclibc
+END

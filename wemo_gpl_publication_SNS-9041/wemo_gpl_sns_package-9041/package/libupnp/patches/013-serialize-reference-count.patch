@@ -1,0 +1,77 @@
+diff --git a/upnp/src/gena/gena_device.c b/upnp/src/gena/gena_device.c
+index acc7b1b..b966353 100644
+--- a/upnp/src/gena/gena_device.c
++++ b/upnp/src/gena/gena_device.c
+@@ -55,7 +55,7 @@
+ 	#define snprintf _snprintf
+ #endif
+ 
+-#define DBG_printf //printf
++#define DBG_printf(...) //printf
+ 
+ /*!
+  * \brief Unregisters a device.
+@@ -392,6 +402,7 @@ void* advThread(void *arg)
+ 
+ 	fflush(stdout);
+ 	thread=-1;
++	return NULL;
+ }
+ 
+ 
+@@ -1106,13 +1117,15 @@ int genaNotifyAll(
+ 	UpnpPrintf(UPNP_INFO, GENA, __FILE__, __LINE__,
+ 		"GENA BEGIN NOTIFY ALL");
+ 
++	HandleLock();
++
+ 	reference_count = (int *)malloc(sizeof (int));
+ 	if (reference_count == NULL) {
+ 		line = __LINE__;
+ 		ret = UPNP_E_OUTOF_MEMORY;
+ 		goto ExitFunction;
+ 	}
+-	*reference_count = 0;
++	*reference_count = 1;
+ 	
+ 	UDN_copy = (char *)malloc(strlen(UDN) + 1);
+ 	if (UDN_copy == NULL) {
+@@ -1149,8 +1162,6 @@ int genaNotifyAll(
+ 		goto ExitFunction;
+ 	}
+ 
+-	HandleLock();
+-
+ 	if (GetHandleInfo(device_handle, &handle_info) != HND_DEVICE) {
+ 		line = __LINE__;
+ 		ret = GENA_E_BAD_HANDLE;
+@@ -1208,12 +1219,14 @@ int genaNotifyAll(
+ 	}
+ 
+ ExitFunction:
+-	if (ret != GENA_SUCCESS || *reference_count == 0) {
+-		if(headers) free(headers);
+-		if(propertySet) ixmlFreeDOMString(propertySet);
+-		if(servId_copy) free(servId_copy);
+-		if(UDN_copy) free(UDN_copy);
+-		if(reference_count) free(reference_count);
++	--(*reference_count);
++	if (*reference_count == 0) {
++		free(headers);
++		ixmlFreeDOMString(propertySet);
++		free(servId_copy);
++		free(UDN_copy);
++		free(reference_count);
++		free(thread_struct);
+ 	}
+ 
+ 	HandleUnlock();
+@@ -1375,7 +1388,7 @@ static int create_url_list(
+ }
+ 
+ 
+-int check_existing_entry(char *url_entry, service_info *service, subscription **sub)
++int check_existing_entry(const char *url_entry, service_info *service, subscription **sub)
+ {
+ 	/* url_entry should be of the form IPAddress:port */
+ 	char *ipaddr;

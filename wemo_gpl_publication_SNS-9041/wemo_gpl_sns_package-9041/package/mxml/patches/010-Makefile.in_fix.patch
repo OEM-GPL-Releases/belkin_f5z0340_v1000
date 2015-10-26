@@ -1,0 +1,41 @@
+Index: mxml-2.9/Makefile.in
+===================================================================
+--- mxml-2.9.orig/Makefile.in	2014-12-22 12:00:32.875482380 -0800
++++ mxml-2.9/Makefile.in	2014-12-22 12:02:12.363480936 -0800
+@@ -88,7 +88,7 @@
+ 			mxml-index.o mxml-node.o mxml-search.o mxml-set.o
+ LIBOBJS		=	$(PUBLIBOBJS) mxml-private.o mxml-string.o
+ OBJS		=	mxmldoc.o testmxml.o $(LIBOBJS)
+-TARGETS		=	$(LIBMXML) mxmldoc testmxml mxml.xml doc/mxml.man
++TARGETS		=	$(LIBMXML)
+ 
+ 
+ #
+@@ -139,26 +139,13 @@
+ # Install everything...
+ #
+ 
+-install:	$(TARGETS) install-$(LIBMXML) install-libmxml.a
+-	echo Installing mxmldoc in $(BUILDROOT)$(bindir)...
+-	$(INSTALL_DIR) $(BUILDROOT)$(bindir)
+-	$(INSTALL_BIN) mxmldoc $(BUILDROOT)$(bindir)
+-	echo Installing documentation in $(BUILDROOT)$(docdir)...
+-	$(INSTALL_DIR) $(BUILDROOT)$(docdir)
+-	for file in $(DOCFILES); do \
+-		$(INSTALL_MAN) $$file $(BUILDROOT)$(docdir); \
+-	done
++install:	$(TARGETS) install-$(LIBMXML)
+ 	echo Installing header files in $(BUILDROOT)$(includedir)...
+ 	$(INSTALL_DIR) $(BUILDROOT)$(includedir)
+ 	$(INSTALL_DATA) mxml.h $(BUILDROOT)$(includedir)
+ 	echo Installing pkgconfig files in $(BUILDROOT)$(libdir)/pkgconfig...
+ 	$(INSTALL_DIR) $(BUILDROOT)$(libdir)/pkgconfig
+ 	$(INSTALL_DATA) mxml.pc $(BUILDROOT)$(libdir)/pkgconfig
+-	echo Installing man pages in $(BUILDROOT)$(mandir)...
+-	$(INSTALL_DIR) $(BUILDROOT)$(mandir)/man1
+-	$(INSTALL_MAN) doc/mxmldoc.man $(BUILDROOT)$(mandir)/man1/mxmldoc.1
+-	$(INSTALL_DIR) $(BUILDROOT)$(mandir)/man3
+-	$(INSTALL_MAN) doc/mxml.man $(BUILDROOT)$(mandir)/man3/mxml.3
+ 
+ install-libmxml.a:
+ 	echo Installing libmxml.a to $(BUILDROOT)$(libdir)...

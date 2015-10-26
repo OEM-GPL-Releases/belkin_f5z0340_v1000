@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/fuse/patches-kernel24
+END
+102-no_depmod.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/fuse/patches-kernel24/102-no_depmod.patch
+END
+112-no_break_on_mknod.patch
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/fuse/patches-kernel24/112-no_break_on_mknod.patch
+END
+113-DCACHE_BUG.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/fuse/patches-kernel24/113-DCACHE_BUG.patch
+END
+101-kmod_build.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/fuse/patches-kernel24/101-kmod_build.patch
+END

@@ -1,0 +1,11 @@
+--- a/lib/Makefile	2007-04-25 20:08:32.000000000 -0700
++++ b/lib/Makefile	2013-11-26 14:27:03.381931584 -0800
+@@ -12,7 +12,7 @@
+ 
+ lib-y	+= kobject.o kref.o kobject_uevent.o klist.o
+ 
+-obj-y += sort.o parser.o halfmd4.o debug_locks.o random32.o bust_spinlocks.o
++obj-y += sort.o parser.o halfmd4.o debug_locks.o random32.o bust_spinlocks.o LzmaDecode.o
+ 
+ ifeq ($(CONFIG_DEBUG_KOBJECT),y)
+ CFLAGS_kobject.o += -DDEBUG

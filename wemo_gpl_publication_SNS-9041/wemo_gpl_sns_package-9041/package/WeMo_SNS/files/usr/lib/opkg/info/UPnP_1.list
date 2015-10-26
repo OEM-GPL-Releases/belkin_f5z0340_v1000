@@ -1,0 +1,16 @@
+/sbin/web/metainfoservice.xml
+/sbin/web/eventservice.xml
+/sbin/web/setup.xml
+/sbin/web/manufacture.xml
+/sbin/web/smartsetup_v2.xml
+/sbin/web/smartsetup.xml
+/sbin/web/remoteaccess.xml
+/sbin/web/setupservice.xml
+/sbin/web/timesyncservice.xml
+/sbin/web/deviceinfoservice.xml
+/sbin/web/deviceinfoservice_v2.xml
+/sbin/web/insightservice.xml
+/sbin/web/jardenservice.xml
+/sbin/web/firmwareupdate.xml
+/sbin/web/rulesservice.xml
+/lib/libUPnPHndlr.so

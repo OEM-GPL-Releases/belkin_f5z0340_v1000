@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/zyxel
+END
+p-33x.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/zyxel/p-33x.h
+END
+p-334wt.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/zyxel/p-334wt.c
+END
+p-335.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/zyxel/p-335.c
+END
+p-33x.c
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/zyxel/p-33x.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/zyxel/Makefile
+END

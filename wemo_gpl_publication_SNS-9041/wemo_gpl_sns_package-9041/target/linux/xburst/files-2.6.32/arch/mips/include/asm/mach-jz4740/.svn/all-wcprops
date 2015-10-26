@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740
+END
+war.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/war.h
+END
+clock.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/clock.h
+END
+irq.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/irq.h
+END
+board-n516.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/board-n516.h
+END
+gpio.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/gpio.h
+END
+serial.h
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/serial.h
+END
+regs.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/regs.h
+END
+timer.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/timer.h
+END
+board-qi_lb60.h
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/board-qi_lb60.h
+END
+dma.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/dma.h
+END
+jz4740.h
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/jz4740.h
+END
+platform.h
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/xburst/files-2.6.32/arch/mips/include/asm/mach-jz4740/platform.h
+END

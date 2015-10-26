@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/pcmcia-cs/patches
+END
+003-cardmgr_c.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/pcmcia-cs/patches/003-cardmgr_c.patch
+END
+002-serial-cardctl_path.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/pcmcia-cs/patches/002-serial-cardctl_path.patch
+END
+004-pcmcia_resources.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/pcmcia-cs/patches/004-pcmcia_resources.patch
+END
+001-config-novatel_merlin_u630.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/pcmcia-cs/patches/001-config-novatel_merlin_u630.patch
+END

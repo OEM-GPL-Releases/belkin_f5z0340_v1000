@@ -1,0 +1,397 @@
+/*
+ ***************************************************************************
+ * Ralink Tech Inc.
+ * 4F, No. 2 Technology 5th Rd.
+ * Science-based Industrial Park
+ * Hsin-chu, Taiwan, R.O.C.
+ *
+ * (c) Copyright, Ralink Technology, Inc.
+ *
+ *  This program is free software; you can redistribute  it and/or modify it
+ *  under  the terms of  the GNU General  Public License as published by the
+ *  Free Software Foundation;  either version 2 of the  License, or (at your
+ *  option) any later version.
+ *
+ *  THIS  SOFTWARE  IS PROVIDED   ``AS  IS'' AND   ANY  EXPRESS OR IMPLIED
+ *  WARRANTIES,   INCLUDING, BUT NOT  LIMITED  TO, THE IMPLIED WARRANTIES OF
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN
+ *  NO  EVENT  SHALL   THE AUTHOR  BE    LIABLE FOR ANY   DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED   TO, PROCUREMENT OF  SUBSTITUTE GOODS  OR SERVICES; LOSS OF
+ *  USE, DATA,  OR PROFITS; OR  BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN  CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *  You should have received a copy of the  GNU General Public License along
+ *  with this program; if not, write  to the Free Software Foundation, Inc.,
+ *  675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *
+ ***************************************************************************
+ */
+
+#ifndef __RALINK_GPIO_H__
+#define __RALINK_GPIO_H__
+
+#include <asm/rt2880/rt_mmap.h>
+
+#define RALINK_GPIO_HAS_5124            1
+//#define RALINK_GPIO_HAS_9524            1
+
+/*
+ * ioctl commands
+ */
+#define	RALINK_GPIO_SET_DIR		0x01
+#define RALINK_GPIO_SET_DIR_IN		0x11
+#define RALINK_GPIO_SET_DIR_OUT		0x12
+#define	RALINK_GPIO_READ		0x02
+#define	RALINK_GPIO_WRITE		0x03
+#define	RALINK_GPIO_SET			0x21
+#define	RALINK_GPIO_CLEAR		0x31
+#define	RALINK_GPIO_READ_BIT		0x04
+#define	RALINK_GPIO_WRITE_BIT		0x05
+#define	RALINK_GPIO_READ_BYTE		0x06
+#define	RALINK_GPIO_WRITE_BYTE		0x07
+#define	RALINK_GPIO_READ_INT		0x02 //same as read
+#define	RALINK_GPIO_WRITE_INT		0x03 //same as write
+#define	RALINK_GPIO_SET_INT		0x21 //same as set
+#define	RALINK_GPIO_CLEAR_INT		0x31 //same as clear
+#define RALINK_GPIO_ENABLE_INTP		0x08
+#define RALINK_GPIO_DISABLE_INTP	0x09
+#define RALINK_GPIO_REG_IRQ		0x0A
+#define RALINK_GPIO_LED_SET		0x41
+#define RALINK_GENERAL_READ		0x50
+
+#ifdef RALINK_GPIO_HAS_5124
+#define	RALINK_GPIO3924_SET_DIR		0x51
+#define RALINK_GPIO3924_SET_DIR_IN	0x13
+#define RALINK_GPIO3924_SET_DIR_OUT	0x14
+#define	RALINK_GPIO3924_READ		0x52
+#define	RALINK_GPIO3924_WRITE		0x53
+#define	RALINK_GPIO3924_SET		0x22
+#define	RALINK_GPIO3924_CLEAR		0x32
+
+#define	RALINK_GPIO5140_SET_DIR		0x61
+#define RALINK_GPIO5140_SET_DIR_IN	0x15
+#define RALINK_GPIO5140_SET_DIR_OUT	0x16
+#define	RALINK_GPIO5140_READ		0x62
+#define	RALINK_GPIO5140_WRITE		0x63
+#define	RALINK_GPIO5140_SET		0x23
+#define	RALINK_GPIO5140_CLEAR		0x33
+#define RALINK_GENERAL_READ		0x50
+#endif
+
+#ifdef RALINK_GPIO_HAS_9524
+#define	RALINK_GPIO3924_SET_DIR		0x51
+#define RALINK_GPIO3924_SET_DIR_IN	0x13
+#define RALINK_GPIO3924_SET_DIR_OUT	0x14
+#define	RALINK_GPIO3924_READ		0x52
+#define	RALINK_GPIO3924_WRITE		0x53
+#define	RALINK_GPIO3924_SET		0x22
+#define	RALINK_GPIO3924_CLEAR		0x32
+
+#define	RALINK_GPIO7140_SET_DIR		0x61
+#define RALINK_GPIO7140_SET_DIR_IN	0x15
+#define RALINK_GPIO7140_SET_DIR_OUT	0x16
+#define	RALINK_GPIO7140_READ		0x62
+#define	RALINK_GPIO7140_WRITE		0x63
+#define	RALINK_GPIO7140_SET		0x23
+#define	RALINK_GPIO7140_CLEAR		0x33
+
+#define	RALINK_GPIO9572_SET_DIR		0x71
+#define RALINK_GPIO9572_SET_DIR_IN	0x17
+#define RALINK_GPIO9572_SET_DIR_OUT	0x18
+#define	RALINK_GPIO9572_READ		0x72
+#define	RALINK_GPIO9572_WRITE		0x73
+#define	RALINK_GPIO9572_SET		0x24
+#define	RALINK_GPIO9572_CLEAR		0x34
+#define RALINK_GENERAL_READ		0x50
+#endif
+
+/*
+ * Address of RALINK_ Registers
+ */
+#define RALINK_SYSCTL_ADDR		RALINK_SYSCTL_BASE	// system control
+#define RALINK_REG_GPIOMODE		(RALINK_SYSCTL_ADDR + 0x60)
+#define RALINK_REG_PULLEN		(RALINK_SYSCTL_ADDR + 0x14)
+#define RALINK_IRQ_ADDR			RALINK_INTCL_BASE
+#define RALINK_REG_INTENA		(RALINK_IRQ_ADDR + 0x34)
+#define RALINK_REG_INTDIS		(RALINK_IRQ_ADDR + 0x38)
+
+#define UART_LITE_BASE			(RALINK_UART_LITE_BASE + 0xa0000000)
+#define UARTF_BASE				(RALINK_UART_BASE + 0xa0000000)
+
+#define RALINK_PRGIO_ADDR		RALINK_PIO_BASE // Programmable I/O
+#define RALINK_REG_PIOINT		(RALINK_PRGIO_ADDR + 0)
+#define RALINK_REG_PIOEDGE		(RALINK_PRGIO_ADDR + 0x04)
+#define RALINK_REG_PIORENA		(RALINK_PRGIO_ADDR + 0x08)
+#define RALINK_REG_PIOFENA		(RALINK_PRGIO_ADDR + 0x0C)
+#define RALINK_REG_PIODATA		(RALINK_PRGIO_ADDR + 0x20)
+#define RALINK_REG_PIODIR		(RALINK_PRGIO_ADDR + 0x24)
+#define RALINK_REG_PIOSET		(RALINK_PRGIO_ADDR + 0x2C)
+#define RALINK_REG_PIORESET		(RALINK_PRGIO_ADDR + 0x30)
+#define RALINK_REG_PIOTOGGLE		(RALINK_PRGIO_ADDR + 0x34)
+	
+#if defined (RALINK_GPIO_HAS_5124)
+
+#define RALINK_REG_PIO3924INT		(RALINK_PRGIO_ADDR + 0x38)
+#define RALINK_REG_PIO3924EDGE		(RALINK_PRGIO_ADDR + 0x3C)
+#define RALINK_REG_PIO3924RENA		(RALINK_PRGIO_ADDR + 0x40)
+#define RALINK_REG_PIO3924FENA		(RALINK_PRGIO_ADDR + 0x44)
+#define RALINK_REG_PIO3924DATA		(RALINK_PRGIO_ADDR + 0x48)
+#define RALINK_REG_PIO3924DIR		(RALINK_PRGIO_ADDR + 0x4C)
+#define RALINK_REG_PIO3924SET		(RALINK_PRGIO_ADDR + 0x54)
+#define RALINK_REG_PIO3924RESET		(RALINK_PRGIO_ADDR + 0x58)
+#define RALINK_REG_PIO3924TOGGLE	(RALINK_PRGIO_ADDR + 0x5C)
+
+#define RALINK_REG_PIO5140INT		(RALINK_PRGIO_ADDR + 0x60)
+#define RALINK_REG_PIO5140EDGE		(RALINK_PRGIO_ADDR + 0x64)
+#define RALINK_REG_PIO5140RENA		(RALINK_PRGIO_ADDR + 0x68)
+#define RALINK_REG_PIO5140FENA		(RALINK_PRGIO_ADDR + 0x6C)
+#define RALINK_REG_PIO5140DATA		(RALINK_PRGIO_ADDR + 0x70)
+#define RALINK_REG_PIO5140DIR		(RALINK_PRGIO_ADDR + 0x74)
+#define RALINK_REG_PIO5140SET		(RALINK_PRGIO_ADDR + 0x7C)
+#define RALINK_REG_PIO5140RESET		(RALINK_PRGIO_ADDR + 0x80)
+#define RALINK_REG_PIO5140TOGGLE	(RALINK_PRGIO_ADDR + 0x84)
+
+#elif defined (RALINK_GPIO_HAS_9524)
+
+#define RALINK_REG_PIO7140INT		(RALINK_PRGIO_ADDR + 0x60)
+#define RALINK_REG_PIO7140EDGE		(RALINK_PRGIO_ADDR + 0x64)
+#define RALINK_REG_PIO7140RENA		(RALINK_PRGIO_ADDR + 0x68)
+#define RALINK_REG_PIO7140FENA		(RALINK_PRGIO_ADDR + 0x6C)
+#define RALINK_REG_PIO7140DATA		(RALINK_PRGIO_ADDR + 0x70)
+#define RALINK_REG_PIO7140DIR		(RALINK_PRGIO_ADDR + 0x74)
+#define RALINK_REG_PIO7140SET		(RALINK_PRGIO_ADDR + 0x7C)
+#define RALINK_REG_PIO7140RESET		(RALINK_PRGIO_ADDR + 0x80)
+#define RALINK_REG_PIO7140TOGGLE	(RALINK_PRGIO_ADDR + 0x84)
+
+#define RALINK_REG_PIO9572INT		(RALINK_PRGIO_ADDR + 0x88)
+#define RALINK_REG_PIO9572EDGE		(RALINK_PRGIO_ADDR + 0x8C)
+#define RALINK_REG_PIO9572RENA		(RALINK_PRGIO_ADDR + 0x90)
+#define RALINK_REG_PIO9572FENA		(RALINK_PRGIO_ADDR + 0x94)
+#define RALINK_REG_PIO9572DATA		(RALINK_PRGIO_ADDR + 0x98)
+#define RALINK_REG_PIO9572DIR		(RALINK_PRGIO_ADDR + 0x9C)
+#define RALINK_REG_PIO9572SET		(RALINK_PRGIO_ADDR + 0xA0)
+#define RALINK_REG_PIO9572RESET		(RALINK_PRGIO_ADDR + 0xA4)
+#define RALINK_REG_PIO9572TOGGLE	(RALINK_PRGIO_ADDR + 0xA8)
+
+#endif
+
+/*
+ * Values for the GPIOMODE Register
+ */
+#ifdef CONFIG_RALINK_RT2880
+#define RALINK_GPIOMODE_I2C		0x01
+#define RALINK_GPIOMODE_UARTF		0x02
+#define RALINK_GPIOMODE_SPI		0x04
+#define RALINK_GPIOMODE_UARTL		0x08
+#define RALINK_GPIOMODE_JTAG		0x10
+#define RALINK_GPIOMODE_MDIO		0x20
+#define RALINK_GPIOMODE_SDRAM		0x40
+#define RALINK_GPIOMODE_PCI		0x80
+
+#elif defined (CONFIG_RALINK_RT3052) || defined (CONFIG_RALINK_RT2883)
+
+#define RALINK_GPIOMODE_I2C		0x01
+#define RALINK_GPIOMODE_SPI		0x02
+#define RALINK_GPIOMODE_UARTF		0x1C
+#define RALINK_GPIOMODE_UARTL		0x20
+#define RALINK_GPIOMODE_JTAG		0x40
+#define RALINK_GPIOMODE_MDIO		0x80
+#define RALINK_GPIOMODE_SDRAM		0x100
+#define RALINK_GPIOMODE_RGMII		0x200
+
+#elif defined (CONFIG_RALINK_RT3352)
+
+#define RALINK_GPIOMODE_I2C		0x01
+#define RALINK_GPIOMODE_SPI		0x02
+#define RALINK_GPIOMODE_UARTF		0x1C
+#define RALINK_GPIOMODE_UARTL		0x20
+#define RALINK_GPIOMODE_JTAG		0x40
+#define RALINK_GPIOMODE_MDIO		0x80
+#define RALINK_GPIOMODE_GE1		0x200
+#define RALINK_GPIOMODE_LNA_G		0x40000
+#define RALINK_GPIOMODE_PA_G		0x100000
+
+#elif defined (CONFIG_RALINK_RT5350)
+
+#define RALINK_GPIOMODE_I2C			0x01  // I2C disabled, GPIO enabled
+#define RALINK_GPIOMODE_SPI			0x02	// SPI disabled, GPIO enabled
+#define RALINK_GPIOMODE_GPIO_UARTF	0x14	// GPIO 11->14, RXD, CTS_N, TXD, RTS_N
+#define RALINK_GPIOMODE_UARTF			0x1C	// UARTF disabled, GPIO enabled
+#define RALINK_GPIOMODE_UARTL			0x20	// UARTL disabled, GPIO enabled
+#define RALINK_GPIOMODE_JTAG			0x40	// JTAG disabled, GPIO enabled
+
+//GPIO 22 -> GPIO 26 MODE
+#define RALINK_GPIOMODE_EPHY_GPIO	0x4000  // GPIO MODE
+#define RALINK_GPIOMODE_EPHY_LED		0x0000  // Ethernet PHY drives LEDS
+#define RALINK_GPIOMODE_BT_MODE		0x8000  // Bluetooth HW sharing mode
+
+#define RALINK_GPIOMODE_SPI_CS1		0x600000
+
+#elif defined (CONFIG_RALINK_RT3883)
+
+#define RALINK_GPIOMODE_I2C		0x01
+#define RALINK_GPIOMODE_SPI		0x02
+#define RALINK_GPIOMODE_UARTF		0x1C
+#define RALINK_GPIOMODE_UARTL		0x20
+#define RALINK_GPIOMODE_JTAG		0x40
+#define RALINK_GPIOMODE_MDIO		0x80
+#define RALINK_GPIOMODE_GE1		0x200
+#define RALINK_GPIOMODE_GE2		0x400
+#define RALINK_GPIOMODE_PCI		0x1800
+#define RALINK_GPIOMODE_LNA_A		0x30000
+#define RALINK_GPIOMODE_LNA_G		0xC0000
+
+#else
+#error Please Choose System Type
+#endif
+
+#define RALINK_GPIOMODE_DFT	(RALINK_GPIOMODE_I2C | /* I2C in GPIO mode */ \
+										 RALINK_GPIOMODE_JTAG) /* JTAG in GPIO mode */
+/*
+ * bit is the unit of length
+ */
+#ifdef RALINK_GPIO_HAS_5124
+#define RALINK_GPIO_NUMBER		52
+#else
+#define RALINK_GPIO_NUMBER		24
+#endif
+#define RALINK_GPIO_DATA_MASK		0x00FFFFFF
+#define RALINK_GPIO_DATA_LEN		24
+#define RALINK_GPIO_DIR_IN		0
+#define RALINK_GPIO_DIR_OUT		1
+#define RALINK_GPIO_DIR_ALLIN		0
+#define RALINK_GPIO_DIR_ALLOUT		0x00FFFFFF
+
+/*
+ * structure used at regsitration
+ */
+typedef struct {
+	unsigned int irq;		//request irq pin number
+	pid_t pid;			//process id to notify
+} ralink_gpio_reg_info;
+
+#define RALINK_GPIO_LED_LOW_ACT		1
+#define RALINK_GPIO_LED_INFINITY	4000
+typedef struct {
+	int gpio;			//gpio number (0 ~ 23)
+	unsigned int on;		//interval of led on
+	unsigned int off;		//interval of led off
+	unsigned int blinks;		//number of blinking cycles
+	unsigned int rests;		//number of break cycles
+	unsigned int times;		//blinking times
+} ralink_gpio_led_info;
+
+#define SUPPORT_RESET_BUTTON		1
+#define SUPPORT_GEMTEK_MP_TEST  1
+#define GPIO_STAT_OUT_LOW       0
+#define GPIO_STAT_OUT_HIGH      1
+#define GPIO_STAT_IN_LOW        2
+#define GPIO_STAT_IN_HIGH       3
+
+/*First GPIO Register GPIO0~GPIO21 can be used*/
+#define PORT0		0x00000001	// RELAY_CTRL (out)
+#define PORT1		0x00000002	// WIFI_BLUE_LED (out)
+#define PORT2		0x00000004	// WIFI_AMBER_LED (out)
+#define PORT3		0x00000008	// SPI_CS0
+#define PORT4		0x00000010	// SPI_CLK
+#define PORT5		0x00000020	// SPI_MOSI
+#define PORT6		0x00000040	// SPI_MISO
+#define PORT7		0x00000080 	// RTS_N - not used
+#define PORT8		0x00000100	// TXD
+#define PORT9		0x00000200	// CTS_N - not used
+#define PORT10		0x00000400 	// RXD
+#define PORT11		0x00000800 	// not used
+#define PORT12		0x00001000	// not used
+#define PORT13		0x00002000 	// not used
+#define PORT14		0x00004000	// not used
+#define PORT15		0x00008000	// TXD2
+#define PORT16		0x00010000	// RXD2
+#define PORT17		0x00020000	// JTAG_TDO - RESET (in)
+#define PORT18		0x00040000	// JTAG_TDI - POWER_AMBER (out)
+#define PORT19		0x00080000	// JTAG_TMS - POWER_YG (out)
+#define PORT20		0x00100000	// JTAG_TCK - TOUCH (in)
+#define PORT21		0x00200000	// JTAG_TRST_N
+
+#define GPIO_0_21_OUTPUTS		(PORT0 | PORT1 | PORT2 | PORT18 | PORT19)
+#define GPIO_0_21_INPUTS		(PORT17 | PORT20)
+
+/* Second GPIO Register GPI22~GPIO27 can be used*/	
+#define PORT22		0x00000001 	// not used
+#define PORT23 	0x00000002	// not used
+#define PORT24    0x00000004	// not used
+#define PORT25    0x00000008 	// not used
+#define PORT26    0x00000010 	// not used
+#define PORT27    0x00000020	// not used
+
+#define GPIO_22_27_OUTPUTS		(0)
+
+#define RALINK_GPIO(x)			(1 << x)
+
+// Reset button is on GPIO #17
+#define RESET_BUTTON     PORT17
+
+// "WIFI_Y" on schematic, I2C_SCLK/GPIO #2
+//#define WIFI_AMBER_LED	PORT19
+//#define WIFI_AMBER_LED	PORT2		
+
+// "WIFI_G" on schematic, I2C_SD/GPIO #1
+// This is a Green LED on Insight, previously BLUE on SNS 
+#define WIFI_BLUE_LED	PORT0
+//#define WIFI_BLUE_LED	PORT1				
+
+// "POWER_AMBER" on schematic, GPIO #18
+// This is actually a Green LED
+#define POWER_GREEN_LED		PORT1
+//#define POWER_GREEN_LED		PORT0
+#define POWER_AMBER_LED  PORT2
+
+// "POWER_YG" on schematic, GPIO #19
+//#define POWER_GREEN_YELLOW	PORT2
+//#define POWER_GREEN_YELLOW	PORT19
+
+// "TOUCH" on schematic, GPIO #20
+//#define POWER_BUTTON			PORT20
+
+// Place holder only.  MOTION_SENSOR will be via USB interface.
+// That code hasn't been written yet.
+//#define MOTION_SENSOR		PORT18
+#define WIFI_GREEN_LED	PORT0
+#define WIFI_YELLOW_LED	PORT19
+
+#define RELAY_CONTROL		PORT18
+#define TOUCH_SENSOR	PORT20
+
+#define RESET_TIME			 10
+#define LED_ON            0
+#define LED_OFF           1
+
+#define RELAY_ON            1
+#define RELAY_OFF           0
+
+#define WatchD_ON         1
+#define WatchD_OFF        0
+
+#define GMTK_CLOSE_SPEED_METER 0
+#define GMTK_SYSTEM_READY 1
+#define GMTK_SYSTEM_BOOT 2
+#define GMTK_SPEED_METER_BOOT_UP_READY 3
+#define GMTK_SPEED_METER_BOOT_UP 4
+#define GMTK_WL_SEC_DISABLED 5
+#define GMTK_WL_SEC_ENABLED 6
+#define GMTK_LAN_LINK_DOWN 7
+#define GMTK_LAN_LINK_UP 8
+#define GMTK_LAN_LINK_ERROR 9
+#define GMTK_WAN_MODEM_DOWN 10
+#define GMTK_WAN_MODEM_UP 11
+#define GMTK_WAN_MODEM_ERROR 12
+#define GMTK_WAN_INTERNET_DOWN 13
+#define GMTK_WAN_INTERNET_CONNECTING 14
+#define GMTK_WAN_INTERNET_CONNECTED 15
+#define GMTK_WAN_INTERNET_ERROR 16
+
+#endif	// __RALINK_GPIO_H__
+

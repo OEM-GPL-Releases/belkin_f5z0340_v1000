@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files
+END
+hostapd-mini.config
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/hostapd-mini.config
+END
+wpa_supplicant.sh
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/wpa_supplicant.sh
+END
+hostapd-full.config
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/hostapd-full.config
+END
+multicall.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/multicall.c
+END
+wpa_supplicant-mini.config
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/wpa_supplicant-mini.config
+END
+hostapd.sh
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/hostapd.sh
+END
+wpa_supplicant-full.config
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/hostapd/files/wpa_supplicant-full.config
+END

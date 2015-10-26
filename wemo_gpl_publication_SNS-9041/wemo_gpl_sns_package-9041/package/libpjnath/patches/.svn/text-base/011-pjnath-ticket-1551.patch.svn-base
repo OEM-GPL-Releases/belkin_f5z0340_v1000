@@ -1,0 +1,15 @@
+diff -urpw a/pjnath/src/pjnath/turn_session.c b/pjnath/src/pjnath/turn_session.c
+--- a/pjnath/src/pjnath/turn_session.c	2015-01-22 10:26:36.000000000 +0900
++++ b/pjnath/src/pjnath/turn_session.c	2015-01-22 10:31:40.561439670 +0900
+@@ -441,7 +441,10 @@
+ 	/* This may recursively call this function again with
+ 	 * state==PJ_TURN_STATE_DEALLOCATED.
+ 	 */
+-	send_refresh(sess, 0);
++	/* No need to deallocate as we're already deallocating! 
++	 * See https://trac.pjsip.org/repos/ticket/1551 
++	 */ 	 
++ 	/* send_refresh(sess, 0); */
+ 	break;
+     case PJ_TURN_STATE_DEALLOCATED:
+     case PJ_TURN_STATE_DESTROYING:     

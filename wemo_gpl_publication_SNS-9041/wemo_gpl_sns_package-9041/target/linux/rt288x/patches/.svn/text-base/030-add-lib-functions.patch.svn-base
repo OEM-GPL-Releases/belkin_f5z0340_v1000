@@ -1,0 +1,19 @@
+Index: linux-2.6.21/arch/mips/lib/Makefile
+===================================================================
+--- linux-2.6.21.orig/arch/mips/lib/Makefile	2010-11-15 21:56:15.000000000 -0800
++++ linux-2.6.21/arch/mips/lib/Makefile	2012-04-03 13:37:58.813575184 -0700
+@@ -2,11 +2,11 @@
+ # Makefile for MIPS-specific library files..
+ #
+ 
+-lib-y	+= csum_partial.o memcpy.o memcpy-inatomic.o memset.o strlen_user.o \
+-	   strncpy_user.o strnlen_user.o uncached.o
++lib-y	+= csum_partial.o delay.o memcpy.o memcpy-inatomic.o memset.o \
++	   strlen_user.o strncpy_user.o strnlen_user.o uncached.o memcmp.o
+ 
+ obj-y			+= iomap.o
+ obj-$(CONFIG_PCI)	+= iomap-pci.o
+ 
+ # libgcc-style stuff needed in the kernel
+-lib-y += ashldi3.o ashrdi3.o lshrdi3.o
++lib-y += ashldi3.o ashrdi3.o cmpdi2.o lshrdi3.o ucmpdi2.o

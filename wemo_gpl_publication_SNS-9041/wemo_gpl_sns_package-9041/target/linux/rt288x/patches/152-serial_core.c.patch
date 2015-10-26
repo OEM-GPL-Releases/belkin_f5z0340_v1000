@@ -1,0 +1,35 @@
+--- linux-2.6.21/drivers/serial/serial_core.c	2014-07-14 18:18:48.771891784 +0700
++++ linux-2.6.21.new/drivers/serial/serial_core.c	2014-07-14 18:22:42.487887599 +0700
+@@ -353,6 +353,9 @@
+ 	if (flags == UPF_SPD_WARP)
+ 		altbaud = 460800;
+ 
++//WNC_Roger 2013/06/18 init uartf
++		max = 115200;
++//WNC
+ 	for (try = 0; try < 2; try++) {
+ 		baud = tty_termios_baud_rate(termios);
+ 
+@@ -1563,6 +1566,10 @@
+ 	return ERR_PTR(ret);
+ }
+ 
++//WNC0_tsunghao Thu 14 Nov 2013 04:32:09 PM CST, disabled console
++char consoleDisabled[2] = { '\0', '\0' };
++//WNC0
++
+ /*
+  * In 2.4.5, calls to uart_open are serialised by the BKL in
+  *   linux/fs/devices.c:chrdev_open()
+@@ -1579,6 +1586,11 @@
+ 	struct uart_state *state;
+ 	int retval, line = tty->index;
+ 
++//WNC0_tsunghao Thu 14 Nov 2013 04:32:09 PM CST, disabled console
++    extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
++    ra_mtd_read_nm("Factory", 0x001D2, (size_t)1, consoleDisabled );
++//WNC0
++
+ 	BUG_ON(!kernel_locked());
+ 	DPRINTK("uart_open(%d) called\n", line);
+ 

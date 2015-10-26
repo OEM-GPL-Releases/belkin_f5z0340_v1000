@@ -1,0 +1,7 @@
+/etc/init.d/wemo
+/etc/icon.jpg
+/etc/ver.txt
+/etc/sensor.jpg
+/sbin/startWemo.sh
+/sbin/web/setup.xml
+/sbin/wemoApp

@@ -1,0 +1,45 @@
+This branch is intended to serve as a base for OpenWRT based Wemo
+development.  It takes a different approach than
+embedded-WeMo_2_0/openwrt.  The work is embedded-WeMo_2_0/openwrt
+reworks the OpenWRT build system with symbolic links into the tree
+that has evolved from Gemtek's SDK.  This branch attempts to adapt the
+Gemtek tree layout to OpenWRT rather than the other way round.
+
+The first goal of this effort is to isolate an OpenWRT SDK that can be
+built without any Belkin software.  An image built from the SDK will
+boot to a shell prompt.  This will provide a baseline for other
+manufacturers to produce an OpenWRT build environment that can be used
+as a base for Wemo applications.
+
+The second goal is to replace modified versions of open source
+applications with OpenWRT packages.  Where local changes have been
+made to open source application, those changes will be turned into
+patches applied to vanilla upstream sources.  This is important to
+ensure license conformance.  The modifications need to be releasable
+to customers and upstream authors.  The best format to release those
+changes are patches.
+
+The third goal of this effort is to repackage Wemo applications into
+OpenWRT packages.  That facilitates building Wemo applications on
+other manufacturer OpenWRT SDKs.  It also provides isolation between
+the application firmware and the rest of the Gemtek SDK.
+
+The base of this branch starts with
+embedded-WeMo_2_0/tarballs/backfire_10.03_source.tar.bz2 which is
+mostly equivalent with the upstream OpenWRT backfire branch at SVN
+revision 20728.  There are a few directories in the tar file that are
+not in the upstream tree.  The origin of these files is unclear.  This
+don't seem crucial.  But for the historical record, here's a list of
+those files not in the upstream tree:
+
+    package/ar7-atm/patches
+    package/base-files/files/etc/hotplug.d/block
+    package/e2fsprogs/patches
+    target/linux/brcm63xx/files/arch/mips/bcm63xx
+    target/linux/brcm63xx/files/arch/mips/configs
+    target/linux/brcm63xx/files/arch/mips/pci
+    target/linux/brcm63xx/files/drivers
+    target/linux/brcm63xx/files/include
+    target/linux/ixp4xx/base-files/etc
+    target/linux/x86/base-files/etc
+    toolchain/kernel-headers/files

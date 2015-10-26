@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2
+END
+100-uclibc-conf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/100-uclibc-conf.patch
+END
+300-libstdc++-pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/300-libstdc++-pic.patch
+END
+120-cris-do_not_overide_limits_h_test.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/120-cris-do_not_overide_limits_h_test.patch
+END
+820-libgcc_pic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/820-libgcc_pic.patch
+END
+910-soft-float.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/910-soft-float.patch
+END
+802-fix-ICE-in-arm_unwind_emit_set.patch
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/802-fix-ICE-in-arm_unwind_emit_set.patch
+END
+304-index_macro.patch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/304-index_macro.patch
+END
+200-uclibc-locale.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/200-uclibc-locale.patch
+END
+953-bug_33256.patch
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/953-bug_33256.patch
+END
+303-c99-complex-ugly-hack.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/303-c99-complex-ugly-hack.patch
+END
+500-avr32.patch
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/500-avr32.patch
+END
+800-arm-bigendian.patch
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/800-arm-bigendian.patch
+END
+600-fastjar_no_info.patch
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/600-fastjar_no_info.patch
+END
+910-mbsd_multi.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/910-mbsd_multi.patch
+END
+302-c99-snprintf.patch
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/302-c99-snprintf.patch
+END
+740-sh-pr24836.patch
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/740-sh-pr24836.patch
+END
+010-pr34130.patch
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/010-pr34130.patch
+END
+110-arm-eabi.patch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/110-arm-eabi.patch
+END
+850-unbreak-armv4t.patch
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/850-unbreak-armv4t.patch
+END
+301-missing-execinfo_h.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/toolchain/gcc/patches/4.1.2/301-missing-execinfo_h.patch
+END

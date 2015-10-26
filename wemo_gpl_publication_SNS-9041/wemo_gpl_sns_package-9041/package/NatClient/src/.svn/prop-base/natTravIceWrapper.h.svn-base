@@ -1,0 +1,22 @@
+K 13
+svn:mergeinfo
+V 1660
+/branches/backfire_sdk/package/NatClient/src/natTravIceWrapper.h:3817-3992
+/branches/backfire_smart/package/NatClient/src/natTravIceWrapper.h:4406-4552,5633,5874,6115,6525-6603,6745,6799,6970,7034
+/branches/backfire_smart_corewifi_gpl/package/NatClient/src/natTravIceWrapper.h:7913-7961
+/branches/backfire_smart_corewifi_mic/package/NatClient/src/natTravIceWrapper.h:5933
+/branches/backfire_smart_memtrack/package/NatClient/src/natTravIceWrapper.h:6229-6599
+/branches/backfire_smart_netcam/package/NatClient/src/natTravIceWrapper.h:7056-7552
+/branches/backfire_wifi_integration/package/NatClient/src/natTravIceWrapper.h:4416-4474
+/branches/wemo_dev_pro_RC_1_10/package/NatClient/src/natTravIceWrapper.h:7258-7619,7682-7695,7740
+/branches/wemo_dev_pro_RC_1_10_WEMO-31028/package/NatClient/src/natTravIceWrapper.h:7400-7511
+/branches/wemo_dev_pro_RC_1_11/package/NatClient/src/natTravIceWrapper.h:7593-7957
+/branches/wemo_dev_pro_RC_1_11_CES_2015/package/NatClient/src/natTravIceWrapper.h:7709-7908
+/branches/wemo_dev_pro_RC_1_12_gpl_merge/package/NatClient/src/natTravIceWrapper.h:7962-8129
+/trunk/embedded-WeMo_2_0_4209_1.5/Plugin/src/WeMo_Core/NatClient/natTravIceWrapper.h:4210-4534
+/trunk/embedded-WeMo_2_0_4570_RC151/Plugin/src/WeMo_Core/NatClient/natTravIceWrapper.h:4571-4797
+/trunk/embedded-WeMo_2_0_4724_RC16/Plugin/src/WeMo_Core/NatClient/natTravIceWrapper.h:4725-5283
+/trunk/embedded-WeMo_2_0_5284_RC17/Plugin/src/WeMo_Core/NatClient/natTravIceWrapper.h:5285-5973
+/trunk/embedded-WeMo_2_0_5482_RC18/Plugin/src/WeMo_Core/NatClient/natTravIceWrapper.h:5483-5973
+/trunk/embedded-WeMo_2_0_PR_A/Plugin/src/WeMo_Core/NatClient/natTravIceWrapper.h:3668-4221
+END

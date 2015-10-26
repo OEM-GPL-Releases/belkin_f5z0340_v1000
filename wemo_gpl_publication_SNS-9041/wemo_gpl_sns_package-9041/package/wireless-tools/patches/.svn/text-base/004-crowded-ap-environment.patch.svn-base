@@ -1,0 +1,12 @@
+diff -urpw a/iwpriv.c b/iwpriv.c
+--- a/iwpriv.c	2007-02-16 17:17:43.000000000 -0800
++++ b/iwpriv.c	2014-02-21 14:59:22.530177610 -0800
+@@ -259,7 +259,7 @@ set_private_cmd(int		skfd,		/* Socket */
+ 		int		priv_num)	/* Number of descriptions */
+ {
+   struct iwreq	wrq;
+-  u_char	buffer[4096];	/* Only that big in v25 and later */
++  u_char	buffer[63 * 1024]; /* Only that big in v25 and later */
+   int		i = 0;		/* Start with first command arg */
+   int		k;		/* Index in private description table */
+   int		temp;

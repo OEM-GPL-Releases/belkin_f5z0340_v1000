@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src
+END
+handlers.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/handlers.c
+END
+cache.c
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/cache.c
+END
+genl.c
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/genl.c
+END
+genl_family.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/genl_family.c
+END
+msg.c
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/msg.c
+END
+object.c
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/object.c
+END
+cache_mngt.c
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/cache_mngt.c
+END
+socket.c
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/socket.c
+END
+error.c
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/error.c
+END
+genl_ctrl.c
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/genl_ctrl.c
+END
+nl.c
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/nl.c
+END
+attr.c
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/attr.c
+END
+genl_mngt.c
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/genl_mngt.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/libnl-tiny/src/Makefile
+END

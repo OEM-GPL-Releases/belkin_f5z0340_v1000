@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712
+END
+danube.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/danube.c
+END
+ddr_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings.h
+END
+ddr_settings_e166.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_e166.h
+END
+ddr_settings_psc_166.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_psc_166.h
+END
+ddr_settings_r111.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_r111.h
+END
+ddr_settings_e111.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_e111.h
+END
+u-boot.lds
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/u-boot.lds
+END
+ddr_settings_Samsung_166.h
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_Samsung_166.h
+END
+pmuenable.S
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/pmuenable.S
+END
+config.mk
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/config.mk
+END
+ddr_settings_PROMOSDDR400.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_PROMOSDDR400.h
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/Makefile
+END
+ddr_settings_r166.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/ddr_settings_r166.h
+END
+lowlevel_init.S
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-lantiq/files/board/infineon/easy50712/lowlevel_init.S
+END

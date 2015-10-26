@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver
+END
+bcmip.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/bcmip.h
+END
+hnddma.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/hnddma.h
+END
+linux_osl.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/linux_osl.h
+END
+bcmutils.c
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/bcmutils.c
+END
+sbhnddma.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/sbhnddma.h
+END
+bcmutils.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/bcmutils.h
+END
+hnddma.c
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/hnddma.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/Makefile
+END
+linux_osl.c
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/broadcom-wl/src/driver/linux_osl.c
+END

@@ -1,0 +1,25 @@
+#### Loopback configuration
+config interface loopback
+        option ifname   "lo"
+        option proto    static
+        option ipaddr   127.0.0.1
+        option netmask  255.0.0.0
+
+
+#### LAN configuration
+config interface lan
+        option ifname   "eth2"
+        option proto    dhcp
+        option hostname "wemo"
+
+config interface wificlient
+        option ifname   "apcli0"
+        option proto    static
+        option hostname "wemo"
+        option auto     0
+
+config  interface wifi_ap
+        option ifname "ra0"
+        option proto    static
+        option ipaddr   10.22.22.1
+        option netmask  255.255.255.0

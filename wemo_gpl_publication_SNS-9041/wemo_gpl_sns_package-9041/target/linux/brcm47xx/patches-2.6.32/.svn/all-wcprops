@@ -1,0 +1,167 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32
+END
+930-bcm47xx-pci-iomem.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/930-bcm47xx-pci-iomem.patch
+END
+220-bcm5354.patch
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/220-bcm5354.patch
+END
+160-kmap_coherent.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/160-kmap_coherent.patch
+END
+812-disable_wgt634u_crap.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/812-disable_wgt634u_crap.patch
+END
+813-use_netdev_alloc_skb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/813-use_netdev_alloc_skb.patch
+END
+250-ohci-ssb-usb2.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/250-ohci-ssb-usb2.patch
+END
+601-mips-remove-pci-collision-check.patch
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/601-mips-remove-pci-collision-check.patch
+END
+940-bcm47xx-yenta.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/940-bcm47xx-yenta.patch
+END
+300-fork_cacheflush.patch
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/300-fork_cacheflush.patch
+END
+920-cache-wround.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/920-cache-wround.patch
+END
+150-cpu_fixes.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/150-cpu_fixes.patch
+END
+110-flash_map.patch
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/110-flash_map.patch
+END
+900-disable_early_printk.patch
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/900-disable_early_printk.patch
+END
+170-128MB_ram_bugfix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/170-128MB_ram_bugfix.patch
+END
+270-ehci-ssb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/270-ehci-ssb.patch
+END
+130-remove_scache.patch
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/130-remove_scache.patch
+END
+700-ssb-gigabit-ethernet-driver.patch
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/700-ssb-gigabit-ethernet-driver.patch
+END
+800-fix_cfe_detection.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/800-fix_cfe_detection.patch
+END
+275-usb2-bcm5354-init.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/275-usb2-bcm5354-init.patch
+END
+260-ohci-set-dma-mask.patch
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/260-ohci-set-dma-mask.patch
+END
+180-ssb_extif_interrupt.patch
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/180-ssb_extif_interrupt.patch
+END
+400-arch-bcm47xx.patch
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/400-arch-bcm47xx.patch
+END
+301-kmod-fuse-dcache-bug-r4k.patch
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/301-kmod-fuse-dcache-bug-r4k.patch
+END
+280-activate_ssb_support_in_usb.patch
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/280-activate_ssb_support_in_usb.patch
+END
+310-no_highpage.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/310-no_highpage.patch
+END
+302-kmod-fuse-dcache-bug-fuse.patch
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/302-kmod-fuse-dcache-bug-fuse.patch
+END
+210-b44_phy_fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/brcm47xx/patches-2.6.32/210-b44_phy_fix.patch
+END

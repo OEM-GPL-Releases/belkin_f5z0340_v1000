@@ -1,0 +1,8 @@
+To recreate the toolchain used to compile WeMo sources run the "build_gcc.sh"
+script.  
+
+The toolchain will be created in /opt/toolchain-mipsel_gcc-4.3.3+cs_uClibc-0.9.33.2
+
+The source code for the compiler and runtime libraries are located in the
+tarballs subdirectory.
+

@@ -1,0 +1,13 @@
+Index: linux-2.6.21/init/do_mounts.c
+===================================================================
+--- linux-2.6.21.orig/init/do_mounts.c	2012-05-02 11:03:50.866792314 -0700
++++ linux-2.6.21/init/do_mounts.c	2012-05-02 11:04:04.242395000 -0700
+@@ -22,7 +22,7 @@
+ 
+ int root_mountflags = MS_RDONLY | MS_SILENT;
+ char * __initdata root_device_name;
+-static char __initdata saved_root_name[64];
++char __initdata saved_root_name[64];
+ 
+ dev_t ROOT_DEV;
+ 

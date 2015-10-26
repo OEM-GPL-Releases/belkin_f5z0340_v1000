@@ -1,0 +1,13 @@
+Index: uci-12012009.5/Makefile.inc
+===================================================================
+--- uci-12012009.5.orig/Makefile.inc	2010-03-23 07:38:00.000000000 -0700
++++ uci-12012009.5/Makefile.inc	2015-02-06 10:36:46.989008242 -0800
+@@ -3,7 +3,7 @@
+ LIBDIRNAME=lib
+ 
+ COPTS=-O2
+-WOPTS=-pedantic -Werror -Wall
++WOPTS=-Werror -Wall
+ FPIC=-fPIC
+ CFLAGS=$(COPTS) $(WOPTS) -std=gnu99
+ CPPFLAGS=-I.

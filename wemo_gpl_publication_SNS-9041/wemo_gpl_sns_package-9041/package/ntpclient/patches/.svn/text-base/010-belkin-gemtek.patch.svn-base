@@ -1,0 +1,50 @@
+diff -urp a/ntpclient.c b/ntpclient.c
+--- a/ntpclient.c	2007-12-31 18:16:10.000000000 -0800
++++ b/ntpclient.c	2014-01-29 14:43:27.010805164 -0800
+@@ -78,6 +78,8 @@ int debug=0;
+ 
+ extern char *optarg;  /* according to man 2 getopt */
+ 
++static int g_sIsNTPSuccess = 0x00;
++
+ #include <stdint.h>
+ typedef uint32_t u32;  /* universal for C99 */
+ /* typedef u_int32_t u32;   older Linux installs? */
+@@ -323,6 +325,7 @@ static double ntpdiff( struct ntptime *s
+  */
+ static int rfc1305print(u32 *data, struct ntptime *arrival, struct ntp_control *ntpc, int *error)
+ {
++	FILE *fp;
+ /* straight out of RFC-1305 Appendix A */
+ 	int li, vn, mode, stratum, poll, prec;
+ 	int delay, disp, refid;
+@@ -424,6 +427,14 @@ static int rfc1305print(u32 *data, struc
+ 		(skew1-skew2)/2, sec2u(disp), freq);
+ 	fflush(stdout);
+ 	*error = el_time-st_time;
++	fp = fopen("/tmp/NtpTimeInfo", "w");
++	if (fp) {
++		time_t tod;
++
++		tod  = xmttime.coarse - JAN_1970;
++		fputs(ctime(&tod), fp);
++		fclose(fp);
++	}
+ 
+ 	return 0;
+ fail:
+@@ -528,6 +539,7 @@ static void primary_loop(int usd, struct
+ 			get_packet_timestamp(usd, &udp_arrival_ntp);
+ 			if (check_source(pack_len, &sa_xmit, sa_xmit_len, ntpc)!=0) continue;
+ 			if (rfc1305print(incoming_word, &udp_arrival_ntp, ntpc, &error)!=0) continue;
++			g_sIsNTPSuccess = 0x01;
+ 			/* udp_handle(usd,incoming,pack_len,&sa_xmit,sa_xmit_len); */
+ 		} else {
+ 			printf("Ooops.  pack_len=%d\n",pack_len);
+@@ -710,5 +722,5 @@ int main(int argc, char *argv[]) {
+ 	primary_loop(usd, &ntpc);
+ 
+ 	close(usd);
+-	return 0;
++	return !g_sIsNTPSuccess;
+ }

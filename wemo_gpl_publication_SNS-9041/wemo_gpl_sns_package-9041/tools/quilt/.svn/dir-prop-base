@@ -1,0 +1,10 @@
+K 13
+svn:mergeinfo
+V 314
+/branches/backfire_sdk/tools/quilt:3817-3992
+/branches/backfire_smart/tools/quilt:4406-7078
+/branches/backfire_smart_corewifi_mic/tools/quilt:5933
+/branches/backfire_smart_memtrack/tools/quilt:6229-6599
+/branches/backfire_smart_netcam/tools/quilt:7056-7538
+/branches/backfire_wifi_integration/tools/quilt:4416-4474
+END

@@ -1,0 +1,102 @@
+Package: fw_update
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: WeMo_Core
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: ulog
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: belkin_nvram_bd
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: belkin_api
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: AddlInfra
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: DataBase
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: UPnP
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: NetworkControl
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: Handlers
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: RemoteAccess
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: DeviceControl
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: pmortemd
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: WeMo_SNS
+Status: install ok installed
+Root: /
+Version: 1
+Architecture: rt288x
+
+Package: kmod-raeth
+Status: install ok installed
+Root: /
+Version: 2.6.21-1
+Architecture: rt288x
+
+Package: kmod-rt2860v2ap
+Status: install ok installed
+Root: /
+Version: 2.6.21-1
+Architecture: rt288x
+
+Package: kmod-rt_rdm
+Status: install ok installed
+Root: /
+Version: 2.6.21-1
+Architecture: rt288x
+

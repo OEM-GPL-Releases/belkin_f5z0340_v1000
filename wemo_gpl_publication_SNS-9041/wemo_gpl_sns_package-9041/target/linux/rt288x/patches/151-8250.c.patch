@@ -1,0 +1,13 @@
+--- linux-2.6.21/drivers/serial/8250.c	2014-07-14 18:18:48.663891786 +0700
++++ linux-2.6.21.new/drivers/serial/8250.c	2014-07-14 18:22:42.487887599 +0700
+@@ -1295,6 +1295,10 @@
+ 		if (uart_handle_sysrq_char(&up->port, ch))
+ 			goto ignore_char;
+ 
++//WNC0_tsunghao Thu 14 Nov 2013 04:32:09 PM CST, disabled console
++        extern char consoleDisabled[2];
++        if( strcmp(tty->name, "ttyS1") || consoleDisabled[0] != '1' ) /* NOT Serial port or console is enabled */
++//WNC0
+ 		uart_insert_char(&up->port, lsr, UART_LSR_OE, ch, flag);
+ 
+ 	ignore_char:

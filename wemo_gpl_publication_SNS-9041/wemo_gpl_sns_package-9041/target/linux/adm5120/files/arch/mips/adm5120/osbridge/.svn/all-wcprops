@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/osbridge
+END
+5gxi.c
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/osbridge/5gxi.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/target/linux/adm5120/files/arch/mips/adm5120/osbridge/Makefile
+END

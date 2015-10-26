@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube
+END
+ddr_settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings.h
+END
+danube.c
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/danube.c
+END
+ddr_settings_psc_166.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_psc_166.h
+END
+ddr_settings_e166.h
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_e166.h
+END
+ddr_settings_r111.h
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_r111.h
+END
+u-boot.lds
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/u-boot.lds
+END
+ddr_settings_PROMOSDDR400.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_PROMOSDDR400.h
+END
+ddr_settings_r166.h
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_r166.h
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/README
+END
+ddr_settings_111.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_111.h
+END
+u-boot-bootstrap.lds
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/u-boot-bootstrap.lds
+END
+ddr_settings_e111.h
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_e111.h
+END
+ddr_settings_Samsung_166.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_Samsung_166.h
+END
+pmuenable.S
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/pmuenable.S
+END
+ddr_settings_166.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/ddr_settings_166.h
+END
+config.mk
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/config.mk
+END
+lowlevel_init.S
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/lowlevel_init.S
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/Makefile
+END
+flash.c
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/plugins/!svn/ver/8655/branches/wemo_dev_pro_RC_1_13/package/uboot-ifxmips/files/board/ifx/danube/flash.c
+END
